@@ -1,4 +1,4 @@
-import { Duration, Stack, StackProps } from 'aws-cdk-lib';
+import { CfnOutput, Duration, Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { aws_apigatewayv2 as apigwv2, aws_apigatewayv2_integrations as apigwv2i, aws_lambda_nodejs as nodejs, aws_lambda as lambda, aws_dynamodb as dynamodb } from 'aws-cdk-lib';
 
@@ -32,7 +32,7 @@ export class ApiStack extends Stack {
       },
     });
 
-    httpApi.addRoutes({
+    const contactRoute = httpApi.addRoutes({
       path: '/contact',
       methods: [apigwv2.HttpMethod.POST],
       integration: new apigwv2i.HttpLambdaIntegration('ContactIntegration', contactFn),
@@ -43,6 +43,9 @@ export class ApiStack extends Stack {
       methods: [apigwv2.HttpMethod.GET],
       integration: new apigwv2i.HttpLambdaIntegration('HealthIntegration', contactFn), // placeholder
     });
+
+    new CfnOutput(this, 'HttpApiUrl', { value: httpApi.apiEndpoint });
+    new CfnOutput(this, 'SubmissionsTableName', { value: table.tableName });
   }
 }
 

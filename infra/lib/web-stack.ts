@@ -1,4 +1,4 @@
-import { Duration, RemovalPolicy, Stack, StackProps } from 'aws-cdk-lib';
+import { CfnOutput, Duration, RemovalPolicy, Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { aws_s3 as s3, aws_cloudfront as cloudfront, aws_cloudfront_origins as origins, aws_certificatemanager as acm, aws_route53 as route53, aws_route53_targets as targets } from 'aws-cdk-lib';
 
@@ -41,7 +41,8 @@ export class WebStack extends Stack {
     // const cert = new acm.DnsValidatedCertificate(this, 'Cert', { domainName: 'da.nielyi.com', hostedZone: zone, region: 'us-east-1' });
     // new cloudfront.Distribution(this, 'DistWithDomain', { ... attach cert and altNames ... })
 
-    // Outputs are implicitly visible via `cdk synth` for bucket/distribution IDs if needed
+    new CfnOutput(this, 'SiteBucketName', { value: bucket.bucketName });
+    new CfnOutput(this, 'CloudFrontDistributionId', { value: distribution.distributionId });
   }
 }
 

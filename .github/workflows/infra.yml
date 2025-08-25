@@ -1,0 +1,35 @@
+name: Infra
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+jobs:
+  cdk:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: us-east-1
+      - name: Install deps
+        run: |
+          npm ci --workspaces=false
+          cd infra
+          npm ci
+      - name: CDK synth
+        run: |
+          cd infra
+          npx cdk synth
+      - name: CDK deploy
+        run: |
+          cd infra
+          npx cdk deploy WebStack ApiStack ObservabilityStack --require-approval never
+
