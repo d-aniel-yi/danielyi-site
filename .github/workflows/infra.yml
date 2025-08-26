@@ -16,12 +16,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Always create empty logs so the artifact step has something to upload
+      - name: Prep log files
+        run: |
+          : > cdk_preflight.log
+          : > cdk_bootstrap.log
+          : > cdk_synth.log
+          : > cdk_deploy.log
+
       - name: Debug refs
         run: |
-          echo "GITHUB_REPOSITORY=$GITHUB_REPOSITORY"
-          echo "GITHUB_REF=$GITHUB_REF"
-          echo "GITHUB_REF_TYPE=$GITHUB_REF_TYPE"
-          echo "GITHUB_HEAD_REF=$GITHUB_HEAD_REF"
+          echo "GITHUB_REPOSITORY=$GITHUB_REPOSITORY" | tee -a cdk_preflight.log
+          echo "GITHUB_REF=$GITHUB_REF" | tee -a cdk_preflight.log
+          echo "GITHUB_REF_TYPE=$GITHUB_REF_TYPE" | tee -a cdk_preflight.log
+          echo "GITHUB_HEAD_REF=$GITHUB_HEAD_REF" | tee -a cdk_preflight.log
 
       - uses: actions/setup-node@v4
         with:
@@ -36,48 +44,53 @@ jobs:
 
       - name: Who am I?
         id: whoami
-        run: aws sts get-caller-identity
+        run: aws sts get-caller-identity | tee -a cdk_preflight.log
+        # Even if this fails, keep going so we can upload logs
+        continue-on-error: true
 
       - name: Install root deps
-        run: npm ci --workspaces=false
+        run: npm ci --workspaces=false 2>&1 | tee -a cdk_preflight.log
+        continue-on-error: true
 
       - name: Install infra deps (+ ensure esbuild)
         run: |
+          set -o pipefail
           cd infra
-          npm ci
-          npx esbuild --version || (npm i -D esbuild && npx esbuild --version)
-
-      # 1) always run doctor/list; keep going even if they fail, and save logs
-      - name: CDK doctor & list
+          npm ci 2>&1 | tee -a ../cdk_preflight.log || true
+          npx esbuild --version 2>&1 | tee -a ../cdk_preflight.log || (npm i -D esbuild 2>&1 | tee -a ../cdk_preflight.log && npx esbuild --version 2>&1 | tee -a ../cdk_preflight.log)
         continue-on-error: true
-        run: |
-          cd infra
-          {
-            echo "=== cdk doctor ==="
-            npx cdk doctor
-            echo "=== cdk list -v ==="
-            npx cdk list -v
-          } | tee ../cdk_preflight.log
 
-      # 2) ALWAYS bootstrap in CI (it's idempotent) so deploy won't fail for missing toolkit
+      - name: CDK doctor & list
+        run: |
+          set -o pipefail
+          cd infra
+          echo "=== cdk doctor ===" | tee -a ../cdk_preflight.log
+          npx cdk doctor 2>&1 | tee -a ../cdk_preflight.log || true
+          echo "=== cdk list -v ===" | tee -a ../cdk_preflight.log
+          npx cdk list -v 2>&1 | tee -a ../cdk_preflight.log || true
+        continue-on-error: true
+
       - name: CDK bootstrap (idempotent)
         run: |
+          set -o pipefail
           cd infra
-          npx cdk bootstrap aws://167053021813/us-west-2 -v | tee ../cdk_bootstrap.log
+          npx cdk bootstrap aws://167053021813/us-west-2 -v 2>&1 | tee -a ../cdk_bootstrap.log || true
+        continue-on-error: true
 
-      # 3) synth with verbose logging
       - name: CDK synth (verbose)
         run: |
+          set -o pipefail
           cd infra
-          npx cdk synth -v | tee ../cdk_synth.log
+          npx cdk synth -v 2>&1 | tee -a ../cdk_synth.log || true
+        continue-on-error: true
 
-      # 4) deploy with verbose logging
       - name: CDK deploy (verbose)
         run: |
+          set -o pipefail
           cd infra
-          npx cdk deploy WebStack ApiStack ObservabilityStack --require-approval never -v | tee ../cdk_deploy.log
+          npx cdk deploy WebStack ApiStack ObservabilityStack --require-approval never -v 2>&1 | tee -a ../cdk_deploy.log || true
+        continue-on-error: true
 
-      # 5) always upload logs so we can see the real error, even on failure
       - name: Upload CDK logs
         if: always()
         uses: actions/upload-artifact@v4
