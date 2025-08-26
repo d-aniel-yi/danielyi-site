@@ -4,11 +4,12 @@
     "module": "commonjs",
     "lib": ["es2020"],
     "moduleResolution": "node",
+    "types": ["node"],  
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "outDir": "dist"
+    "outDir": "cdk.out"
   },
   "include": ["bin", "lib"]
 }
