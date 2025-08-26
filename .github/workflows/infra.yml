@@ -3,33 +3,68 @@ on:
   workflow_dispatch:
   push:
     branches: [ main ]
+
 jobs:
   cdk:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
       contents: read
+    env:
+      # 💡 Make CDK noisy so we see real errors
+      CDK_DEBUG: "true"
+      # 💡 Avoid some jsii noise
+      JSII_SILENCE_WARNING_UNTESTED_NODE_VERSION: "1"
     steps:
       - uses: actions/checkout@v4
+
+      # 💡 Show what ref/repo the job is running as (aligns with trust policy)
+      - name: Debug refs
+        run: |
+          echo "GITHUB_REPOSITORY=$GITHUB_REPOSITORY"
+          echo "GITHUB_REF=$GITHUB_REF"
+          echo "GITHUB_REF_TYPE=$GITHUB_REF_TYPE"
+          echo "GITHUB_HEAD_REF=$GITHUB_HEAD_REF"
+
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Configure AWS credentials
+
+      - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          role-session-name: gha-infra-${{ github.run_id }}
           aws-region: us-west-2
-      - name: Install deps
+
+      # 💡 Confirm we actually assumed the role
+      - name: Who am I?
+        run: aws sts get-caller-identity
+
+      # Root deps (if any)
+      - name: Install root deps
+        run: npm ci --workspaces=false
+
+      # 💡 Ensure infra has esbuild so bundling doesn't try to use Docker
+      - name: Install infra deps (+ ensure esbuild)
         run: |
-          npm ci --workspaces=false
           cd infra
           npm ci
-      - name: CDK synth
-        run: |
-          cd infra
-          npx cdk synth
-      - name: CDK deploy
-        run: |
-          cd infra
-          npx cdk deploy WebStack ApiStack ObservabilityStack --require-approval never
+          npx esbuild --version || npm i -D esbuild && npx esbuild --version
 
+      # 💡 Quick CDK doctor + list
+      - name: CDK doctor & list
+        run: |
+          cd infra
+          npx cdk doctor || true
+          npx cdk list -v
+
+      - name: CDK synth (verbose)
+        run: |
+          cd infra
+          npx cdk synth -v
+
+      - name: CDK deploy (verbose)
+        run: |
+          cd infra
+          npx cdk deploy WebStack ApiStack ObservabilityStack --require-approval never -v
