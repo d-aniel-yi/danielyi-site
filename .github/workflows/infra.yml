@@ -52,8 +52,8 @@ jobs:
         run: |
           set -o pipefail
           cd infra
-          npm ci 2>&1 | tee -a ../cdk_preflight.log || true
-          npx esbuild --version 2>&1 | tee -a ../cdk_preflight.log || (npm i -D esbuild 2>&1 | tee -a ../cdk_preflight.log && npx esbuild --version 2>&1 | tee -a ../cdk_preflight.log)
+          npm install 2>&1 | tee -a ../cdk_preflight.log || true
+          npm run build 2>&1 | tee -a ../cdk_preflight.log || true
         continue-on-error: true
 
       - name: CDK doctor & list
