@@ -70,7 +70,7 @@ jobs:
         run: |
           set -o pipefail
           cd infra
-          npx cdk bootstrap aws://167053021813/us-west-2 -v 2>&1 | tee -a ../cdk_bootstrap.log || true
+          npx cdk bootstrap -v 2>&1 | tee -a ../cdk_bootstrap.log || true
         continue-on-error: true
 
       - name: CDK synth (verbose)
