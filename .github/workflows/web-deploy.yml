@@ -37,6 +37,13 @@ jobs:
           BUCKET: ${{ secrets.WEB_BUCKET_NAME }}
           DIST: ${{ secrets.CLOUDFRONT_DIST_ID }}
         run: |
+          echo "Deploying to bucket: $BUCKET"
+          echo "Invalidating distribution: $DIST"
           aws s3 sync apps/web/out s3://"$BUCKET" --delete
           aws cloudfront create-invalidation --distribution-id "$DIST" --paths '/*'
+      - name: List S3 contents (post-deploy)
+        env:
+          BUCKET: ${{ secrets.WEB_BUCKET_NAME }}
+        run: |
+          aws s3 ls s3://"$BUCKET" --recursive --human-readable --summarize
 
