@@ -48,10 +48,6 @@ jobs:
         # Even if this fails, keep going so we can upload logs
         continue-on-error: true
 
-      - name: Install root deps
-        run: npm ci --workspaces=false 2>&1 | tee -a cdk_preflight.log
-        continue-on-error: true
-
       - name: Install infra deps (+ ensure esbuild)
         run: |
           set -o pipefail

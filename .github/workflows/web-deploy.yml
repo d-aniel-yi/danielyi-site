@@ -20,22 +20,23 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-region: us-east-1
       - name: Install deps
-        run: |
-          npm ci --workspaces=false
-          cd apps/web
-          npm ci
+        working-directory: apps/web
+        run: npm ci
       - name: Build static site
         env:
           NEXT_PUBLIC_API_BASE_URL: ${{ secrets.NEXT_PUBLIC_API_BASE_URL }}
           NEXT_PUBLIC_LD_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_LD_CLIENT_ID }}
+        working-directory: apps/web
+        run: npm run build
+      - name: Check required secrets
         run: |
-          cd apps/web
-          npm run build
+          test -n "${{ secrets.WEB_BUCKET_NAME }}" || { echo "WEB_BUCKET_NAME is not set"; exit 1; }
+          test -n "${{ secrets.CLOUDFRONT_DIST_ID }}" || { echo "CLOUDFRONT_DIST_ID is not set"; exit 1; }
       - name: Sync to S3 and invalidate CloudFront
         env:
           BUCKET: ${{ secrets.WEB_BUCKET_NAME }}
           DIST: ${{ secrets.CLOUDFRONT_DIST_ID }}
         run: |
-          aws s3 sync apps/web/out s3://$BUCKET --delete
-          aws cloudfront create-invalidation --distribution-id $DIST --paths '/*'
+          aws s3 sync apps/web/out s3://"$BUCKET" --delete
+          aws cloudfront create-invalidation --distribution-id "$DIST" --paths '/*'
 
