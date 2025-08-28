@@ -1,13 +1,13 @@
-### Project Context Prompt — Anysphere AE Resume Site
+### Project Context Prompt — AE Resume Site
 
-This document sets the north star, constraints, and quality bar for building a technically robust, creatively executed resume website for my application to Anysphere. It should guide all decisions (content, design, engineering, delivery) so the end result is unmistakably the work of a top-performing Account Executive who can also ship high-quality software.
+This document sets the north star, constraints, and quality bar for building a technically robust, creatively executed portfolio. It should guide all decisions (content, design, engineering, delivery) so the end result is unmistakably the work of a top-performing Account Executive who can also ship high-quality software.
 
 ## Objective
 - Build a public website that functions as my resume and cover letter, demonstrating AE excellence, technical fluency, and creative execution.
 - Make it clear that while top performers are common, a top performer who can conceive, architect, and ship this kind of product is rare.
 
 ## Primary Audience
-- Anysphere hiring team and leaders (sales leadership, founders, engineers who interview AEs).
+-Hiring team and leaders (sales leadership, founders, engineers who interview AEs).
 
 ## Core Message
 "I’m an elite Account Executive with the curiosity, rigor, and technical skill to partner credibly with engineers and to ship. You’ll be hard-pressed to find this combination elsewhere."
@@ -17,7 +17,7 @@ This document sets the north star, constraints, and quality bar for building a t
 
 ## Success Criteria (What “great” looks like)
 - Technical credibility: Clean, modern React front-end; serverless AWS backend; infrastructure as code; automated deploys; observability; performance best practices.
-- Storytelling clarity: Crisp narrative that maps my track record to Anysphere’s context; compelling cover letter; quantified wins; case studies.
+- Storytelling clarity: Crisp narrative that maps my track record to prospective company's context; compelling cover letter; quantified wins; case studies.
 - Product taste: Thoughtful UX, polish, and interaction details; responsive and accessible.
 - Velocity and quality: Small commits, strong linting/testing, preview environments PR-based; no dead links; green lighthouse scores.
 - Measurable: Basic analytics and uptime checks; performance budgets; bundle size limits.
@@ -41,7 +41,7 @@ This document sets the north star, constraints, and quality bar for building a t
 - Landing hero: One-line value prop + subhead; CTA to resume and cover letter.
 - About: AE narrative, quantified outcomes, customer logos (if allowed), references/quotes.
 - Case studies: 2–3 concise stories with situation → action → result, metrics, artifacts.
-- Cover letter: Tailored to Anysphere; why now, why me, how I’ll ramp.
+- Cover letter: Tailored to company; why now, why me, how I’ll ramp.
 - Technical appendix: Architecture diagram, stack choices, tradeoffs, perf and ops.
 - Contact: Email form (SES) and links (LinkedIn, GitHub). Safe handling + spam protection.
 
@@ -90,6 +90,13 @@ This document sets the north star, constraints, and quality bar for building a t
 4) Content polish: Resume, cover letter, case studies; images; metadata/OG.
 5) Quality: Tests, analytics, accessibility audit, performance tuning.
 6) Launch: Domain, DNS, CDN invalidation, monitoring.
+
+## Progress Snapshot (2025-08-28)
+- Infra and domain are live (S3+CloudFront with OAI, API Gateway/Lambda/DynamoDB, `da.nielyi.com`).
+- CI/CD in place with OIDC; web and infra workflows are green.
+- Frontend hero, marquee, expertise, work grid, and principles sections implemented; contact page wired to API.
+- Technical appendix page added with live API health widget; MDX wired with providerImportSource.
+- Pending: human-authored content for resume/cover letter/case studies; optional CSP tightening and budgets.
 
 ## Initial Tech Stack Options
 - React + TypeScript; choose one:

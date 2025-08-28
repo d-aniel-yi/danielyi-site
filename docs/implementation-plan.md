@@ -268,6 +268,30 @@ Validation Checklist
 - All steps are clear, actionable, and sequenced
 - LaunchDarkly integration steps are explicit for dev/prod
 
+## Current Status — 2025-08-28
+- Infra
+  - WebStack live: S3 (private) + CloudFront (OAI), SPA fallback, security headers
+  - ApiStack live: HTTP API (`GET /health`, `POST /contact`), Lambda, DynamoDB table
+  - Outputs wired to GitHub Actions secrets; deploys green
+- Domain
+  - `da.nielyi.com` → CloudFront (ACM us-east-1). DNS propagation confirmed
+- CI/CD
+  - Infra workflow deploys CDK (compiled JS) with OIDC
+  - Web deploy builds/export, syncs S3, invalidates CloudFront; added S3 listing for diagnostics
+- Frontend
+  - Next.js app (TS, Tailwind v4) with static export
+  - MDX enabled (providerImportSource via `@/mdx-components`) and pages: `/resume`, `/cover-letter`, `/case-studies`
+  - Homepage: full-viewport hero (bg image, bottom-left copy), trusted-by marquee, expertise, work grid (reveal), principles
+  - Header: fixed, blur, auto-hide on scroll; footer added
+  - Technical page `/technical` with live API health widget
+- Observability
+  - Basic health check; CloudFront logs enabled via plan; alarms pending
+
+Next Up
+- Content pass (human-authored) on resume, cover letter, case studies
+- Optional: tighten CSP and add Lighthouse CI budget thresholds
+- Optional: staging subdomain and per-PR previews if desired
+
 ## Local Setup (Turnkey)
 - Prerequisites: Node 20 LTS, Git, AWS CLI v2, AWS CDK v2, pnpm (via corepack), a LaunchDarkly account
 - One-time machine setup:

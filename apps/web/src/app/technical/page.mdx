@@ -1,0 +1,43 @@
+export const metadata = {
+  title: 'Technical Notes',
+  description: 'How this site is built: infra, CI, and trade-offs.',
+};
+
+# Technical notes
+
+This site is a full-stack demo deployed on AWS free-tier:
+
+- Frontend: Next.js + TypeScript, static export to S3 behind CloudFront
+- Backend: API Gateway + Lambda (contact form), DynamoDB for submissions, SES for mail
+- IaC: AWS CDK (TypeScript) with separate stacks (Web, API, Observability)
+- CI/CD: GitHub Actions with OIDC to AWS (no static keys)
+
+Design goals: fast-first, accessible, serverless, and observable — reflecting the same rigor I bring to sales.
+
+---
+
+## Live status
+
+<ApiHealth />
+
+---
+
+## Architecture highlights
+
+- S3 is private; CloudFront uses OAI for origin access
+- CloudFront has SPA fallback + strict security headers
+- API CORS is locked down to the site origins
+- Secrets in SSM/Secrets Manager; no secrets in the client
+
+## Performance
+
+- Static export with long TTLs for assets
+- Minimal deps; typography with system fonts + one display family
+- Lighthouse CI workflow to catch regressions
+
+## Trade-offs
+
+- Static export over SSR to reduce cost and complexity
+- DynamoDB over RDS to stay inside free tier and keep ops light
+
+
