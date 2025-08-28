@@ -54,8 +54,7 @@ export function Hero() {
 
 const quickLinks = [
   { label: "Explore", value: "Resume", href: "/resume" },
-  { label: "Explore", value: "Cover letter", href: "/cover-letter" },
-  { label: "Explore", value: "Case studies", href: "/case-studies" },
+  { label: "Explore", value: "Projects", href: "/projects" },
   { label: "Explore", value: "Technical notes", href: "/technical" },
 ];
 

@@ -32,8 +32,6 @@ export function SiteHeader() {
         <Link href="/" className="font-semibold tracking-tight">Daniel Yi</Link>
         <nav className="hidden sm:flex gap-6 text-sm text-black/80 dark:text-white/80">
           <Link className="hover:opacity-70 transition" href="/resume">Resume</Link>
-          <Link className="hover:opacity-70 transition" href="/cover-letter">Cover letter</Link>
-          <Link className="hover:opacity-70 transition" href="/case-studies">Case studies</Link>
           <Link className="hover:opacity-70 transition" href="/contact">Contact</Link>
         </nav>
       </div>

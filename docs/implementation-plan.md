@@ -268,6 +268,80 @@ Validation Checklist
 - All steps are clear, actionable, and sequenced
 - LaunchDarkly integration steps are explicit for dev/prod
 
+## Projects Page — Plan (Design-forward showcase)
+
+Purpose
+- Create a visually compelling landing page at `/projects` highlighting selected projects with short blurbs and links. Emphasis is on design, clarity, and polish (not long case studies).
+
+Scope (v1)
+- Responsive grid of project cards with strong typography and minimal chrome
+- Each card: title, short blurb (≤120 chars), optional tags, destination link (internal or external)
+- Optional hero card at top for a featured project
+- Subtle motion/hover “glass” treatment (CSS fallback; optional shader on capable devices)
+- Keyboard/focus states that are obvious and elegant
+
+Content source
+- MDX files (SSG) to keep authoring simple and versioned
+  - Location: `apps/web/content/projects/*.mdx`
+  - Frontmatter fields:
+    - `title: string`
+    - `href: string` (internal route or external URL)
+    - `excerpt: string` (≤120 chars)
+    - `tags?: string[]`
+    - `image?: string` (path in `public/projects/…`)
+    - `accentColor?: string` (CSS color token)
+    - `featured?: boolean`
+
+Routing
+- Page route: `/projects`
+- Optional detail route per project: `/projects/[slug]` (deferred; v1 links can go out to external destinations or sections on the site)
+
+Layout & interaction
+- Grid
+  - Mobile: 1 column
+  - Tablet: 2 columns
+  - Desktop: 3 columns (hero spans 2× if featured)
+- Card content
+  - Title set in display serif; blurb in sans muted
+  - Optional tag row (small caps, spaced)
+- Hover
+  - Glass panel fade-in with subtle translate/scale; arrow nudge →
+  - Reduced motion: disable transforms, keep opacity-only
+- Focus
+  - 2px focus ring with offset that respects dark/light
+
+Design tokens & theming
+- Reuse existing display serif and body fonts
+- Respect dark/light; cards use translucent backgrounds (glass) over hero/repeatable background if present
+- Accent colors per card (optional) that only affect small details (e.g., tag dot or underline)
+
+Performance & SEO
+- Static export of `/projects` (no client data fetch)
+- Images: pre-sized assets in `public/projects/` with modern formats when possible; `loading="lazy"`
+- Metadata on page and (optional) per-detail: title/description/OG; consider JSON‑LD `CreativeWork` if detail pages added later
+
+Accessibility
+- Cards are single interactive elements (the whole card is a link)
+- Maintain logical tab order; ensure 4.5:1 contrast on text
+- Support prefers-reduced-motion
+
+Feature flag
+- `enableProjectsPage` (LaunchDarkly) to toggle visibility in nav/hero links
+
+Implementation steps (when we build it)
+1. Content model: create `apps/web/content/projects/` with 3–6 example MDX files and images
+2. Data loader: utility to read frontmatter at build time (Vite/Next MDX import)
+3. UI: `ProjectsGrid` component with hero variant, card component with hover glass (CSS fallback)
+4. Route: `app/projects/page.tsx` rendering grid from MDX metadata
+5. Nav: add `/projects` link from hero and header
+6. QA: keyboard navigation, reduced motion, Lighthouse pass, mobile spacing tweaks
+
+Acceptance criteria (v1)
+- `/projects` renders a responsive grid with at least 3 cards (one featured)
+- Cards present title, short blurb, and open links correctly (internal/external)
+- Hover/focus interactions feel polished; reduced motion supported
+- Page is static, fast, and passes accessibility and performance checks
+
 ## Current Status — 2025-08-28
 - Infra
   - WebStack live: S3 (private) + CloudFront (OAI), SPA fallback, security headers
