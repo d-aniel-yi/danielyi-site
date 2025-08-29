@@ -358,6 +358,7 @@ Acceptance criteria (v1)
   - Homepage: full-viewport hero (bg image, bottom-left copy), trusted-by marquee, expertise, work grid (reveal), principles
   - Header: fixed, blur, auto-hide on scroll; footer added
   - Technical page `/technical` with live API health widget
+  - Projects page: `/projects` implemented as TSX with `ProjectsGrid` and `ProjectCard` components; featured card variant; header nav link added. Content is currently an inline typed array (to be moved to MDX files later).
 - Observability
   - Basic health check; CloudFront logs enabled via plan; alarms pending
 
@@ -365,6 +366,7 @@ Next Up
 - Content pass (human-authored) on resume, cover letter, case studies
 - Optional: tighten CSP and add Lighthouse CI budget thresholds
 - Optional: staging subdomain and per-PR previews if desired
+ - Projects: move content to `apps/web/content/projects/*.mdx` with frontmatter, add a build-time loader, polish hover/focus states and imagery, and QA keyboard/reduced-motion behavior
 
 ## Local Setup (Turnkey)
 - Prerequisites: Node 20 LTS, Git, AWS CLI v2, AWS CDK v2, pnpm (via corepack), a LaunchDarkly account

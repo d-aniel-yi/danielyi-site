@@ -1,27 +1,30 @@
 "use client";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import { useRef } from "react";
 const LiquidGlass = dynamic(() => import("liquid-glass-react"), { ssr: false });
 
 export function Hero() {
   return (
-    <section className="relative h-[100svh] overflow-hidden">
-      {/* Background image */}
-      <div
-        className="absolute inset-0 -z-20"
-        style={{
-          backgroundImage: "url(/hero-background.jpg)",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-      />
+    <section className="relative h-[100svh] overflow-hidden text-[#f5f1e9]">
+      {/* Static background with WebP + JPEG fallback */}
+      <div className="absolute inset-0 -z-20">
+        <picture className="absolute inset-0 block">
+          <source srcSet="/hero1.webp" type="image/webp" />
+          <img
+            src="/hero1.jpg"
+            alt=""
+            className="w-full h-full object-cover"
+            loading="eager"
+            decoding="async"
+          />
+        </picture>
+      </div>
       {/* Gradient overlay for depth/readability */}
       <div
         className="absolute inset-0 -z-10"
         style={{
-          background:
-            "radial-gradient(1100px 520px at 50% -15%, rgba(0,0,0,0.28), transparent), linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.04))",
+          backgroundColor: "rgba(0,0,0,0.5)",
         }}
       />
 
@@ -32,10 +35,10 @@ export function Hero() {
               <h1 className="display-serif text-[clamp(40px,8vw,88px)] font-normal leading-[1.05] tracking-[-0.01em] text-left">
                 Daniel Yi
                 <br />
-                <em className="italic">tagline here</em>
+                <em className="italic"></em>
               </h1>
-              <p className="mt-3 max-w-xl text-base md:text-lg text-black/65 dark:text-white/65 text-left">
-                Product taste, sales rigor, and technical delivery — together.
+              <p className="mt-3 max-w-xl text-base md:text-lg text-left text-[#f5f1e9]/85">
+                
               </p>
             </div>
             <div className="col-span-12 md:col-span-5 md:justify-self-end">
@@ -58,7 +61,7 @@ const quickLinks = [
   { label: "Explore", value: "Technical notes", href: "/technical" },
 ];
 
-import { useRef } from "react";
+// carousel and reduced motion helpers removed per request
 
 function QuickLink({ href, label, value }: { href: string; label: string; value: string }) {
   const containerRef = useRef<HTMLAnchorElement | null>(null);
@@ -85,10 +88,10 @@ function QuickLink({ href, label, value }: { href: string; label: string; value:
         </LiquidGlass>
       </span>
 
-      <span className="relative z-20 block text-[11px] uppercase tracking-[0.2em] text-black/75 dark:text-white/75">
+      <span className="relative z-20 block text-[11px] uppercase tracking-[0.2em] text-[#f5f1e9]/75">
         {label}
       </span>
-      <span className="relative z-20 mt-0.5 block text-[18px] md:text-[22px] font-medium tracking-[-0.01em]">
+      <span className="relative z-20 mt-0.5 block text-[18px] md:text-[22px] font-medium tracking-[-0.01em] text-[#f5f1e9]">
         {value} <span className="opacity-50 inline-block translate-x-0 group-hover:translate-x-1 transition">→</span>
       </span>
     </Link>

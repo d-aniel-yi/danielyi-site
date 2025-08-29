@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Hero } from "@/components/home/Hero";
-import { TrustedBy } from "@/components/home/TrustedBy";
 import { Skills } from "@/components/home/Skills";
 import { WorkGrid } from "@/components/home/WorkGrid";
 import { Principles } from "@/components/home/Principles";
@@ -9,7 +8,6 @@ export default function Home() {
   return (
     <div className="font-sans">
       <Hero />
-      <TrustedBy />
       <Skills />
       <WorkGrid />
       <Principles />

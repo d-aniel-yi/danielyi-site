@@ -6,7 +6,10 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "resume:build": "node ./scripts/build-resume.mjs",
+    "resume:watch": "watchexec -w ./src/app/resume/resources -e tex,cls -- node ./scripts/build-resume.mjs",
+    "resume:sync": "node ./scripts/sync-resume-assets.mjs"
   },
   "dependencies": {
     "@mdx-js/react": "^3.0.0",

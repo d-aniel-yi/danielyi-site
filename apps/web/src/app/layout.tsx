@@ -22,7 +22,7 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: {
-    default: "Daniel Yi — Anysphere Application",
+    default: "Daniel Yi",
     template: "%s — Daniel Yi",
   },
   description: "A top-performing AE who ships — resume, cover letter, case studies.",

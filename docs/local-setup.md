@@ -47,6 +47,30 @@ pnpm install
 pnpm --filter ./apps/web dev
 ```
 
+## Build the Resume PDF from LaTeX
+
+Prereqs (choose one):
+- Tectonic (recommended): Windows (Chocolatey) `choco install tectonic`, macOS (Homebrew) `brew install tectonic`
+- Or a LaTeX distribution with `pdflatex` in PATH
+
+Commands (run from `apps/web`):
+```bash
+# One-off build → outputs to apps/web/public/resume/resume.pdf
+npm run resume:build
+
+# Watch and rebuild on changes to .tex/.cls in resources
+# Requires watchexec (`cargo install watchexec-cli` or prebuilt binary)
+npm run resume:watch
+```
+
+Inputs:
+- `src/app/resume/resources/template.tex` and `resume.cls`
+
+Output:
+- `public/resume/resume.pdf` (served at `/resume/resume.pdf`)
+
+The Resume page defaults to showing the PDF. To switch back to the web-native resume, change `usePdf` in `src/app/resume/page.tsx`.
+
 ## Build static site
 ```bash
 cd apps/web
