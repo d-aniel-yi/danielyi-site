@@ -43,14 +43,15 @@ export function LatexWasmViewer() {
       engine.writeMemFSFile("main.tex", tex);
       if (engine.setEngineMainFile) engine.setEngineMainFile("main.tex");
       if (engine.setTexliveEndpoint) {
-        try { engine.setTexliveEndpoint("https://texlive.swiftlatex.com"); } catch (_) {}
+        try { engine.setTexliveEndpoint("https://texlive.swiftlatex.com"); } catch {}
       }
-      if (engine.flushCache) { try { engine.flushCache(); } catch (_) {}
+      if (engine.flushCache) { try { engine.flushCache(); } catch {}
       }
-      const result: any = await withTimeout(engine.compileLaTeX(), 45000, "WASM engine compile timed out; ensure pdftex.wasm is present next to PdfTeXEngine.js and network is allowed to texlive.swiftlatex.com");
-      const pdfBytes: Uint8Array = (result && (result.pdfBinary || result.pdf)) as Uint8Array;
+      const result = await withTimeout<CompileResult>(engine.compileLaTeX() as Promise<CompileResult>, 45000, "WASM engine compile timed out; ensure pdftex.wasm is present next to PdfTeXEngine.js and network is allowed to texlive.swiftlatex.com");
+      const pdfBytes: Uint8Array | undefined = result?.pdfBinary ?? result?.pdf;
       if (!pdfBytes) throw new Error("Engine returned no PDF bytes");
-      const blob = new Blob([pdfBytes], { type: "application/pdf" });
+      const arr = pdfBytes.slice();
+      const blob = new Blob([arr.buffer], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
       setPdfUrl(url);
       setState("ready");
@@ -93,7 +94,7 @@ async function fetchFirst(paths: string[]): Promise<string> {
     try {
       const r = await fetch(p);
       if (r.ok) return await r.text();
-    } catch (_) {}
+    } catch {}
   }
   throw new Error("All source paths failed");
 }
@@ -104,12 +105,18 @@ type PdfTeXEngineType = {
   setEngineMainFile?: (name: string) => void;
   setTexliveEndpoint?: (url: string) => void;
   flushCache?: () => void;
-  compileLaTeX: () => Promise<unknown>;
+  compileLaTeX: () => Promise<CompileResult> | Promise<unknown>;
+};
+
+type CompileResult = {
+  pdfBinary?: Uint8Array;
+  pdf?: Uint8Array;
 };
 
 declare global {
   interface Window {
     PdfTeXEngine?: new () => PdfTeXEngineType;
+    Module?: { locateFile?: (p: string) => string };
   }
 }
 
@@ -129,9 +136,9 @@ async function loadSwiftLatexEngine(): Promise<PdfTeXEngineType> {
   if (!window.PdfTeXEngine) throw new Error("PdfTeXEngine not found. Ensure vendor files are placed correctly.");
   const Ctor = window.PdfTeXEngine as unknown as new () => PdfTeXEngineType;
   const engine = new Ctor();
-  if ((window as any).Module == null) {
+  if (window.Module == null) {
     // Hint for emscripten engines to resolve wasm path when using local copy
-    (window as any).Module = {
+    window.Module = {
       locateFile: (p: string) => {
         if (p.endsWith(".wasm")) return "/vendor/swiftlatex/pdftex.wasm";
         return p;
@@ -154,7 +161,7 @@ function injectScript(src: string) {
 }
 
 async function injectFirst(paths: string[]) {
-  let lastErr: any;
+  let lastErr: unknown;
   for (const p of paths) {
     try {
       await injectScript(p);
@@ -163,7 +170,8 @@ async function injectFirst(paths: string[]) {
       lastErr = e;
     }
   }
-  throw lastErr ?? new Error("Failed to load any engine script");
+  if (lastErr instanceof Error) throw lastErr;
+  throw new Error("Failed to load any engine script");
 }
 
 function withTimeout<T>(p: Promise<T>, ms: number, msg: string): Promise<T> {
