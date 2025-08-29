@@ -98,13 +98,22 @@ async function fetchFirst(paths: string[]): Promise<string> {
   throw new Error("All source paths failed");
 }
 
+type PdfTeXEngineType = {
+  loadEngine?: () => Promise<void>;
+  writeMemFSFile: (name: string, data: string | Uint8Array) => void;
+  setEngineMainFile?: (name: string) => void;
+  setTexliveEndpoint?: (url: string) => void;
+  flushCache?: () => void;
+  compileLaTeX: () => Promise<unknown>;
+};
+
 declare global {
   interface Window {
-    PdfTeXEngine?: any;
+    PdfTeXEngine?: new () => PdfTeXEngineType;
   }
 }
 
-async function loadSwiftLatexEngine(): Promise<any> {
+async function loadSwiftLatexEngine(): Promise<PdfTeXEngineType> {
   if (typeof window === "undefined") throw new Error("Window not available");
   if (window.PdfTeXEngine) {
     const e = new window.PdfTeXEngine();
@@ -118,7 +127,8 @@ async function loadSwiftLatexEngine(): Promise<any> {
     "/vendor/swiftlatex/PdfTeXEngine.js",
   ]);
   if (!window.PdfTeXEngine) throw new Error("PdfTeXEngine not found. Ensure vendor files are placed correctly.");
-  const engine = new window.PdfTeXEngine();
+  const Ctor = window.PdfTeXEngine as unknown as new () => PdfTeXEngineType;
+  const engine = new Ctor();
   if ((window as any).Module == null) {
     // Hint for emscripten engines to resolve wasm path when using local copy
     (window as any).Module = {

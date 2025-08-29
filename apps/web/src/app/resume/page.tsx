@@ -75,7 +75,7 @@ export default function ResumePage() {
   let parsed = undefined;
   try {
     parsed = parseResumeLatex(getTemplatePath());
-  } catch (err) {
+  } catch {
     // fall back to hardcoded data
   }
 
