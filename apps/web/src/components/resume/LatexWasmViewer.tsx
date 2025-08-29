@@ -25,8 +25,9 @@ export function LatexWasmViewer() {
         ]);
         setTex(tex);
         setCls(clsContent);
-      } catch (e: any) {
-        setError(`Failed to load LaTeX sources: ${String(e?.message || e)}`);
+      } catch (e) {
+        const msg = e instanceof Error ? e.message : String(e);
+        setError(`Failed to load LaTeX sources: ${msg}`);
       }
     }
     loadSources();
@@ -53,8 +54,9 @@ export function LatexWasmViewer() {
       const url = URL.createObjectURL(blob);
       setPdfUrl(url);
       setState("ready");
-    } catch (e: any) {
-      setError(e?.message || String(e));
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      setError(msg);
       setState("error");
     }
   }

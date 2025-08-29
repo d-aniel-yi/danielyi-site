@@ -11,7 +11,7 @@ export async function GET() {
     return new NextResponse(content, {
       headers: { "Content-Type": "text/plain; charset=utf-8" },
     });
-  } catch (err: any) {
+  } catch {
     return NextResponse.json({ error: "Failed to load template.tex" }, { status: 500 });
   }
 }

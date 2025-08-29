@@ -17,9 +17,10 @@ export function ApiHealth() {
         setLatencyMs(Math.round(t1 - t0));
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         setStatus("ok");
-      } catch (e: any) {
+      } catch (e) {
         setStatus("error");
-        setError(e?.message ?? "Unknown error");
+        const message = e instanceof Error ? e.message : "Unknown error";
+        setError(message);
       }
     };
     run();

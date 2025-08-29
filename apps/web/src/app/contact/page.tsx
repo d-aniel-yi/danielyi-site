@@ -21,8 +21,9 @@ export default function ContactPage() {
       if (!res.ok) throw new Error(`Request failed: ${res.status}`);
       setDone(true);
       form.reset();
-    } catch (e: any) {
-      setError(e.message ?? 'Unknown error');
+    } catch (e) {
+      const message = e instanceof Error ? e.message : 'Unknown error';
+      setError(message);
     } finally {
       setSubmitting(false);
     }

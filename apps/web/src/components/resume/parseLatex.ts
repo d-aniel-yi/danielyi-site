@@ -239,7 +239,10 @@ function parseRoleAndDates(text: string): { role: string; start?: string; end?: 
     // Heuristic: if right side looks like a year or mm/yy, treat as dates
     const right = m[2].trim();
     if (/\d/.test(right)) {
-      return { role: m[1].trim(), ...splitDates(m[0].replace(m[1], "").trim()) } as any;
+      const role = m[1].trim();
+      const dates = m[0].replace(m[1], "").trim();
+      const { start, end } = splitDates(dates);
+      return { role, start, end };
     }
   }
   return { role: text.trim() };
