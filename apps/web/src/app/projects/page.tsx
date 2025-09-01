@@ -34,7 +34,13 @@ export default function ProjectsPage() {
       tags: ["music", "DJ", "react"],
       image: "/hero-dj.webp",
     },
-
+    {
+      title: "Core Plasma",
+      href: "https://coreplasma.org",
+      excerpt: "Static site for Core Plasma, a plasma consulting firm for Dr. Won Yi (my dad!).",
+      tags: ["react", "consulting"],
+      image: "/coreplasma.jpg",
+    },
   ];
 
   return (
