@@ -72,7 +72,7 @@ export function LatexWasmViewer() {
           onClick={compile}
           disabled={disabled}
         >
-          {state === "loading" ? "Compiling…" : "Compile LaTeX (WASM)"}
+          {state === "loading" ? "Compiling…" : "Export PDF (Not Implemented Yet)"}
         </button>
         {error && (
           <span className="text-xs opacity-70">{error}</span>

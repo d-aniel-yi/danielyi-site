@@ -31,7 +31,7 @@ export default function ContactPage() {
         </div>
       )}
 
-      <div ref={containerRef} className="relative rounded-2xl border-subtle border bg-white/30 dark:bg-white/10 p-4 md:p-6 backdrop-blur-md overflow-hidden">
+      <div ref={containerRef} className="relative rounded-2xl border-subtle border bg-white/30 p-4 md:p-6 backdrop-blur-md overflow-hidden">
         <span className="pointer-events-none absolute inset-0 z-0 opacity-70">
           <LiquidGlass
             mouseContainer={containerRef}

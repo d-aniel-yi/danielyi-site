@@ -25,14 +25,7 @@
   --font-serif: var(--font-serif);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: var(--color-ink);
-    --foreground: var(--color-paper);
-    --muted-foreground: color-mix(in oklab, var(--foreground), transparent 35%);
-    --border-color: color-mix(in oklab, var(--foreground), transparent 85%);
-  }
-}
+/* Dark mode disabled for now */
 
 body {
   background:

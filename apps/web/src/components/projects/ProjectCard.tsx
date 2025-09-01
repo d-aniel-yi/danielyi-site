@@ -14,7 +14,7 @@ export type ProjectItem = {
 export function ProjectCard({ item, variant = "default" }: { item: ProjectItem; variant?: "default" | "featured" }) {
   const isExternal = /^https?:\/\//i.test(item.href);
   const baseClasses =
-    "group relative block overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-white/5 dark:bg-black/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black/30 dark:focus-visible:ring-white/30 focus-visible:ring-offset-transparent hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition motion-reduce:transition-none";
+    "group relative block overflow-hidden rounded-2xl border border-black/10 bg-white/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black/30 focus-visible:ring-offset-transparent hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition motion-reduce:transition-none";
   const padding = variant === "featured" ? "p-6 md:p-8" : "p-5";
   return (
     <Link
@@ -43,7 +43,7 @@ export function ProjectCard({ item, variant = "default" }: { item: ProjectItem; 
             {item.tags.map((t) => (
               <span
                 key={t}
-                className="inline-flex items-center rounded-full border border-black/10 dark:border-white/10 px-2 py-0.5 text-[11px] uppercase tracking-wide text-black/70 dark:text-white/70"
+                className="inline-flex items-center rounded-full border border-black/10 px-2 py-0.5 text-[11px] uppercase tracking-wide text-black/70"
               >
                 {t}
               </span>
@@ -57,7 +57,7 @@ export function ProjectCard({ item, variant = "default" }: { item: ProjectItem; 
       </div>
 
       {/* Subtle glass hover layer */}
-      <span className="pointer-events-none absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition rounded-2xl bg-white/10 dark:bg-white/5 backdrop-blur-sm motion-reduce:transition-none" />
+      <span className="pointer-events-none absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition rounded-2xl bg-white/10 backdrop-blur-sm motion-reduce:transition-none" />
       {item.accentColor && (
         <span
           aria-hidden
