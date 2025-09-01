@@ -1,4 +1,4 @@
-### Project Context Prompt — AE Resume Site
+### Project Context Prompt — Portfolio Website for Daniel Yi
 
 This document sets the north star, constraints, and quality bar for building a technically robust, creatively executed portfolio. It should guide all decisions (content, design, engineering, delivery) so the end result is unmistakably the work of a top-performing Account Executive who can also ship high-quality software.
 
@@ -7,13 +7,17 @@ This document sets the north star, constraints, and quality bar for building a t
 - Make it clear that while top performers are common, a top performer who can conceive, architect, and ship this kind of product is rare.
 
 ## Primary Audience
--Hiring team and leaders (sales leadership, founders, engineers who interview AEs).
+-Two primary audiences: 
+1. Potential investors, curious people
+2. Hiring team and leaders (sales leadership, founders, engineers who interview AEs), if I am looking to apply for a job.
 
 ## Core Message
-"I’m an elite Account Executive with the curiosity, rigor, and technical skill to partner credibly with engineers and to ship. You’ll be hard-pressed to find this combination elsewhere."
+If I am looking for a job: "I’m an elite Account Executive with the curiosity, rigor, and technical skill to partner credibly with engineers and to ship. You’ll be hard-pressed to find this combination elsewhere."
 
-## Elevator Pitch (Homepage)
-"A top-performing AE who ships: I connect dots between product, engineering, and customers—and I built this site (frontend, infra, CI/CD) to show it."
+If I'm not looking for a job: "I'm a curious person with a passion for well-made and well-designed things that solve problems. Productivity, effort, and ability are not the question - finding the right place is."
+
+## Elevator Pitch to prospective employer (Homepage)
+"A top-performing AE who ships: I connect dots between product, engineering, and customers—and I built this site (frontend, infra, CI/CD) and hosted it on AWS to show it."
 
 ## Success Criteria (What “great” looks like)
 - Technical credibility: Clean, modern React front-end; serverless AWS backend; infrastructure as code; automated deploys; observability; performance best practices.
@@ -37,11 +41,11 @@ This document sets the north star, constraints, and quality bar for building a t
 - Confident, concise, specific; metrics over adjectives; considerate of technical readers.
 - Respectful of the reader’s time; scannable, with depth when desired.
 
-## Content Outline (Initial)
+## Content Outline 
 - Landing hero: One-line value prop + subhead; CTA to resume and cover letter.
-- About: AE narrative, quantified outcomes, customer logos (if allowed), references/quotes.
-- Case studies: 2–3 concise stories with situation → action → result, metrics, artifacts.
-- Cover letter: Tailored to company; why now, why me, how I’ll ramp.
+- Resume: Hosting resume page, automatically reading from LaTeX and compiling.
+- Projects: Showcasing all of the things I'm working on or have been working on.
+- Cover letter: The who behind the page.
 - Technical appendix: Architecture diagram, stack choices, tradeoffs, perf and ops.
 - Contact: Email form (SES) and links (LinkedIn, GitHub). Safe handling + spam protection.
 

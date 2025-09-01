@@ -10,26 +10,30 @@ export const metadata: Metadata = {
 export default function ProjectsPage() {
   const projects: ProjectItem[] = [
     {
-      title: "AE Resume Site",
+      title: "Mobi Measure",
+      href: "https://mobi-measure.com",
+      excerpt: "Current project: Mobi Measure - an image metrology platform made specifically for measurements on semiconductor images.",
+      image: "/mobi-measure.jpg",
+      tags: ["startup", "SaaS",],
+      featured: true,
+      accentColor: "#D9A16A"
+    },
+    {
+      title: "Daniel Yi Portfolio Website",
       href: "/technical",
       excerpt: "This very site: Next.js static export, AWS CDK, API Gateway + Lambda.",
-      tags: ["Next.js", "AWS", "CDK"],
+      tags: ["React","Next.js", "AWS", "CDK"],
       image: "/hero-background.jpg",
-      accentColor: "#7c3aed",
-      featured: true,
+   
+      
     },
     {
-      title: "Tech Sales Showcase",
-      href: "/case-studies",
-      excerpt: "Design-forward demo for technical storytelling and discovery.",
-      tags: ["Storytelling", "UX"],
+      title: "DJ GRILL",
+      href: "https://djgrill.house",
+      excerpt: "Simple static site to host my DJ/Photography information.",
+      tags: ["music", "DJ", "react"],
     },
-    {
-      title: "Contact Form Backend",
-      href: "/technical",
-      excerpt: "Serverless API with validation, DynamoDB, and SES notifications.",
-      tags: ["API", "Lambda", "DynamoDB"],
-    },
+
   ];
 
   return (
