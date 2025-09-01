@@ -52,7 +52,7 @@ If I'm not looking for a job: "I'm a curious person with a passion for well-made
 ## UX Principles
 - Fast, responsive, accessible (WCAG AA); keyboard-first; prefers-reduced-motion friendly.
 - Skimmable first, deep second; consistent spacing, typography scale, and iconography.
-- Visual polish without bloat; minimal dependencies; dark/light themes.
+- Visual polish without bloat; minimal dependencies; liquid glass.
 
 ## Technical Direction (High-Level)
 - Frontend: React + TypeScript; routing with a modern meta-framework (e.g., Next.js or Vite + React Router). Component library kept light; custom design system tokens.

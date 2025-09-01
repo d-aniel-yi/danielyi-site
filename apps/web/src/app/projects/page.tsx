@@ -13,7 +13,7 @@ export default function ProjectsPage() {
       title: "Mobi Measure",
       href: "https://mobi-measure.com",
       excerpt: "Current project: Mobi Measure - an image metrology platform made specifically for measurements on semiconductor images.",
-      image: "/mobi-measure.jpg",
+      image: "/mobi-measure.png",
       tags: ["startup", "SaaS",],
       featured: true,
       accentColor: "#D9A16A"
@@ -23,7 +23,7 @@ export default function ProjectsPage() {
       href: "/technical",
       excerpt: "This very site: Next.js static export, AWS CDK, API Gateway + Lambda.",
       tags: ["React","Next.js", "AWS", "CDK"],
-      image: "/hero-background.jpg",
+      image: "/hero1.webp",
    
       
     },
@@ -32,6 +32,7 @@ export default function ProjectsPage() {
       href: "https://djgrill.house",
       excerpt: "Simple static site to host my DJ/Photography information.",
       tags: ["music", "DJ", "react"],
+      image: "/hero-dj.webp",
     },
 
   ];

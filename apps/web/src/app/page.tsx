@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <div className="font-sans">
       <Hero />
-      <Skills />
+      {/* <Skills />
       <WorkGrid />
       <Principles />
       <section className="py-16">
@@ -19,7 +19,7 @@ export default function Home() {
             <Link className="underline" href="/case-studies">Case studies</Link>
           </nav>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }
