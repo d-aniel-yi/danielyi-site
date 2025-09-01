@@ -1,4 +1,4 @@
-import Link from "next/link";
+// Technical sections UI helpers
 
 export function SectionHeader({ title, subtitle }: { title: string; subtitle?: string }) {
   return (

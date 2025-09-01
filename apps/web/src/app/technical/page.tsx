@@ -97,7 +97,7 @@ export default function TechnicalPage() {
 
       {/* Follow-ups */}
       <section className="mt-12">
-        <h2 className="display-serif text-3xl tracking-[-0.01em] mb-4">What’s next</h2>
+        <h2 className="display-serif text-3xl tracking-[-0.01em] mb-4">What&rsquo;s next</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           <Card>
             <ul className="list-disc pl-5 text-sm space-y-1">

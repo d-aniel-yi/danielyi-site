@@ -23,7 +23,7 @@ export default function ContactPage() {
   return (
     <div className="mx-auto max-w-2xl px-4">
       <h1 className="display-serif text-3xl tracking-[-0.01em] mb-2">Contact</h1>
-      <p className="text-sm text-black/70 dark:text-white/70 mb-6">Reach me directly — I’ll reply via email.</p>
+      <p className="text-sm text-black/70 dark:text-white/70 mb-6">FEATURE NOT YET IMPLEMENTED!</p>
 
       {notice && (
         <div className="mb-4 rounded-md border-subtle border px-3 py-2 text-sm bg-white/40 dark:bg-white/10">
