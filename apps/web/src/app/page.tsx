@@ -1,8 +1,4 @@
-import Link from "next/link";
 import { Hero } from "@/components/home/Hero";
-import { Skills } from "@/components/home/Skills";
-import { WorkGrid } from "@/components/home/WorkGrid";
-import { Principles } from "@/components/home/Principles";
 
 export default function Home() {
   return (

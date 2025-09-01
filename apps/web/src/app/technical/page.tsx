@@ -27,7 +27,7 @@ export default function TechnicalPage() {
               <li>React 18 — Server Components by default; Client Components where interactivity is needed</li>
               <li>App Router, TypeScript strict, Tailwind v4</li>
               <li>
-                Static export (<CodeInline>output: 'export'</CodeInline>) → S3 + CloudFront (OAC)
+                Static export (<CodeInline>output: &apos;export&apos;</CodeInline>) → S3 + CloudFront (OAC)
               </li>
               <li>MDX for content; providerImportSource wiring</li>
               <li>Dynamic imports for effects (e.g., liquid‑glass) to keep TTI fast</li>
@@ -44,7 +44,7 @@ export default function TechnicalPage() {
             </ul>
           </Card>
           <Card>
-            <SectionHeader title="Trade‑offs" subtitle="Free‑tier & simplicity" />
+            <SectionHeader title="Trade‑offs" subtitle="Free‑tier &amp; simplicity" />
             <ul className="list-disc pl-5 text-sm space-y-1">
               <li>Static export over SSR to reduce cost/complexity</li>
               <li>DynamoDB over RDS to stay in free‑tier and keep ops light</li>

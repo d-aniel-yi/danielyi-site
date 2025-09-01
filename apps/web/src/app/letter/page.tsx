@@ -37,13 +37,13 @@ export default function LetterPage() {
             &ldquo;Why biology?&rdquo; is a question that I get often, and the answer is simply that I do not know why I chose biology as my major. I was a kid with an underdeveloped pre-frontal cortex, and had foresight into what my degree would lead to. Before I had my heart set on coaching football, I thought I could be a doctor, a physical therapist, or &ldquo;Whatever, the degree doesn&rsquo;t even matter.&rdquo;
           </p>
           <p className="mt-4">
-            Clearly, I didn't do any of those, and instead I landed in a career in sales. I always say that the best sales training I've ever gotten was tutoring. "If you can convince a kid to spend the time to learn math, you can convince an adult to buy" is the elevator pitch, but in reality, it's so, so much more. To be a great tutor, you have to be a great listener. You have to care about what each student is struggling with, uncover the deeper gaps in their knowledge, and present solutions in a way that resonates with them. You can't simply possess the answers to their problems - the students have to understand why it's important.
+            Clearly, I didn&rsquo;t do any of those, and instead I landed in a career in sales. I always say that the best sales training I&rsquo;ve ever gotten was tutoring. &ldquo;If you can convince a kid to spend the time to learn math, you can convince an adult to buy&rdquo; is the elevator pitch, but in reality, it&rsquo;s so, so much more. To be a great tutor, you have to be a great listener. You have to care about what each student is struggling with, uncover the deeper gaps in their knowledge, and present solutions in a way that resonates with them. You can&rsquo;t simply possess the answers to their problems - the students have to understand why it&rsquo;s important.
           </p>
           <p className="mt-4">
           I feel the same way about sales - having the right solution in front of the right person is only half the battle. Uncovering their pain points, what their needs truly are (below the surface level), and understanding their &ldquo;why&rdquo; is absolutely key. I think what makes me a great seller is that I&rsquo;m a great listener. If you can truly, truly listen, everything else falls into place.
           </p>      
           <p className="mt-4">
-          Sales is a bumpy road, and I've been fortunate enough to have had a great career so far. I've worked with all kinds of wonderful people, learned from some incredible mentors, and have made lifelong friends at work, but it hasn't been all sunshine and rainbows. This isn't the place where I talk about the discipline and grit it takes to be a successful salesperson, this is where I stay true to why I created this in the first place: to have a place to be authentic. I've worked for incredible organizations and incredibly disorganized ones. I've had amazing managers and ones that gave me nothing but nightmares and anxiety. It would be an absolute lie to say that I haven't spent countless nights wondering why I ended up in this career path, but it has led me to where I am today, and I'm grateful for all of the great experiences I've had, and try daily to find gratitude in the negative experiences as well.
+          Sales is a bumpy road, and I&rsquo;ve been fortunate enough to have had a great career so far. I&rsquo;ve worked with all kinds of wonderful people, learned from some incredible mentors, and have made lifelong friends at work, but it hasn&rsquo;t been all sunshine and rainbows. This isn&rsquo;t the place where I talk about the discipline and grit it takes to be a successful salesperson, this is where I stay true to why I created this in the first place: to have a place to be authentic. I&rsquo;ve worked for incredible organizations and incredibly disorganized ones. I&rsquo;ve had amazing managers and ones that gave me nothing but nightmares and anxiety. It would be an absolute lie to say that I haven&rsquo;t spent countless nights wondering why I ended up in this career path, but it has led me to where I am today, and I&rsquo;m grateful for all of the great experiences I&rsquo;ve had, and try daily to find gratitude in the negative experiences as well.
           </p>
 
           <p className="mt-4">
@@ -65,7 +65,7 @@ export default function LetterPage() {
 
           <div className="mt-6">
             <div className="font-medium tracking-[-0.01em]">Daniel Yi</div>
-            <div className="text-black/60 dark:text-white/60 text-sm">d@nielyi.com• da.nielyi.com</div>
+            <div className="text-black/60 dark:text-white/60 text-sm">d@nielyi.com • da.nielyi.com</div>
           </div>
         </div>
       </article>
