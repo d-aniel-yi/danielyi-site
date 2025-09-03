@@ -15,6 +15,9 @@ export default function TechnicalPage() {
         <p className="mt-2 text-black/70 dark:text-white/70 max-w-2xl">
           A full‑stack demo deployed on AWS free‑tier. Static‑first, accessible, and observable — all planned by me and built with the help of Cursor.
         </p>
+        <p className="mt-2 text-black/70 dark:text-white/70 max-w-2xl">
+        <a href="https://github.com/d-aniel-yi/danielyi-site" className="underline">View on GitHub</a>
+        </p>
       </header>
 
       {/* Frontend Section */}

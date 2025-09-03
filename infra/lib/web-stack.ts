@@ -55,12 +55,31 @@ export class WebStack extends Stack {
       // Skip domain wiring if zone not found; distribution remains accessible via default domain
     }
 
+    // CloudFront Function to map paths like "/technical" → "/technical/index.html"
+    const rewriteToIndexFn = new cloudfront.Function(this, 'RewriteToIndexFn', {
+      code: cloudfront.FunctionCode.fromInline(
+        `function handler(event) {
+  var request = event.request;
+  var uri = request.uri;
+  if (uri.endsWith('/')) {
+    request.uri = uri + 'index.html';
+  } else if (uri.indexOf('.') === -1) {
+    request.uri = uri + '/index.html';
+  }
+  return request;
+}`
+      ),
+    });
+
     const distribution = new cloudfront.Distribution(this, 'Distribution', {
       defaultBehavior: {
         origin: new origins.S3Origin(bucket, { originAccessIdentity: oai }),
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         compress: true,
         responseHeadersPolicy: responseHeaders,
+        functionAssociations: [
+          { function: rewriteToIndexFn, eventType: cloudfront.FunctionEventType.VIEWER_REQUEST },
+        ],
       },
       defaultRootObject: 'index.html',
       domainNames,
