@@ -46,6 +46,15 @@
 \usepackage{relsize}
 
 %----------------------------------------------------------------------------------------
+%\tYPHENATION CONTROL
+%----------------------------------------------------------------------------------------
+% Disable automatic hyphenation and prefer moving whole words to the next line
+\usepackage[none]{hyphenat}
+\hyphenpenalty=10000 % Prevent automatic hyphenation
+\exhyphenpenalty=10000 % Prevent hyphenation at explicit hyphens
+\emergencystretch=3em % Allow additional stretch to avoid overfull boxes without hyphenation
+
+%----------------------------------------------------------------------------------------
 %	MARGINS
 %----------------------------------------------------------------------------------------
 

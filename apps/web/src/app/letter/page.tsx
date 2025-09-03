@@ -30,7 +30,7 @@ export default function LetterPage() {
           <p>Dear Reader,</p>
 
           <p className="mt-4">
-            If you are reading this, my best guess is that you are one of the following: a curious cat like me, part of a hiring team evaluating new talent, or a potential collaborator. Thank you for taking the time to read this letter and take a look around the site. I hope that it gives you a little sense of who I am.
+            If you are reading this, my best guess is that you are one of the following: a curious cat like me, part of a hiring team evaluating new talent, and/or a potential collaborator. Thank you for taking the time to read this letter and take a look around the site. I hope that it gives you a little sense of who I am.
           </p>
 
           <p className="mt-4">
@@ -51,7 +51,7 @@ export default function LetterPage() {
           </p>
 
           <p className="mt-4">
-            If you&rsquo;re a hiring manager reading this and evaluating whether or not bringing me back to a sales role would be a good fit, I have one challenge for you: find an AE that looks like me. There are a million AE&rsquo;s with a resume like mine, but I think you&rsquo;d be hard pressed to find someone with sales experience who even would want to build this kind of a website. If that sort of skillset and curiosity is of interest to you, I would love to chat.
+            If you&rsquo;re a hiring manager reading this and evaluating whether or not bringing me back to a sales role would be a good fit, I have one challenge for you: find a salesperson that looks like me. There are a million salespeople with a resume like mine, but I think you&rsquo;d be hard pressed to find someone with sales experience who even would want to build this kind of a website. If that sort of skillset and curiosity is of interest to you, I would love to chat.
           </p>
 
           <p className="mt-4">

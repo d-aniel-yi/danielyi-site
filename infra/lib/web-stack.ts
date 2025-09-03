@@ -21,10 +21,10 @@ export class WebStack extends Stack {
         contentSecurityPolicy: {
           contentSecurityPolicy: [
             "default-src 'self'",
-            "script-src 'self'",
+            "script-src 'self' 'unsafe-inline'",
             "style-src 'self' 'unsafe-inline'",
             "img-src 'self' data: https:",
-            "connect-src 'self' https://app.launchdarkly.com https://clientstream.launchdarkly.com https://events.launchdarkly.com",
+            "connect-src 'self' https:",
             "font-src 'self' data:",
             "object-src 'none'",
             "base-uri 'self'",
@@ -43,6 +43,7 @@ export class WebStack extends Stack {
     // Optional: attach custom domain if hosted zone exists
     let certificate: acm.ICertificate | undefined;
     let domainNames: string[] | undefined;
+    const createAlias: boolean = this.node.tryGetContext('createAlias') === true || this.node.tryGetContext('createAlias') === 'true';
     try {
       const zone = route53.HostedZone.fromLookup(this, 'Zone', { domainName: 'nielyi.com' });
       certificate = new acm.DnsValidatedCertificate(this, 'DaCert', {
@@ -64,7 +65,7 @@ export class WebStack extends Stack {
   if (uri.endsWith('/')) {
     request.uri = uri + 'index.html';
   } else if (uri.indexOf('.') === -1) {
-    request.uri = uri + '/index.html';
+    request.uri = uri + '.html';
   }
   return request;
 }`
@@ -103,8 +104,8 @@ export class WebStack extends Stack {
     // Grant read to OAI principal
     bucket.grantRead(new iam.CanonicalUserPrincipal(oai.cloudFrontOriginAccessIdentityS3CanonicalUserId));
 
-    // Create Route53 alias if zone/cert were created
-    if (certificate && domainNames) {
+    // Create Route53 alias iff explicitly enabled via context to avoid conflicts when record already exists
+    if (certificate && domainNames && createAlias) {
       const zone = route53.HostedZone.fromLookup(this, 'ZoneForRecord', { domainName: 'nielyi.com' });
       new route53.ARecord(this, 'DaAlias', {
         zone,

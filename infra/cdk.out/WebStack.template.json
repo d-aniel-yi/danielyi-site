@@ -329,6 +329,21 @@
     "aws:cdk:path": "WebStack/DaCert/CertificateRequestorResource/Default"
    }
   },
+  "RewriteToIndexFnD4C8B1D0": {
+   "Type": "AWS::CloudFront::Function",
+   "Properties": {
+    "AutoPublish": true,
+    "FunctionCode": "function handler(event) {\n  var request = event.request;\n  var uri = request.uri;\n  if (uri.endsWith('/')) {\n    request.uri = uri + 'index.html';\n  } else if (uri.indexOf('.') === -1) {\n    request.uri = uri + '.html';\n  }\n  return request;\n}",
+    "FunctionConfig": {
+     "Comment": "us-west-2WebStackRewriteToIndexFn37F378F5",
+     "Runtime": "cloudfront-js-1.0"
+    },
+    "Name": "us-west-2WebStackRewriteToIndexFn37F378F5"
+   },
+   "Metadata": {
+    "aws:cdk:path": "WebStack/RewriteToIndexFn/Resource"
+   }
+  },
   "Distribution830FAC52": {
    "Type": "AWS::CloudFront::Distribution",
    "Properties": {
@@ -353,6 +368,17 @@
      "DefaultCacheBehavior": {
       "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
       "Compress": true,
+      "FunctionAssociations": [
+       {
+        "EventType": "viewer-request",
+        "FunctionARN": {
+         "Fn::GetAtt": [
+          "RewriteToIndexFnD4C8B1D0",
+          "FunctionARN"
+         ]
+        }
+       }
+      ],
       "ResponseHeadersPolicyId": {
        "Ref": "ResponseHeaders84BC52D6"
       },
@@ -403,51 +429,13 @@
     "aws:cdk:path": "WebStack/Distribution/Resource"
    }
   },
-  "DaAlias8877F178": {
-   "Type": "AWS::Route53::RecordSet",
-   "Properties": {
-    "AliasTarget": {
-     "DNSName": {
-      "Fn::GetAtt": [
-       "Distribution830FAC52",
-       "DomainName"
-      ]
-     },
-     "HostedZoneId": {
-      "Fn::FindInMap": [
-       "AWSCloudFrontPartitionHostedZoneIdMap",
-       {
-        "Ref": "AWS::Partition"
-       },
-       "zoneId"
-      ]
-     }
-    },
-    "HostedZoneId": "Z010704225YLFKPU2LI9F",
-    "Name": "da.nielyi.com.",
-    "Type": "A"
-   },
-   "Metadata": {
-    "aws:cdk:path": "WebStack/DaAlias/Resource"
-   }
-  },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/22PwW7CMBBEv4W7cSG0HwBBqD1UVEHqFS32JlpI7Mi7Lqqs/HuVBEgPnGbW82zvZDpbZnoxgyvPjb3MazrpdBAwFwVXPiZe6bSJ5oKi8tLd3ChfvibzOx3f5nHYAGOnTO2jLYN3otM+UEVubQwyf1h0QjJczntm1zNPiQK59Y7xHcFi4OnT58GWWAKdopB3PfV/7pTBIFSSAcEGHFQY9NbxN9RkQdDmU6xqaE4WdNpFZ+6P3X2nCBqdCl/jsEmv02Kj6xSvjsCMwnrdiwo+Cr6tdFoXaHywY4neHVC6rm/qYzCoBvwgUJGrVB5ZfPPIxuIP/wltO1Cl20dpo3TKeYv6zC8/WaaXr3oxOzPRPEQn1KAuRv0Dmfmt7PcBAAA="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/21PQW7CQAx8C/fFhdAPQBCiJ6og9YqcXROZJLto7S2qovy9CqGkB04z4xlr7AyyZQaLGd5kbl09b7iE7qhoa4M3OXWygm6TbE1q8rN/sBE+Q8P2Zxo/9Cg2KNQb24TkzjF4he4QuWK/tpZEPhx5Zb0v50NmN2ReJgqSa/BCe0JHUabS18Yueasc/JB48i2LRi7Tn/Ff98ZSVD6zRaUWPVYUYevlCxt2qOTyyTYNtqVD6F619Iaxha4IDd3PG3C6dmS9kdUJRUgF1gP0w38hRUvmro+KFfvK5Ek0tE9vfPfJD0mvSXvjgyO4yNt3lsHyHRazizDPY/LKLUEx4i8FSFRo4gEAAA=="
    },
    "Metadata": {
     "aws:cdk:path": "WebStack/CDKMetadata/Default"
-   }
-  }
- },
- "Mappings": {
-  "AWSCloudFrontPartitionHostedZoneIdMap": {
-   "aws": {
-    "zoneId": "Z2FDTNDATAQYW2"
-   },
-   "aws-cn": {
-    "zoneId": "Z3RFFRIM2A3IF5"
    }
   }
  },
