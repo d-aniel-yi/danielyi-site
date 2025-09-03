@@ -38,10 +38,18 @@ export class ApiStack extends Stack {
       integration: new apigwv2i.HttpLambdaIntegration('ContactIntegration', contactFn),
     });
 
+    // Health check Lambda
+    const healthFn = new nodejs.NodejsFunction(this, 'HealthFn', {
+      runtime: lambda.Runtime.NODEJS_20_X,
+      entry: require.resolve('./lambda/health.ts'),
+      memorySize: 128,
+      timeout: Duration.seconds(5),
+    });
+
     httpApi.addRoutes({
       path: '/health',
       methods: [apigwv2.HttpMethod.GET],
-      integration: new apigwv2i.HttpLambdaIntegration('HealthIntegration', contactFn), // placeholder
+      integration: new apigwv2i.HttpLambdaIntegration('HealthIntegration', healthFn),
     });
 
     new CfnOutput(this, 'HttpApiUrl', { value: httpApi.apiEndpoint });

@@ -112,9 +112,7 @@
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Code": {
-     "S3Bucket": {
-      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1"
-     },
+     "S3Bucket": "cdk-hnb659fds-assets-167053021813-us-west-2",
      "S3Key": "6a97fb75422ac2c2f9a9cd2a6b9ec23dcedaac8d5bb132856b1648c75053bb0b.zip"
     },
     "Environment": {
@@ -223,11 +221,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:",
-       {
-        "Ref": "AWS::AccountId"
-       },
-       ":",
+       ":execute-api:us-west-2:167053021813:",
        {
         "Ref": "HttpApiF5A9A8A7"
        },
@@ -273,7 +267,7 @@
     "IntegrationType": "AWS_PROXY",
     "IntegrationUri": {
      "Fn::GetAtt": [
-      "ContactFnCCB048A7",
+      "HealthFn0EF18565",
       "Arn"
      ]
     },
@@ -289,7 +283,7 @@
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
      "Fn::GetAtt": [
-      "ContactFnCCB048A7",
+      "HealthFn0EF18565",
       "Arn"
      ]
     },
@@ -302,11 +296,7 @@
        {
         "Ref": "AWS::Partition"
        },
-       ":execute-api:us-east-1:",
-       {
-        "Ref": "AWS::AccountId"
-       },
-       ":",
+       ":execute-api:us-west-2:167053021813:",
        {
         "Ref": "HttpApiF5A9A8A7"
        },
@@ -341,6 +331,68 @@
    },
    "Metadata": {
     "aws:cdk:path": "ApiStack/HttpApi/GET--health/Resource"
+   }
+  },
+  "HealthFnServiceRoleA02F5DA7": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/HealthFn/ServiceRole/Resource"
+   }
+  },
+  "HealthFn0EF18565": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-167053021813-us-west-2",
+     "S3Key": "cfa0becf45cd8efaaac516e6c2795c526700ad9537261626fa4eb1fb7a2a0fe0.zip"
+    },
+    "Handler": "index.handler",
+    "MemorySize": 128,
+    "Role": {
+     "Fn::GetAtt": [
+      "HealthFnServiceRoleA02F5DA7",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Timeout": 5
+   },
+   "DependsOn": [
+    "HealthFnServiceRoleA02F5DA7"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/HealthFn/Resource",
+    "aws:asset:path": "asset.cfa0becf45cd8efaaac516e6c2795c526700ad9537261626fa4eb1fb7a2a0fe0",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
    }
   },
   "CDKMetadata": {
