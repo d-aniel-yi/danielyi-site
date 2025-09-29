@@ -151,7 +151,7 @@
      "Name": "WebStackResponseHeaders14259C5C",
      "SecurityHeadersConfig": {
       "ContentSecurityPolicy": {
-       "ContentSecurityPolicy": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://app.launchdarkly.com https://clientstream.launchdarkly.com https://events.launchdarkly.com; font-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
+       "ContentSecurityPolicy": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https:; font-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
        "Override": true
       },
       "ContentTypeOptions": {
