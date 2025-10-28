@@ -44,10 +44,10 @@ If I'm not looking for a job: "I'm a curious person with a passion for well-made
 ## Content Outline 
 - Landing hero: One-line value prop + subhead; CTA to resume and cover letter.
 - Resume: Hosting resume page, automatically reading from LaTeX and compiling.
-- Projects: Showcasing all of the things I'm working on or have been working on.
+- Projects: Showcasing all projects with expandable technical architecture details; dedicated detail pages for major projects showing stack, architecture, challenges, and solutions.
 - Cover letter: The who behind the page.
-- Technical appendix: Architecture diagram, stack choices, tradeoffs, perf and ops.
-- Contact: Email form (SES) and links (LinkedIn, GitHub). Safe handling + spam protection.
+- Technical appendix: Architecture diagram, stack choices, tradeoffs, perf and ops; live API health monitoring.
+- Contact: Email form (SES) and links (LinkedIn, GitHub). Multi-layer rate limiting, input validation, and CAPTCHA-ready spam protection.
 
 ## UX Principles
 - Fast, responsive, accessible (WCAG AA); keyboard-first; prefers-reduced-motion friendly.
@@ -58,10 +58,11 @@ If I'm not looking for a job: "I'm a curious person with a passion for well-made
 - Frontend: React + TypeScript; routing with a modern meta-framework (e.g., Next.js or Vite + React Router). Component library kept light; custom design system tokens.
 - Backend (free tier AWS):
   - Static hosting on S3 behind CloudFront (SSL, CDN, compression, HTTP/2/3).
-  - API: API Gateway + AWS Lambda (Node.js/TypeScript) for contact form and light dynamic features.
-  - Data: DynamoDB for form submissions and simple telemetry (free tier eligible).
+  - API: API Gateway + AWS Lambda (Node.js/TypeScript) for contact form and health checks.
+  - Data: DynamoDB for form submissions and rate limit tracking (free tier eligible).
   - Email: Amazon SES for sending contact notifications.
-  - Observability: CloudWatch logs + metrics; simple alarm for errors.
+  - Observability: CloudWatch logs + metrics + dashboard; SNS topic for alarm notifications; 5 CloudWatch alarms for security monitoring.
+  - Security: IP-based rate limiting (3/hour, 10/day per IP), input validation, payload size limits, CAPTCHA-ready (Cloudflare Turnstile).
   - Optional: Cognito if a gated admin view is needed later (v2).
 - Infrastructure as Code: AWS CDK (TypeScript) or Terraform (lean); prefer CDK for DX.
 - CI/CD: GitHub Actions with OIDC into AWS; preview deployments on PRs; lint/test/typecheck in CI; Lighthouse CI optional.
@@ -70,6 +71,9 @@ If I'm not looking for a job: "I'm a curious person with a passion for well-made
 ## Data/Privacy
 - No PII storage beyond contact form contents; minimum necessary retention; redact sensitive fields.
 - Use environment variables/Secrets Manager; never commit secrets.
+- Rate limiting via IP tracking in DynamoDB with 24-hour TTL expiration; no long-term IP storage.
+- Input sanitization prevents injection attacks; strict validation on all form fields.
+- Contact form protected by multi-layer rate limiting to prevent spam and abuse.
 
 ## Quality Bar / Engineering Practices
 - TypeScript strict mode; ESLint + Prettier + import sorting.
@@ -84,7 +88,8 @@ If I'm not looking for a job: "I'm a curious person with a passion for well-made
 
 ## Risks and Mitigations
 - Deployment complexity → Use CDK constructs and small, composable stacks; start with staging env.
-- Free-tier limits → Keep traffic modest; set alarms; add backpressure/captcha for forms.
+- Free-tier limits → ✅ Implemented: IP-based rate limiting (3/hour, 10/day), CloudWatch alarms, SNS notifications, input validation, CAPTCHA-ready; AWS Budget alerts pending manual setup.
+- Cost spikes from attacks → ✅ Protected: Multi-layer rate limiting prevents DynamoDB/Lambda cost explosions; estimated <$3/month even under attack.
 - Scope creep → Timebox v1; defer CMS/admin; lock MVP.
 
 ## Milestones (Draft)
@@ -95,12 +100,17 @@ If I'm not looking for a job: "I'm a curious person with a passion for well-made
 5) Quality: Tests, analytics, accessibility audit, performance tuning.
 6) Launch: Domain, DNS, CDN invalidation, monitoring.
 
-## Progress Snapshot (2025-08-28)
-- Infra and domain are live (S3+CloudFront with OAI, API Gateway/Lambda/DynamoDB, `da.nielyi.com`).
+## Progress Snapshot (2025-10-28)
+- Infra and domain are live (S3+CloudFront with OAC, API Gateway/Lambda/DynamoDB, `da.nielyi.com`).
 - CI/CD in place with OIDC; web and infra workflows are green.
-- Frontend hero, marquee, expertise, work grid, and principles sections implemented; contact page wired to API.
-- Technical appendix page added with live API health widget; MDX wired with providerImportSource.
-- Pending: human-authored content for resume/cover letter/case studies; optional CSP tightening and budgets.
+- Frontend hero, projects with expandable tech details, resume with LaTeX parsing/WASM compilation, and technical appendix fully implemented.
+- Contact form protected with IP-based rate limiting (3/hour, 10/day), input validation, and CAPTCHA-ready (Cloudflare Turnstile disabled by default).
+- Security: Multi-layer rate limiting, CloudWatch alarms, SNS notifications, and observability dashboard deployed.
+- Projects showcase technical architecture with inline expandable sections and dedicated detail pages (`/projects/[slug]`).
+- Complete favicon implementation with PWA support (web manifest, apple-touch-icon, multiple sizes).
+- Rate limiting documentation: `/docs/rate-limiting.md` with testing instructions and adjustment guidance.
+- Cost protection: AWS Budget alerts manual setup required; estimated $0/month normal traffic, <$3/month under attack with protections.
+- Pending: AWS Budget alert setup (manual), SNS email subscription confirmation, content refinement for case studies.
 
 ## Initial Tech Stack Options
 - React + TypeScript; choose one:

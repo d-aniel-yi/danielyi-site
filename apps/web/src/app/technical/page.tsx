@@ -63,6 +63,15 @@ export default function TechnicalPage() {
               </li>
             </ul>
           </Card>
+          <Card>
+            <SectionHeader title="PWA Support" subtitle="Favicons &amp; manifest" />
+            <ul className="list-disc pl-5 text-sm space-y-1">
+              <li>Complete favicon set (ICO, SVG, PNG 96x96)</li>
+              <li>Apple touch icon (180x180) for iOS</li>
+              <li>Web app manifest for Android home screen</li>
+              <li>PWA icons (192x192, 512x512) with maskable support</li>
+            </ul>
+          </Card>
         </div>
       </section>
 
@@ -80,7 +89,7 @@ export default function TechnicalPage() {
               items={[
                 { key: "API", value: "HTTP API: GET /health, POST /contact" },
                 { key: "Runtime", value: "Lambda Node 20 (TS), esbuild bundling" },
-                { key: "Data", value: "DynamoDB for submissions" },
+                { key: "Data", value: "DynamoDB for submissions + rate limits" },
                 { key: "Email", value: "SES notifications" },
                 { key: "CORS", value: "Locked to prod/staging origins" },
               ]}
@@ -98,6 +107,134 @@ export default function TechnicalPage() {
         </div>
       </section>
 
+      {/* Security & Rate Limiting Section */}
+      <section className="mt-12">
+        <h2 className="display-serif text-3xl tracking-[-0.01em] mb-4">Security & Rate Limiting</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <Card>
+            <SectionHeader title="IP-Based Rate Limiting" subtitle="Prevent spam and abuse" />
+            <ul className="list-disc pl-5 text-sm space-y-1">
+              <li>3 submissions per IP per hour</li>
+              <li>10 submissions per IP per day</li>
+              <li>DynamoDB tracking with 24h TTL expiration</li>
+              <li>Returns 429 Too Many Requests when exceeded</li>
+            </ul>
+          </Card>
+          <Card>
+            <SectionHeader title="Input Validation" subtitle="Strict enforcement" />
+            <ul className="list-disc pl-5 text-sm space-y-1">
+              <li>Max payload size: 10KB</li>
+              <li>Field length limits (name: 100, email: 100, message: 2000)</li>
+              <li>Email format validation</li>
+              <li>Input sanitization (removes control chars, null bytes)</li>
+            </ul>
+          </Card>
+          <Card>
+            <SectionHeader title="CAPTCHA Ready" subtitle="Cloudflare Turnstile" />
+            <ul className="list-disc pl-5 text-sm space-y-1">
+              <li>Component implemented, disabled by default</li>
+              <li>Enable via environment variable if needed</li>
+              <li>Free and privacy‑friendly</li>
+              <li>Auto‑verifies when disabled (no code changes)</li>
+            </ul>
+          </Card>
+        </div>
+      </section>
+
+      {/* Observability & Monitoring Section */}
+      <section className="mt-12">
+        <h2 className="display-serif text-3xl tracking-[-0.01em] mb-4">Observability & Monitoring</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <Card>
+            <SectionHeader title="CloudWatch Alarms" subtitle="5 alarms monitoring" />
+            <ul className="list-disc pl-5 text-sm space-y-1">
+              <li>Lambda invocations {'>'}1000/hour</li>
+              <li>Lambda errors {'>'}10/hour</li>
+              <li>API 4xx errors {'>'}50/hour</li>
+              <li>API throttles {'>'}20 in 5 min</li>
+              <li>DynamoDB writes {'>'}100/hour</li>
+            </ul>
+          </Card>
+          <Card>
+            <SectionHeader title="SNS Notifications" subtitle="Real‑time alerts" />
+            <ul className="list-disc pl-5 text-sm space-y-1">
+              <li>Email notifications for all alarms</li>
+              <li>Immediate incident response capability</li>
+              <li>Track attack patterns and anomalies</li>
+            </ul>
+          </Card>
+          <Card>
+            <SectionHeader title="Dashboard" subtitle="CloudWatch metrics" />
+            <ul className="list-disc pl-5 text-sm space-y-1">
+              <li>Lambda invocations and errors</li>
+              <li>API Gateway requests and errors</li>
+              <li>Real‑time traffic visualization</li>
+              <li>Historical trend analysis</li>
+            </ul>
+          </Card>
+        </div>
+      </section>
+
+      {/* Projects Architecture Section */}
+      <section className="mt-12">
+        <h2 className="display-serif text-3xl tracking-[-0.01em] mb-4">Projects Architecture</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <Card>
+            <SectionHeader title="Expandable Tech Details" subtitle="Inline showcase" />
+            <ul className="list-disc pl-5 text-sm space-y-1">
+              <li>Click to expand technical architecture on project cards</li>
+              <li>Shows stack, architecture overview, and highlights</li>
+              <li>Smooth animations with reduced‑motion support</li>
+              <li>Accessible with proper ARIA attributes</li>
+            </ul>
+          </Card>
+          <Card>
+            <SectionHeader title="Dedicated Detail Pages" subtitle="/projects/[slug]" />
+            <ul className="list-disc pl-5 text-sm space-y-1">
+              <li>Deep‑dive pages for major projects</li>
+              <li>Tech stack breakdown by category</li>
+              <li>System architecture with component details</li>
+              <li>Challenges solved and performance metrics</li>
+              <li>Static generation via generateStaticParams</li>
+            </ul>
+          </Card>
+        </div>
+      </section>
+
+      {/* Cost Protection Section */}
+      <section className="mt-12">
+        <h2 className="display-serif text-3xl tracking-[-0.01em] mb-4">Cost Protection</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <Card>
+            <SectionHeader title="Normal Traffic" subtitle="$0/month" />
+            <ul className="list-disc pl-5 text-sm space-y-1">
+              <li>All services within AWS free tier</li>
+              <li>API Gateway: 1M requests free</li>
+              <li>Lambda: 1M requests, 400k GB‑seconds free</li>
+              <li>DynamoDB: 25 GB storage, 25 WCU/RCU free</li>
+            </ul>
+          </Card>
+          <Card>
+            <SectionHeader title="Under Attack" subtitle="~$2-3/month max" />
+            <ul className="list-disc pl-5 text-sm space-y-1">
+              <li>Rate limiting caps request volume</li>
+              <li>IP tracking prevents DynamoDB explosion</li>
+              <li>CloudWatch alarms enable quick response</li>
+              <li>Multi‑layer protection prevents runaway costs</li>
+            </ul>
+          </Card>
+          <Card>
+            <SectionHeader title="Without Protection" subtitle="$50-500+/month" />
+            <ul className="list-disc pl-5 text-sm space-y-1">
+              <li>Unlimited Lambda invocations</li>
+              <li>Unbounded DynamoDB writes</li>
+              <li>No alerting or cost caps</li>
+              <li>This architecture prevents this scenario</li>
+            </ul>
+          </Card>
+        </div>
+      </section>
+
       {/* Follow-ups */}
       <section className="mt-12">
         <h2 className="display-serif text-3xl tracking-[-0.01em] mb-4">What&rsquo;s next</h2>
@@ -106,7 +243,8 @@ export default function TechnicalPage() {
             <ul className="list-disc pl-5 text-sm space-y-1">
               <li>Per‑PR previews via a staging distribution</li>
               <li>Stronger CSP + Lighthouse budgets</li>
-              <li>CI “Print to PDF” artifact for the resume</li>
+              <li>CI &ldquo;Print to PDF&rdquo; artifact for the resume</li>
+              <li>AWS Budget alert automation (currently manual)</li>
             </ul>
           </Card>
         </div>
