@@ -14,6 +14,8 @@ export function LatexWasmViewer() {
     async function loadSources() {
       try {
         const tex = await fetchFirst([
+          "/resume/resources/main.tex",
+          "/out/resume/resources/main.tex",
           "/resume/resources/template.tex",
           "/api/resume/tex",
           "/src/app/resume/resources/template.tex",

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ResumeDocument } from "@/components/resume/ResumeComponents";
 import { ResumePdfViewer } from "@/components/resume/ResumePdfViewer";
-import { getTemplatePath, parseResumeLatex } from "@/components/resume/parseLatex";
+import { getResumeTexPath, parseResumeLatex } from "@/components/resume/parseLatex";
 import { LatexWasmViewer } from "@/components/resume/LatexWasmViewer";
 import type { ResumeData } from "@/components/resume/ResumeTypes";
 
@@ -74,7 +74,7 @@ export default function ResumePage() {
   // Try to parse LaTeX at build-time (Next.js static export reads during build)
   let parsed = undefined;
   try {
-    parsed = parseResumeLatex(getTemplatePath());
+    parsed = parseResumeLatex(getResumeTexPath());
   } catch {
     // fall back to hardcoded data
   }

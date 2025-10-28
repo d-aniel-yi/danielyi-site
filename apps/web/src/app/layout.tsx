@@ -27,6 +27,17 @@ export const metadata: Metadata = {
   },
   description: "A top-performing AE who ships — resume, cover letter, case studies.",
   metadataBase: new URL("https://da.nielyi.com"),
+  icons: {
+    icon: [
+      { url: '/favicons/favicon.ico', sizes: 'any' },
+      { url: '/favicons/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicons/favicon-96x96.png', type: 'image/png', sizes: '96x96' },
+    ],
+    apple: [
+      { url: '/favicons/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
+  manifest: '/favicons/site.webmanifest',
 };
 
 export default function RootLayout({

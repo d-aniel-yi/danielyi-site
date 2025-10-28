@@ -13,7 +13,7 @@ const env = {
 };
 
 new WebStack(app, 'WebStack', { env });
-new ApiStack(app, 'ApiStack', { env });
-new ObservabilityStack(app, 'ObservabilityStack', { env });
+const apiStack = new ApiStack(app, 'ApiStack', { env });
+new ObservabilityStack(app, 'ObservabilityStack', { env, apiStack });
 
 

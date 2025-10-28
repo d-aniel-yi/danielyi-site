@@ -3,11 +3,25 @@ import { Construct } from 'constructs';
 import { aws_apigatewayv2 as apigwv2, aws_apigatewayv2_integrations as apigwv2i, aws_lambda_nodejs as nodejs, aws_lambda as lambda, aws_dynamodb as dynamodb } from 'aws-cdk-lib';
 
 export class ApiStack extends Stack {
+  public readonly contactFunction: nodejs.NodejsFunction;
+  public readonly healthFunction: nodejs.NodejsFunction;
+  public readonly httpApiId: string;
+  public readonly submissionsTable: dynamodb.Table;
+  public readonly rateLimitTable: dynamodb.Table;
+
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
     const table = new dynamodb.Table(this, 'SubmissionsTable', {
       partitionKey: { name: 'id', type: dynamodb.AttributeType.STRING },
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+      timeToLiveAttribute: 'ttl',
+    });
+
+    // Rate limit tracking table for IP-based throttling
+    const rateLimitTable = new dynamodb.Table(this, 'RateLimitTable', {
+      partitionKey: { name: 'pk', type: dynamodb.AttributeType.STRING },
+      sortKey: { name: 'sk', type: dynamodb.AttributeType.STRING },
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       timeToLiveAttribute: 'ttl',
     });
@@ -19,9 +33,13 @@ export class ApiStack extends Stack {
       timeout: Duration.seconds(10),
       environment: {
         TABLE_NAME: table.tableName,
+        RATE_LIMIT_TABLE_NAME: rateLimitTable.tableName,
       },
+      // Reserved concurrency removed due to account limits
+      // Protection relies on IP rate limiting (3/hour, 10/day) and input validation
     });
     table.grantReadWriteData(contactFn);
+    rateLimitTable.grantReadWriteData(contactFn);
 
     const httpApi = new apigwv2.HttpApi(this, 'HttpApi', {
       corsPreflight: {
@@ -30,6 +48,8 @@ export class ApiStack extends Stack {
         allowOrigins: ['https://da.nielyi.com', 'https://staging.da.nielyi.com'],
         maxAge: Duration.days(1),
       },
+      // Note: HTTP API v2 has default throttling (10k burst, 5k steady-state) managed by AWS
+      // Primary protection comes from Lambda reserved concurrency (2 concurrent) and IP rate limiting
     });
 
     const contactRoute = httpApi.addRoutes({
@@ -44,6 +64,7 @@ export class ApiStack extends Stack {
       entry: require.resolve('./lambda/health.ts'),
       memorySize: 128,
       timeout: Duration.seconds(5),
+      // Reserved concurrency removed due to account limits
     });
 
     httpApi.addRoutes({
@@ -52,8 +73,17 @@ export class ApiStack extends Stack {
       integration: new apigwv2i.HttpLambdaIntegration('HealthIntegration', healthFn),
     });
 
+    // Export references for other stacks
+    this.contactFunction = contactFn;
+    this.healthFunction = healthFn;
+    this.httpApiId = httpApi.httpApiId;
+    this.submissionsTable = table;
+    this.rateLimitTable = rateLimitTable;
+
     new CfnOutput(this, 'HttpApiUrl', { value: httpApi.apiEndpoint });
+    new CfnOutput(this, 'HttpApiId', { value: httpApi.httpApiId });
     new CfnOutput(this, 'SubmissionsTableName', { value: table.tableName });
+    new CfnOutput(this, 'RateLimitTableName', { value: rateLimitTable.tableName });
   }
 }
 

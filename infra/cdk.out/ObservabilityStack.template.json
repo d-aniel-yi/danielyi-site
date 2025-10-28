@@ -1,22 +1,240 @@
 {
  "Resources": {
+  "AlarmTopicD01E77F9": {
+   "Type": "AWS::SNS::Topic",
+   "Properties": {
+    "DisplayName": "Portfolio Site Alarms"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ObservabilityStack/AlarmTopic/Resource"
+   }
+  },
   "Dashboard9E4231ED": {
    "Type": "AWS::CloudWatch::Dashboard",
    "Properties": {
-    "DashboardBody": "{\"widgets\":[]}",
+    "DashboardBody": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"widgets\":[{\"type\":\"metric\",\"width\":12,\"height\":6,\"x\":0,\"y\":0,\"properties\":{\"view\":\"timeSeries\",\"title\":\"Lambda Invocations\",\"region\":\"",
+       {
+        "Ref": "AWS::Region"
+       },
+       "\",\"metrics\":[[\"AWS/Lambda\",\"Invocations\",\"FunctionName\",\"",
+       {
+        "Fn::ImportValue": "ApiStack:ExportsOutputRefContactFnCCB048A7FDEBB124"
+       },
+       "\",{\"stat\":\"Sum\"}],[\"AWS/Lambda\",\"Invocations\",\"FunctionName\",\"",
+       {
+        "Fn::ImportValue": "ApiStack:ExportsOutputRefHealthFn0EF185654FB09E36"
+       },
+       "\",{\"stat\":\"Sum\"}]],\"yAxis\":{}}},{\"type\":\"metric\",\"width\":12,\"height\":6,\"x\":12,\"y\":0,\"properties\":{\"view\":\"timeSeries\",\"title\":\"Lambda Errors\",\"region\":\"",
+       {
+        "Ref": "AWS::Region"
+       },
+       "\",\"metrics\":[[\"AWS/Lambda\",\"Errors\",\"FunctionName\",\"",
+       {
+        "Fn::ImportValue": "ApiStack:ExportsOutputRefContactFnCCB048A7FDEBB124"
+       },
+       "\",{\"stat\":\"Sum\"}],[\"AWS/Lambda\",\"Errors\",\"FunctionName\",\"",
+       {
+        "Fn::ImportValue": "ApiStack:ExportsOutputRefHealthFn0EF185654FB09E36"
+       },
+       "\",{\"stat\":\"Sum\"}]],\"yAxis\":{}}},{\"type\":\"metric\",\"width\":12,\"height\":6,\"x\":0,\"y\":6,\"properties\":{\"view\":\"timeSeries\",\"title\":\"API Gateway Requests\",\"region\":\"",
+       {
+        "Ref": "AWS::Region"
+       },
+       "\",\"metrics\":[[\"AWS/ApiGateway\",\"Count\",\"ApiId\",\"",
+       {
+        "Fn::ImportValue": "ApiStack:ExportsOutputRefHttpApiF5A9A8A7F70B5BDD"
+       },
+       "\",{\"stat\":\"Sum\"}]],\"yAxis\":{}}},{\"type\":\"metric\",\"width\":12,\"height\":6,\"x\":12,\"y\":6,\"properties\":{\"view\":\"timeSeries\",\"title\":\"API Gateway Errors\",\"region\":\"",
+       {
+        "Ref": "AWS::Region"
+       },
+       "\",\"metrics\":[[\"AWS/ApiGateway\",\"4XXError\",\"ApiId\",\"",
+       {
+        "Fn::ImportValue": "ApiStack:ExportsOutputRefHttpApiF5A9A8A7F70B5BDD"
+       },
+       "\",{\"stat\":\"Sum\"}],[\"AWS/ApiGateway\",\"5XXError\",\"ApiId\",\"",
+       {
+        "Fn::ImportValue": "ApiStack:ExportsOutputRefHttpApiF5A9A8A7F70B5BDD"
+       },
+       "\",{\"stat\":\"Sum\"}]],\"yAxis\":{}}}]}"
+      ]
+     ]
+    },
     "DashboardName": "ObservabilityStack-dashboard"
    },
    "Metadata": {
     "aws:cdk:path": "ObservabilityStack/Dashboard/Resource"
    }
   },
+  "ContactExcessiveInvocationsE05F2117": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmActions": [
+     {
+      "Ref": "AlarmTopicD01E77F9"
+     }
+    ],
+    "AlarmDescription": "Contact function invocations exceeded 1000 per hour",
+    "ComparisonOperator": "GreaterThanThreshold",
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Fn::ImportValue": "ApiStack:ExportsOutputRefContactFnCCB048A7FDEBB124"
+      }
+     }
+    ],
+    "EvaluationPeriods": 1,
+    "MetricName": "Invocations",
+    "Namespace": "AWS/Lambda",
+    "Period": 3600,
+    "Statistic": "Sum",
+    "Threshold": 1000,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ObservabilityStack/ContactExcessiveInvocations/Resource"
+   }
+  },
+  "ContactErrors35DFF59C": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmActions": [
+     {
+      "Ref": "AlarmTopicD01E77F9"
+     }
+    ],
+    "AlarmDescription": "Contact function errors exceeded 10 per hour",
+    "ComparisonOperator": "GreaterThanThreshold",
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Fn::ImportValue": "ApiStack:ExportsOutputRefContactFnCCB048A7FDEBB124"
+      }
+     }
+    ],
+    "EvaluationPeriods": 1,
+    "MetricName": "Errors",
+    "Namespace": "AWS/Lambda",
+    "Period": 3600,
+    "Statistic": "Sum",
+    "Threshold": 10,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ObservabilityStack/ContactErrors/Resource"
+   }
+  },
+  "Api4xxErrorsE7D5C86E": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmActions": [
+     {
+      "Ref": "AlarmTopicD01E77F9"
+     }
+    ],
+    "AlarmDescription": "API Gateway 4xx errors exceeded 50 per hour",
+    "ComparisonOperator": "GreaterThanThreshold",
+    "Dimensions": [
+     {
+      "Name": "ApiId",
+      "Value": {
+       "Fn::ImportValue": "ApiStack:ExportsOutputRefHttpApiF5A9A8A7F70B5BDD"
+      }
+     }
+    ],
+    "EvaluationPeriods": 1,
+    "MetricName": "4XXError",
+    "Namespace": "AWS/ApiGateway",
+    "Period": 3600,
+    "Statistic": "Sum",
+    "Threshold": 50,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ObservabilityStack/Api4xxErrors/Resource"
+   }
+  },
+  "ApiThrottles506DAF1E": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmActions": [
+     {
+      "Ref": "AlarmTopicD01E77F9"
+     }
+    ],
+    "AlarmDescription": "API Gateway throttles exceeded 20 in 5 minutes (possible attack)",
+    "ComparisonOperator": "GreaterThanThreshold",
+    "Dimensions": [
+     {
+      "Name": "ApiId",
+      "Value": {
+       "Fn::ImportValue": "ApiStack:ExportsOutputRefHttpApiF5A9A8A7F70B5BDD"
+      }
+     }
+    ],
+    "EvaluationPeriods": 1,
+    "MetricName": "429",
+    "Namespace": "AWS/ApiGateway",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Threshold": 20,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ObservabilityStack/ApiThrottles/Resource"
+   }
+  },
+  "DynamoExcessiveWritesF114FE54": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmActions": [
+     {
+      "Ref": "AlarmTopicD01E77F9"
+     }
+    ],
+    "AlarmDescription": "Rate limit table consumed write units exceeded 100 per hour",
+    "ComparisonOperator": "GreaterThanThreshold",
+    "Dimensions": [
+     {
+      "Name": "TableName",
+      "Value": {
+       "Fn::ImportValue": "ApiStack:ExportsOutputRefRateLimitTableFAD921A1CEE39392"
+      }
+     }
+    ],
+    "EvaluationPeriods": 1,
+    "MetricName": "ConsumedWriteCapacityUnits",
+    "Namespace": "AWS/DynamoDB",
+    "Period": 3600,
+    "Statistic": "Sum",
+    "Threshold": 100,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ObservabilityStack/DynamoExcessiveWrites/Resource"
+   }
+  },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/z3HsQ2AIBAAwFns4dWPG+gEOoB5QSOgkPAghXF3CxOryyFgi9BUVFgq7eRhFrinRMoJKjyrI2RdKKkd7oF4XwJFLfrN/3ke4YNewXJ9IULbQVNZNkbG7JM5Vxg/X1oxK9BpAAAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/0XJQQ6DIBQE0LO4h18lXqBp901a980XbEQRDB/KgnB3g110NW9mBIhOQNtgIi7Vyo0eIb8CypVhoncmS5AHt2vJbh97ojBpXFQJg5wh35Hm0aFX9f+Xq0G/1elEKZWPGPYYCrNOTbDQ5SsEdD20zUJacx9t0NsEz18ePgqcUJkAAAA="
    },
    "Metadata": {
     "aws:cdk:path": "ObservabilityStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "AlarmTopicArn": {
+   "Description": "SNS Topic ARN for alarm notifications - subscribe your email manually",
+   "Value": {
+    "Ref": "AlarmTopicD01E77F9"
    }
   }
  },

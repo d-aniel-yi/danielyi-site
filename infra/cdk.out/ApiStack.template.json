@@ -27,6 +27,41 @@
     "aws:cdk:path": "ApiStack/SubmissionsTable/Resource"
    }
   },
+  "RateLimitTableFAD921A1": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "pk",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "sk",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "KeySchema": [
+     {
+      "AttributeName": "pk",
+      "KeyType": "HASH"
+     },
+     {
+      "AttributeName": "sk",
+      "KeyType": "RANGE"
+     }
+    ],
+    "TimeToLiveSpecification": {
+     "AttributeName": "ttl",
+     "Enabled": true
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/RateLimitTable/Resource"
+   }
+  },
   "ContactFnServiceRoleB0083DD1": {
    "Type": "AWS::IAM::Role",
    "Properties": {
@@ -93,6 +128,34 @@
          "Ref": "AWS::NoValue"
         }
        ]
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "RateLimitTableFAD921A1",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
       }
      ],
      "Version": "2012-10-17"
@@ -113,12 +176,15 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-167053021813-us-west-2",
-     "S3Key": "6a97fb75422ac2c2f9a9cd2a6b9ec23dcedaac8d5bb132856b1648c75053bb0b.zip"
+     "S3Key": "3aaba4417f2b6974982882c74604135d9f3193147c236ce0dbd1a269d7a518e9.zip"
     },
     "Environment": {
      "Variables": {
       "TABLE_NAME": {
        "Ref": "SubmissionsTable75718D3D"
+      },
+      "RATE_LIMIT_TABLE_NAME": {
+       "Ref": "RateLimitTableFAD921A1"
       }
      }
     },
@@ -139,7 +205,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ApiStack/ContactFn/Resource",
-    "aws:asset:path": "asset.6a97fb75422ac2c2f9a9cd2a6b9ec23dcedaac8d5bb132856b1648c75053bb0b",
+    "aws:asset:path": "asset.3aaba4417f2b6974982882c74604135d9f3193147c236ce0dbd1a269d7a518e9",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -414,9 +480,51 @@
     ]
    }
   },
+  "HttpApiId": {
+   "Value": {
+    "Ref": "HttpApiF5A9A8A7"
+   }
+  },
   "SubmissionsTableName": {
    "Value": {
     "Ref": "SubmissionsTable75718D3D"
+   }
+  },
+  "RateLimitTableName": {
+   "Value": {
+    "Ref": "RateLimitTableFAD921A1"
+   }
+  },
+  "ExportsOutputRefContactFnCCB048A7FDEBB124": {
+   "Value": {
+    "Ref": "ContactFnCCB048A7"
+   },
+   "Export": {
+    "Name": "ApiStack:ExportsOutputRefContactFnCCB048A7FDEBB124"
+   }
+  },
+  "ExportsOutputRefHealthFn0EF185654FB09E36": {
+   "Value": {
+    "Ref": "HealthFn0EF18565"
+   },
+   "Export": {
+    "Name": "ApiStack:ExportsOutputRefHealthFn0EF185654FB09E36"
+   }
+  },
+  "ExportsOutputRefHttpApiF5A9A8A7F70B5BDD": {
+   "Value": {
+    "Ref": "HttpApiF5A9A8A7"
+   },
+   "Export": {
+    "Name": "ApiStack:ExportsOutputRefHttpApiF5A9A8A7F70B5BDD"
+   }
+  },
+  "ExportsOutputRefRateLimitTableFAD921A1CEE39392": {
+   "Value": {
+    "Ref": "RateLimitTableFAD921A1"
+   },
+   "Export": {
+    "Name": "ApiStack:ExportsOutputRefRateLimitTableFAD921A1CEE39392"
    }
   }
  },

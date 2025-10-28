@@ -10,7 +10,10 @@ export function parseResumeLatex(filePath: string): ResumeData {
   const normalized = raw.replace(/\r\n/g, "\n");
 
   const contact = extractContact(normalized);
-  const sections = extractSections(normalized);
+  let sections = extractSections(normalized);
+  if (!sections || sections.length === 0) {
+    sections = extractSectionsAlt(normalized);
+  }
 
   return {
     contact,
@@ -19,14 +22,34 @@ export function parseResumeLatex(filePath: string): ResumeData {
 }
 
 function extractContact(src: string) {
+  // Original template style (resume.cls)
   const name = matchFirst(src, /\\name\{([^}]*)\}/);
-  const addresses = Array.from(src.matchAll(/\\address\{([^}]*)\}/g)).map((m) => m[1].replace(/\\\\/g, " ").trim());
-  const location = addresses[0];
-  const contactLine = addresses[1] || "";
-  const email = (contactLine.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i) || [""])[0];
-  const phone = (contactLine.match(/(?:\+?\d[\s-]?)?(?:\(?\d{3}\)?[\s-]?)?\d{3}[\s-]?\d{4}/) || [""])[0];
+  if (name) {
+    const addresses = Array.from(src.matchAll(/\\address\{([^}]*)\}/g)).map((m) => m[1].replace(/\\\\/g, " ").trim());
+    const location = addresses[0];
+    const contactLine = addresses[1] || "";
+    const email = (contactLine.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i) || [""])[0];
+    const phone = (contactLine.match(/(?:\+?\d[\s-]?)?(?:\(?\d{3}\)?[\s-]?)?\d{3}[\s-]?\d{4}/) || [""])[0];
+    return {
+      name: name || "",
+      location: location || undefined,
+      email: email || undefined,
+      phone: phone || undefined,
+    };
+  }
+
+  // Alternate Academic CV style (main.tex)
+  const altName = matchFirst(src, /\\Huge\\textbf\{([^}]*)\}/);
+  // Last center block with \small{...} tends to be location
+  let location: string | undefined = undefined;
+  const smallCenters = Array.from(src.matchAll(/\\begin\{center\}[\s\S]*?\\small\{([^}]*)\}[\s\S]*?\\end\{center\}/g));
+  if (smallCenters.length > 0) {
+    location = cleanupText(smallCenters[smallCenters.length - 1][1] || "");
+  }
+  const email = matchFirst(src, /mailto:([^}]+)/);
+  const phone = (src.match(/(?:\+?\d[\s-]?)?(?:\(?\d{3}\)?[\s-]?)?\d{3}[\s-]?\d{4}/) || [""])[0];
   return {
-    name: name || "",
+    name: altName || "",
     location: location || undefined,
     email: email || undefined,
     phone: phone || undefined,
@@ -61,6 +84,51 @@ function extractSections(src: string): ResumeSection[] {
     sections.push({ heading, items });
   }
   return sections;
+}
+
+// Fallback parser for alternate Academic CV style (main.tex)
+function extractSectionsAlt(src: string): ResumeSection[] {
+  const sections: ResumeSection[] = [];
+  const sectionRegex = /\\section\{\\textbf\{([^}]*)\}\}([\s\S]*?)(?=\\section\{|\\end\{document\})/g;
+  let m: RegExpExecArray | null;
+  while ((m = sectionRegex.exec(src))) {
+    const heading = cleanupText(m[1]);
+    const body = m[2];
+    const items: ResumeItem[] = [];
+
+    // Parse \resumeSubheading blocks with trailing bullets
+    const subRegex = /\\resumeSubheading\s*\{([^}]*)\}\{([^}]*)\}\{([^}]*)\}\{([^}]*)\}([\s\S]*?)(?=(\\resumeSubheading|\\resumeSubHeadingListEnd|\\section\{|$))/g;
+    let s: RegExpExecArray | null;
+    while ((s = subRegex.exec(body))) {
+      const company = cleanupText(s[1]);
+      const location = cleanupText(s[2]);
+      const role = cleanupText(s[3]);
+      const dates = cleanupText(s[4]);
+      const content = s[5] || "";
+      const bullets = Array.from(content.matchAll(/\\item\s+([\s\S]*?)(?=(\\item|$))/g)).map((b) => cleanupText(b[1]));
+      const { start, end } = splitDates(dates);
+      items.push({ company, role, location, start, end, bullets });
+    }
+
+    // If no subheadings, try to extract inline bullets or paragraph as a single item
+    if (items.length === 0) {
+      const bullets = Array.from(body.matchAll(/\\item\s+([\s\S]*?)(?=(\\item|$))/g)).map((b) => cleanupText(b[1]));
+      if (bullets.length > 0) {
+        items.push({ bullets });
+      } else {
+        const text = cleanupText(stripLatexGroups(body));
+        if (text) items.push({ bullets: [text] });
+      }
+    }
+
+    sections.push({ heading, items });
+  }
+  return sections;
+}
+
+function stripLatexGroups(s: string) {
+  // Remove common wrappers like \small{...}
+  return s.replace(/\\small\{([\s\S]*?)\}/g, "$1");
 }
 
 function parseEducation(body: string): ResumeItem | undefined {
@@ -222,6 +290,14 @@ function matchFirst(src: string, re: RegExp): string | undefined {
 
 export function getTemplatePath() {
   return path.join(process.cwd(), "src", "app", "resume", "resources", "template.tex");
+}
+
+export function getResumeTexPath() {
+  const outMain = path.join(process.cwd(), "out", "resume", "resources", "main.tex");
+  try {
+    if (fs.existsSync(outMain)) return outMain;
+  } catch {}
+  return getTemplatePath();
 }
 
 function parseRoleAndDates(text: string): { role: string; start?: string; end?: string } {
