@@ -3,9 +3,7 @@
 export function HeroSection() {
   return (
     <section 
-      className="scroll-section h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white sticky top-0 hero-fade"
-      data-trig
-      data-trig-var="true"
+      className="scroll-section hero-section h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white sticky top-0"
     >
       {/* Animated background pattern */}
       <div className="absolute inset-0 opacity-10">
@@ -14,33 +12,34 @@ export function HeroSection() {
       </div>
 
       <div className="relative z-10 max-w-4xl mx-auto px-8 text-center">
-        <div className="trig-fade-up enable-trig" style={{ '--trig-delay': '0ms' } as React.CSSProperties}>
-          <h1 className="display-serif text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6 trig-target">
-            Strategic Target Analysis
-          </h1>
-        </div>
+        <h1 
+          className="display-serif text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6"
+          data-animate
+          data-delay="0"
+        >
+          Strategic Target Analysis
+        </h1>
         
-        <div className="trig-fade-up enable-trig" style={{ '--trig-delay': '200ms' } as React.CSSProperties}>
-          <p className="text-xl md:text-2xl text-slate-300 mb-8 trig-target">
-            A deep dive into high-value prospects and engagement strategies
+        <p 
+          className="text-xl md:text-2xl text-slate-300 mb-8"
+          data-animate
+          data-delay="200"
+        >
+          A deep dive into high-value prospects and engagement strategies
+        </p>
+        
+        <div data-animate data-delay="400">
+          <p className="text-sm uppercase tracking-widest text-slate-400 mb-4">
+            Prepared by Daniel Yi
           </p>
-        </div>
-        
-        <div className="trig-fade-up enable-trig" style={{ '--trig-delay': '400ms' } as React.CSSProperties}>
-          <div className="trig-target">
-            <p className="text-sm uppercase tracking-widest text-slate-400 mb-4">
-              Prepared by Daniel Yi
-            </p>
-            <div className="inline-flex items-center gap-2 text-slate-400 text-sm animate-bounce">
-              <span>Scroll to explore</span>
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-              </svg>
-            </div>
+          <div className="inline-flex items-center gap-2 text-slate-400 text-sm animate-bounce">
+            <span>Scroll to explore</span>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
           </div>
         </div>
       </div>
     </section>
   );
 }
-

@@ -1,12 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Script from "next/script";
 import { PasswordGate } from "@/components/onepager/PasswordGate";
 import { HeroSection } from "@/components/onepager/HeroSection";
 import { TargetSection } from "@/components/onepager/TargetSection";
 import { NavigationDots } from "@/components/onepager/NavigationDots";
-import "trig-js/src/trig-animations.css";
 import "./onepager.css";
 
 export default function OnePagerPage() {
@@ -22,16 +20,43 @@ export default function OnePagerPage() {
   }, []);
 
   useEffect(() => {
-    // Track scroll position for navigation dots
+    if (!isAuthenticated) return;
+
+    // Intersection Observer for animations
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animated");
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -10% 0px" }
+    );
+
+    // Observe all elements with data-animate
+    const elements = document.querySelectorAll("[data-animate]");
+    elements.forEach((el) => observer.observe(el));
+
+    // Hero fade-out on scroll
     const handleScroll = () => {
+      const hero = document.querySelector(".hero-section") as HTMLElement;
+      if (hero) {
+        const scrollPosition = window.scrollY;
+        const windowHeight = window.innerHeight;
+        const opacity = Math.max(0, 1 - scrollPosition / windowHeight);
+        hero.style.opacity = String(opacity);
+      }
+
+      // Track section for navigation dots
       const sections = document.querySelectorAll(".scroll-section");
-      const scrollPosition = window.scrollY + window.innerHeight / 2;
+      const scrollPos = window.scrollY + window.innerHeight / 2;
 
       sections.forEach((section, index) => {
         const element = section as HTMLElement;
         if (
-          scrollPosition >= element.offsetTop &&
-          scrollPosition < element.offsetTop + element.offsetHeight
+          scrollPos >= element.offsetTop &&
+          scrollPos < element.offsetTop + element.offsetHeight
         ) {
           setCurrentSection(index);
         }
@@ -39,8 +64,11 @@ export default function OnePagerPage() {
     };
 
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      observer.disconnect();
+    };
+  }, [isAuthenticated]);
 
   const handlePasswordSubmit = (password: string) => {
     if (password === "henry") {
@@ -91,16 +119,7 @@ export default function OnePagerPage() {
   ];
 
   return (
-    <>
-      <Script 
-        src="https://cdn.jsdelivr.net/npm/trig-js/src/trig.min.js"
-        strategy="afterInteractive"
-        onLoad={() => {
-          console.log('Trig.js loaded and initialized');
-        }}
-      />
-      
-      <div className="h-screen overflow-y-scroll scroll-smooth">
+      <div className="h-screen overflow-y-scroll scroll-smooth onepager-container">
         <HeroSection />
       
       {targets.map((target, index) => (
@@ -120,7 +139,6 @@ export default function OnePagerPage() {
         }}
       />
       </div>
-    </>
   );
 }
 
