@@ -1,67 +1,31 @@
-/* Custom animations for onepager */
+/* Custom animations for onepager - following trig.js patterns */
 
-/* Base state: all content visible by default */
+/* Fade-up animation - starts hidden */
 .onepager-fade-up {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Only hide if element:
-   1. Has data-trig attribute
-   2. Has been detected by trig.js (has trig class)  
-   3. But hasn't finished animating yet
-   
-   This ensures content is always visible until animation is ready
-*/
-.onepager-fade-up.trig-down,
-.onepager-fade-up.trig-up {
   opacity: 0;
   transform: translateY(30px);
-  animation: onepager-fade-up 0.8s ease-out forwards;
+  transition: none;
 }
 
-@keyframes onepager-fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Hero fade-out on scroll using trig variables */
-.hero-fade {
+/* When trig class is added by trig.js, animate */
+.onepager-fade-up.trig {
   opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* Hero fade-out on scroll using trig CSS variables */
+.hero-fade[data-trig-var] {
+  opacity: var(--trig) !important;
   transition: opacity 0.3s ease-out;
 }
 
-.hero-fade[data-trig-var] {
-  opacity: var(--trig);
-}
-
-/* Staggered delays */
-.delay-0.trig-down,
-.delay-0.trig-up { animation-delay: 0ms !important; }
-
-.delay-100.trig-down,
-.delay-100.trig-up { animation-delay: 100ms !important; }
-
-.delay-200.trig-down,
-.delay-200.trig-up { animation-delay: 200ms !important; }
-
-.delay-300.trig-down,
-.delay-300.trig-up { animation-delay: 300ms !important; }
-
-.delay-400.trig-down,
-.delay-400.trig-up { animation-delay: 400ms !important; }
-
-.delay-500.trig-down,
-.delay-500.trig-up { animation-delay: 500ms !important; }
-
-.delay-600.trig-down,
-.delay-600.trig-up { animation-delay: 600ms !important; }
-
-.delay-800.trig-down,
-.delay-800.trig-up { animation-delay: 800ms !important; }
+/* Staggered transition delays */
+.delay-0.trig { transition-delay: 0ms; }
+.delay-100.trig { transition-delay: 100ms; }
+.delay-200.trig { transition-delay: 200ms; }
+.delay-300.trig { transition-delay: 300ms; }
+.delay-400.trig { transition-delay: 400ms; }
+.delay-500.trig { transition-delay: 500ms; }
+.delay-600.trig { transition-delay: 600ms; }
+.delay-800.trig { transition-delay: 800ms; }
