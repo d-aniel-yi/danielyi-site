@@ -3,10 +3,9 @@
 export function HeroSection() {
   return (
     <section 
-      className="scroll-section h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white sticky top-0 enable-trig"
-      data-trig="fadeOut"
-      data-trig-start="0vh"
-      data-trig-end="100vh"
+      className="scroll-section h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white sticky top-0 trig-fade-out enable-trig"
+      data-trig
+      data-trig-var="true"
     >
       {/* Animated background pattern */}
       <div className="absolute inset-0 opacity-10">
@@ -16,26 +15,23 @@ export function HeroSection() {
 
       <div className="relative z-10 max-w-4xl mx-auto px-8 text-center">
         <h1 
-          className="display-serif text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6 enable-trig"
-          data-trig="fadeIn slideUp"
-          data-trig-duration="1000ms"
-          data-trig-delay="0ms"
+          className="display-serif text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6 trig-fade-up trig-target"
+          data-trig
+          style={{ '--trig-duration': '1000ms', '--trig-delay': '0ms' } as React.CSSProperties}
         >
           Strategic Target Analysis
         </h1>
         <p 
-          className="text-xl md:text-2xl text-slate-300 mb-8 enable-trig"
-          data-trig="fadeIn slideUp"
-          data-trig-duration="1000ms"
-          data-trig-delay="200ms"
+          className="text-xl md:text-2xl text-slate-300 mb-8 trig-fade-up trig-target"
+          data-trig
+          style={{ '--trig-duration': '1000ms', '--trig-delay': '200ms' } as React.CSSProperties}
         >
           A deep dive into high-value prospects and engagement strategies
         </p>
         <div 
-          className="enable-trig"
-          data-trig="fadeIn slideUp"
-          data-trig-duration="1000ms"
-          data-trig-delay="400ms"
+          className="trig-fade-up trig-target"
+          data-trig
+          style={{ '--trig-duration': '1000ms', '--trig-delay': '400ms' } as React.CSSProperties}
         >
           <p className="text-sm uppercase tracking-widest text-slate-400 mb-4">
             Prepared by Daniel Yi

@@ -13,10 +13,9 @@ export function NavigationDots({
 }: NavigationDotsProps) {
   return (
     <div 
-      className="fixed right-8 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3 enable-trig"
-      data-trig="fadeIn slideLeft"
-      data-trig-duration="600ms"
-      data-trig-delay="800ms"
+      className="fixed right-8 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3 trig-fade-left trig-target"
+      data-trig
+      style={{ '--trig-duration': '600ms', '--trig-delay': '800ms' } as React.CSSProperties}
     >
       {Array.from({ length: totalSections }).map((_, index) => (
         <button
