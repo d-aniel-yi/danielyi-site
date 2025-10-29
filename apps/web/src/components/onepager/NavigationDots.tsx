@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
-
 interface NavigationDotsProps {
   totalSections: number;
   currentSection: number;
@@ -13,13 +11,6 @@ export function NavigationDots({
   currentSection,
   onNavigate,
 }: NavigationDotsProps) {
-  useEffect(() => {
-    // Initialize trig.js for navigation dots
-    import('trig-js').then((trig) => {
-      trig.default.init();
-    });
-  }, []);
-
   return (
     <div 
       className="fixed right-8 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3 enable-trig"

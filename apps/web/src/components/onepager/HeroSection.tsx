@@ -1,15 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
-
 export function HeroSection() {
-  useEffect(() => {
-    // Dynamically import trig-js for client-side only
-    import('trig-js').then((trig) => {
-      trig.default.init();
-    });
-  }, []);
-
   return (
     <section 
       className="scroll-section h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white sticky top-0 enable-trig"

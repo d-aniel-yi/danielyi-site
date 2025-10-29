@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
-
 interface TargetSectionProps {
   number: number;
   title: string;
@@ -21,13 +19,6 @@ export function TargetSection({
   value,
   isEven,
 }: TargetSectionProps) {
-  useEffect(() => {
-    // Re-initialize trig.js when component mounts to catch new elements
-    import('trig-js').then((trig) => {
-      trig.default.init();
-    });
-  }, []);
-
   return (
     <section className={`scroll-section min-h-screen flex items-center py-20 relative z-10 ${
       isEven ? 'bg-white' : 'bg-slate-50'

@@ -5,6 +5,7 @@ import { PasswordGate } from "@/components/onepager/PasswordGate";
 import { HeroSection } from "@/components/onepager/HeroSection";
 import { TargetSection } from "@/components/onepager/TargetSection";
 import { NavigationDots } from "@/components/onepager/NavigationDots";
+import "trig-js/src/trig-animations.css";
 
 export default function OnePagerPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -16,6 +17,22 @@ export default function OnePagerPage() {
     if (auth === "true") {
       setIsAuthenticated(true);
     }
+  }, []);
+
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    // Initialize trig.js after content is authenticated and mounted
+    const initTrig = async () => {
+      const trig = await import('trig-js');
+      // Wait for DOM to be fully ready
+      setTimeout(() => {
+        trig.default.init();
+        console.log('Trig.js initialized');
+      }, 100);
+    };
+
+    initTrig();
 
     // Track scroll position for navigation dots
     const handleScroll = () => {
@@ -35,7 +52,7 @@ export default function OnePagerPage() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isAuthenticated]);
 
   const handlePasswordSubmit = (password: string) => {
     if (password === "henry") {
