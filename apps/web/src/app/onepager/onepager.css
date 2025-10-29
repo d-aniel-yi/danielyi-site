@@ -1,0 +1,39 @@
+/* Custom animations for onepager */
+
+/* Subtle fade-up (smaller movement) */
+.onepager-fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.onepager-fade-up.trig {
+  animation: onepager-fade-up 0.8s ease-out forwards;
+}
+
+@keyframes onepager-fade-up {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hero fade-out on scroll */
+.hero-fade {
+  opacity: 1;
+  transition: opacity 0.3s ease-out;
+}
+
+.hero-fade[data-trig-var] {
+  opacity: var(--trig);
+}
+
+/* Staggered delays */
+.delay-0 { animation-delay: 0ms !important; }
+.delay-100 { animation-delay: 100ms !important; }
+.delay-200 { animation-delay: 200ms !important; }
+.delay-300 { animation-delay: 300ms !important; }
+.delay-400 { animation-delay: 400ms !important; }
+.delay-500 { animation-delay: 500ms !important; }
+.delay-600 { animation-delay: 600ms !important; }
+.delay-800 { animation-delay: 800ms !important; }
+

@@ -3,7 +3,7 @@
 export function HeroSection() {
   return (
     <section 
-      className="scroll-section h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white sticky top-0 trig-fade-out enable-trig"
+      className="scroll-section h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white sticky top-0 hero-fade"
       data-trig
       data-trig-var="true"
     >
@@ -15,23 +15,20 @@ export function HeroSection() {
 
       <div className="relative z-10 max-w-4xl mx-auto px-8 text-center">
         <h1 
-          className="display-serif text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6 trig-fade-up trig-target"
+          className="display-serif text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6 onepager-fade-up delay-0"
           data-trig
-          style={{ '--trig-duration': '1000ms', '--trig-delay': '0ms' } as React.CSSProperties}
         >
           Strategic Target Analysis
         </h1>
         <p 
-          className="text-xl md:text-2xl text-slate-300 mb-8 trig-fade-up trig-target"
+          className="text-xl md:text-2xl text-slate-300 mb-8 onepager-fade-up delay-200"
           data-trig
-          style={{ '--trig-duration': '1000ms', '--trig-delay': '200ms' } as React.CSSProperties}
         >
           A deep dive into high-value prospects and engagement strategies
         </p>
         <div 
-          className="trig-fade-up trig-target"
+          className="onepager-fade-up delay-400"
           data-trig
-          style={{ '--trig-duration': '1000ms', '--trig-delay': '400ms' } as React.CSSProperties}
         >
           <p className="text-sm uppercase tracking-widest text-slate-400 mb-4">
             Prepared by Daniel Yi

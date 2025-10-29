@@ -26,26 +26,34 @@ export function TargetSection({
       <div className="max-w-6xl mx-auto px-8 w-full">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Number Badge */}
-          <div 
-            className={`trig-fade-up trig-target ${isEven ? 'md:order-1' : 'md:order-2'}`}
-            data-trig
-            style={{ '--trig-duration': '800ms', '--trig-delay': '0ms' } as React.CSSProperties}
-          >
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-slate-800 to-slate-900 text-white text-3xl font-bold mb-6 shadow-lg">
-              {number}
+          <div className={`${isEven ? 'md:order-1' : 'md:order-2'}`}>
+            <div 
+              className="onepager-fade-up delay-0"
+              data-trig
+            >
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-slate-800 to-slate-900 text-white text-3xl font-bold mb-6 shadow-lg">
+                {number}
+              </div>
             </div>
-            <h2 className="display-serif text-4xl md:text-5xl font-bold text-slate-900 mb-3">
+            <h2 
+              className="display-serif text-4xl md:text-5xl font-bold text-slate-900 mb-3 onepager-fade-up delay-100"
+              data-trig
+            >
               {title}
             </h2>
-            <p className="text-xl text-slate-600 mb-8">{subtitle}</p>
+            <p 
+              className="text-xl text-slate-600 mb-8 onepager-fade-up delay-200"
+              data-trig
+            >
+              {subtitle}
+            </p>
           </div>
 
           {/* Content */}
           <div className={`space-y-6 ${isEven ? 'md:order-2' : 'md:order-1'}`}>
             <div 
-              className="bg-white rounded-xl p-6 shadow-sm border border-slate-200 trig-fade-up trig-target"
+              className="bg-white rounded-xl p-6 shadow-sm border border-slate-200 onepager-fade-up delay-300"
               data-trig
-              style={{ '--trig-duration': '600ms', '--trig-delay': '200ms' } as React.CSSProperties}
             >
               <h3 className="text-sm uppercase tracking-wider text-slate-500 font-semibold mb-3">
                 Why This Target
@@ -54,9 +62,8 @@ export function TargetSection({
             </div>
 
             <div 
-              className="bg-white rounded-xl p-6 shadow-sm border border-slate-200 trig-fade-up trig-target"
+              className="bg-white rounded-xl p-6 shadow-sm border border-slate-200 onepager-fade-up delay-400"
               data-trig
-              style={{ '--trig-duration': '600ms', '--trig-delay': '400ms' } as React.CSSProperties}
             >
               <h3 className="text-sm uppercase tracking-wider text-slate-500 font-semibold mb-3">
                 Approach Strategy
@@ -65,9 +72,8 @@ export function TargetSection({
             </div>
 
             <div 
-              className="bg-white rounded-xl p-6 shadow-sm border border-slate-200 trig-fade-up trig-target"
+              className="bg-white rounded-xl p-6 shadow-sm border border-slate-200 onepager-fade-up delay-500"
               data-trig
-              style={{ '--trig-duration': '600ms', '--trig-delay': '600ms' } as React.CSSProperties}
             >
               <h3 className="text-sm uppercase tracking-wider text-slate-500 font-semibold mb-3">
                 Value Proposition

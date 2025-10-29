@@ -7,6 +7,7 @@ import { HeroSection } from "@/components/onepager/HeroSection";
 import { TargetSection } from "@/components/onepager/TargetSection";
 import { NavigationDots } from "@/components/onepager/NavigationDots";
 import "trig-js/src/trig-animations.css";
+import "./onepager.css";
 
 export default function OnePagerPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
