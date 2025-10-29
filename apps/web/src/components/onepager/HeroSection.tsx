@@ -14,30 +14,29 @@ export function HeroSection() {
       </div>
 
       <div className="relative z-10 max-w-4xl mx-auto px-8 text-center">
-        <h1 
-          className="display-serif text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6 onepager-fade-up delay-0"
-          data-trig
-        >
-          Strategic Target Analysis
-        </h1>
-        <p 
-          className="text-xl md:text-2xl text-slate-300 mb-8 onepager-fade-up delay-200"
-          data-trig
-        >
-          A deep dive into high-value prospects and engagement strategies
-        </p>
-        <div 
-          className="onepager-fade-up delay-400"
-          data-trig
-        >
-          <p className="text-sm uppercase tracking-widest text-slate-400 mb-4">
-            Prepared by Daniel Yi
+        <div className="trig-fade-up enable-trig" style={{ '--trig-delay': '0ms' } as React.CSSProperties}>
+          <h1 className="display-serif text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6 trig-target">
+            Strategic Target Analysis
+          </h1>
+        </div>
+        
+        <div className="trig-fade-up enable-trig" style={{ '--trig-delay': '200ms' } as React.CSSProperties}>
+          <p className="text-xl md:text-2xl text-slate-300 mb-8 trig-target">
+            A deep dive into high-value prospects and engagement strategies
           </p>
-          <div className="inline-flex items-center gap-2 text-slate-400 text-sm animate-bounce">
-            <span>Scroll to explore</span>
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-            </svg>
+        </div>
+        
+        <div className="trig-fade-up enable-trig" style={{ '--trig-delay': '400ms' } as React.CSSProperties}>
+          <div className="trig-target">
+            <p className="text-sm uppercase tracking-widest text-slate-400 mb-4">
+              Prepared by Daniel Yi
+            </p>
+            <div className="inline-flex items-center gap-2 text-slate-400 text-sm animate-bounce">
+              <span>Scroll to explore</span>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              </svg>
+            </div>
           </div>
         </div>
       </div>

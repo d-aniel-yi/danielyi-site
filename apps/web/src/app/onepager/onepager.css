@@ -1,43 +1,9 @@
-/* Custom animations for onepager - Progressive Enhancement */
+/* Trig.js animations - following official documentation pattern */
+/* Reference: https://idev-games.github.io/Trig-JS/animations.html */
 
-/* IMPORTANT: Content is visible by default */
-/* Animations are optional enhancements that don't block content */
-
-.onepager-fade-up {
-  /* Start fully visible - animation is enhancement only */
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Only animate IF trig.js has loaded AND added the trig class */
-/* This is progressive enhancement - won't break if trig.js fails */
-.onepager-fade-up[data-trig].trig {
-  animation: onepager-fade-up-anim 0.8s ease-out backwards;
-}
-
-@keyframes onepager-fade-up-anim {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Hero fade-out on scroll - progressive enhancement */
+/* Remove custom animations - use trig-animations.css built-in classes only */
+/* Hero fade-out on scroll using trig CSS variables */
 .hero-fade[data-trig-var] {
   opacity: var(--trig, 1);
   transition: opacity 0.3s ease-out;
 }
-
-/* Staggered animation delays - only when animating */
-.delay-0[data-trig].trig { animation-delay: 0ms; }
-.delay-100[data-trig].trig { animation-delay: 100ms; }
-.delay-200[data-trig].trig { animation-delay: 200ms; }
-.delay-300[data-trig].trig { animation-delay: 300ms; }
-.delay-400[data-trig].trig { animation-delay: 400ms; }
-.delay-500[data-trig].trig { animation-delay: 500ms; }
-.delay-600[data-trig].trig { animation-delay: 600ms; }
-.delay-800[data-trig].trig { animation-delay: 800ms; }
