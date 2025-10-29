@@ -24,13 +24,28 @@ export function HeroSection() {
       </div>
 
       <div className="relative z-10 max-w-4xl mx-auto px-8 text-center">
-        <h1 className="display-serif text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+        <h1 
+          className="display-serif text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6 enable-trig"
+          data-trig="fadeIn slideUp"
+          data-trig-duration="1000ms"
+          data-trig-delay="0ms"
+        >
           Strategic Target Analysis
         </h1>
-        <p className="text-xl md:text-2xl text-slate-300 mb-8 animate-in fade-in slide-in-from-bottom-4 duration-1000" style={{ animationDelay: '200ms' }}>
+        <p 
+          className="text-xl md:text-2xl text-slate-300 mb-8 enable-trig"
+          data-trig="fadeIn slideUp"
+          data-trig-duration="1000ms"
+          data-trig-delay="200ms"
+        >
           A deep dive into high-value prospects and engagement strategies
         </p>
-        <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000" style={{ animationDelay: '400ms' }}>
+        <div 
+          className="enable-trig"
+          data-trig="fadeIn slideUp"
+          data-trig-duration="1000ms"
+          data-trig-delay="400ms"
+        >
           <p className="text-sm uppercase tracking-widest text-slate-400 mb-4">
             Prepared by Daniel Yi
           </p>
