@@ -1,27 +1,35 @@
 /* Custom animations for onepager */
 
-/* Subtle fade-up (smaller movement) - visible by default for debugging */
-[data-trig].onepager-fade-up {
+/* Subtle fade-up animation */
+.onepager-fade-up {
+  /* Start visible, will be hidden only when in viewport and ready to animate */
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hide elements that have data-trig but haven't been triggered yet */
+.onepager-fade-up[data-trig]:not(.trig) {
   opacity: 0;
   transform: translateY(30px);
 }
 
-[data-trig].onepager-fade-up.trig {
+/* When trig class is added (element in view), animate */
+.onepager-fade-up.trig {
   animation: onepager-fade-up 0.8s ease-out forwards;
 }
 
 @keyframes onepager-fade-up {
-  0% {
+  from {
     opacity: 0;
     transform: translateY(30px);
   }
-  100% {
+  to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-/* Hero fade-out on scroll */
+/* Hero fade-out on scroll using trig variables */
 .hero-fade {
   opacity: 1;
   transition: opacity 0.3s ease-out;
@@ -31,7 +39,7 @@
   opacity: var(--trig);
 }
 
-/* Staggered delays */
+/* Staggered delays - only apply when animating */
 .delay-0.trig { animation-delay: 0ms !important; }
 .delay-100.trig { animation-delay: 100ms !important; }
 .delay-200.trig { animation-delay: 200ms !important; }
@@ -40,10 +48,3 @@
 .delay-500.trig { animation-delay: 500ms !important; }
 .delay-600.trig { animation-delay: 600ms !important; }
 .delay-800.trig { animation-delay: 800ms !important; }
-
-/* Ensure sections are visible - debug */
-.scroll-section {
-  opacity: 1 !important;
-  visibility: visible !important;
-}
-
