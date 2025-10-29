@@ -1,20 +1,22 @@
 /* Custom animations for onepager */
 
-/* Subtle fade-up animation */
+/* Base state: all content visible by default */
 .onepager-fade-up {
-  /* Start visible, will be hidden only when in viewport and ready to animate */
   opacity: 1;
   transform: translateY(0);
 }
 
-/* Hide elements that have data-trig but haven't been triggered yet */
-.onepager-fade-up[data-trig]:not(.trig) {
+/* Only hide if element:
+   1. Has data-trig attribute
+   2. Has been detected by trig.js (has trig class)  
+   3. But hasn't finished animating yet
+   
+   This ensures content is always visible until animation is ready
+*/
+.onepager-fade-up.trig-down,
+.onepager-fade-up.trig-up {
   opacity: 0;
   transform: translateY(30px);
-}
-
-/* When trig class is added (element in view), animate */
-.onepager-fade-up.trig {
   animation: onepager-fade-up 0.8s ease-out forwards;
 }
 
@@ -39,12 +41,27 @@
   opacity: var(--trig);
 }
 
-/* Staggered delays - only apply when animating */
-.delay-0.trig { animation-delay: 0ms !important; }
-.delay-100.trig { animation-delay: 100ms !important; }
-.delay-200.trig { animation-delay: 200ms !important; }
-.delay-300.trig { animation-delay: 300ms !important; }
-.delay-400.trig { animation-delay: 400ms !important; }
-.delay-500.trig { animation-delay: 500ms !important; }
-.delay-600.trig { animation-delay: 600ms !important; }
-.delay-800.trig { animation-delay: 800ms !important; }
+/* Staggered delays */
+.delay-0.trig-down,
+.delay-0.trig-up { animation-delay: 0ms !important; }
+
+.delay-100.trig-down,
+.delay-100.trig-up { animation-delay: 100ms !important; }
+
+.delay-200.trig-down,
+.delay-200.trig-up { animation-delay: 200ms !important; }
+
+.delay-300.trig-down,
+.delay-300.trig-up { animation-delay: 300ms !important; }
+
+.delay-400.trig-down,
+.delay-400.trig-up { animation-delay: 400ms !important; }
+
+.delay-500.trig-down,
+.delay-500.trig-up { animation-delay: 500ms !important; }
+
+.delay-600.trig-down,
+.delay-600.trig-up { animation-delay: 600ms !important; }
+
+.delay-800.trig-down,
+.delay-800.trig-up { animation-delay: 800ms !important; }
