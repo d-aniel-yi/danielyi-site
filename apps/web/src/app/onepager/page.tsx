@@ -86,7 +86,7 @@ export default function OnePagerPage() {
   ];
 
   return (
-    <div className="snap-y snap-mandatory h-screen overflow-y-scroll">
+    <div className="h-screen overflow-y-scroll scroll-smooth">
       <HeroSection />
       
       {targets.map((target, index) => (

@@ -18,7 +18,7 @@ export function TargetSection({
   isEven,
 }: TargetSectionProps) {
   return (
-    <section className={`scroll-section snap-start min-h-screen flex items-center py-20 ${
+    <section className={`scroll-section min-h-screen flex items-center py-20 relative z-10 ${
       isEven ? 'bg-white' : 'bg-slate-50'
     }`}>
       <div className="max-w-6xl mx-auto px-8 w-full">

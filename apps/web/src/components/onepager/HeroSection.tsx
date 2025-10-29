@@ -1,6 +1,28 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 export function HeroSection() {
+  const [opacity, setOpacity] = useState(1);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const windowHeight = window.innerHeight;
+      // Fade out when scrolling down from 0 to 1 viewport height
+      const newOpacity = Math.max(0, 1 - scrollPosition / windowHeight);
+      setOpacity(newOpacity);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <section className="scroll-section snap-start h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
+    <section 
+      className="scroll-section h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white sticky top-0"
+      style={{ opacity }}
+    >
       {/* Animated background pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500 rounded-full blur-3xl animate-pulse" />
