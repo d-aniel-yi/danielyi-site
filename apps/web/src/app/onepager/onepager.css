@@ -1,17 +1,21 @@
 /* Custom animations for onepager */
 
-/* Subtle fade-up (smaller movement) */
-.onepager-fade-up {
+/* Subtle fade-up (smaller movement) - visible by default for debugging */
+[data-trig].onepager-fade-up {
   opacity: 0;
   transform: translateY(30px);
 }
 
-.onepager-fade-up.trig {
+[data-trig].onepager-fade-up.trig {
   animation: onepager-fade-up 0.8s ease-out forwards;
 }
 
 @keyframes onepager-fade-up {
-  to {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
     opacity: 1;
     transform: translateY(0);
   }
@@ -28,12 +32,18 @@
 }
 
 /* Staggered delays */
-.delay-0 { animation-delay: 0ms !important; }
-.delay-100 { animation-delay: 100ms !important; }
-.delay-200 { animation-delay: 200ms !important; }
-.delay-300 { animation-delay: 300ms !important; }
-.delay-400 { animation-delay: 400ms !important; }
-.delay-500 { animation-delay: 500ms !important; }
-.delay-600 { animation-delay: 600ms !important; }
-.delay-800 { animation-delay: 800ms !important; }
+.delay-0.trig { animation-delay: 0ms !important; }
+.delay-100.trig { animation-delay: 100ms !important; }
+.delay-200.trig { animation-delay: 200ms !important; }
+.delay-300.trig { animation-delay: 300ms !important; }
+.delay-400.trig { animation-delay: 400ms !important; }
+.delay-500.trig { animation-delay: 500ms !important; }
+.delay-600.trig { animation-delay: 600ms !important; }
+.delay-800.trig { animation-delay: 800ms !important; }
+
+/* Ensure sections are visible - debug */
+.scroll-section {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
 
