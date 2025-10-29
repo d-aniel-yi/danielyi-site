@@ -146,6 +146,183 @@ const projectsData: Record<string, ProjectDetails> = {
       { label: "Build Time", value: "< 45s" },
     ],
   },
+  djgrill: {
+    slug: "djgrill",
+    title: "DJ GRILL",
+    description: "Professional DJ services website with booking, mixes, and event information",
+    url: "https://djgrill.house",
+    image: "/hero-dj.webp",
+    overview:
+      "DJ GRILL is a modern, visually striking website for professional DJ services. Built with Next.js and deployed on Bluehost, it features smooth animations, video backgrounds, and integrated payment systems for bookings and tips.",
+    stack: [
+      { category: "Frontend", items: ["React", "Next.js 14", "TypeScript", "Tailwind CSS"] },
+      { category: "Animation", items: ["Framer Motion", "CSS Animations"] },
+      { category: "Payments", items: ["Square Payment Links", "Venmo Integration"] },
+      { category: "Hosting", items: ["Bluehost", "Static Export", "Apache"] },
+    ],
+    architecture: {
+      title: "Static Architecture",
+      description:
+        "Static export with client-side interactivity, hosted on traditional shared hosting for simplicity and cost efficiency.",
+      components: [
+        {
+          name: "Landing Page",
+          description: "Video background with smooth scroll animations and service overview",
+        },
+        {
+          name: "Services Section",
+          description: "Detailed DJ service offerings with pricing and availability",
+        },
+        {
+          name: "Payment Integration",
+          description: "Square payment links for bookings and Venmo for tips via Apache redirects",
+        },
+      ],
+    },
+    highlights: [
+      "Smooth, professional animations throughout the site",
+      "Responsive design optimized for mobile booking",
+      "Integrated payment system with Square",
+      "Video backgrounds for visual impact",
+      "Fast page loads despite rich media content",
+      "Clean separation from photography portfolio",
+    ],
+    challenges: [
+      {
+        title: "Performance with Video Backgrounds",
+        solution:
+          "Optimized video encoding and implemented lazy loading to maintain fast page loads while delivering visual impact",
+      },
+      {
+        title: "Hosting on Traditional Shared Hosting",
+        solution:
+          "Used Next.js static export to deploy on Bluehost, gaining cost efficiency while maintaining modern development experience",
+      },
+    ],
+  },
+  "djgrill-photography": {
+    slug: "djgrill-photography",
+    title: "DJ GRILL Photography Portfolio",
+    description: "Professional photography portfolio for young families, powered by Sanity CMS",
+    url: "https://djgrill.house/photography",
+    image: "/hero-dj.webp",
+    overview:
+      "A sophisticated photography portfolio showcasing work with young families. Built with a hybrid architecture that enables instant content updates through Sanity CMS while maintaining the benefits of static hosting.",
+    stack: [
+      { category: "Frontend", items: ["Next.js 14", "React", "TypeScript", "Tailwind CSS"] },
+      { category: "CMS", items: ["Sanity.io", "sanity-plugin-media", "GROQ queries"] },
+      { category: "Features", items: ["Client-side fetching", "Image optimization", "Lightbox viewer"] },
+      { category: "Hosting", items: ["Bluehost", "Static Export"] },
+    ],
+    architecture: {
+      title: "Hybrid JAMstack Architecture",
+      description:
+        "Static HTML pages with client-side data fetching from Sanity CMS, enabling instant portfolio updates without rebuilding the entire site.",
+      components: [
+        {
+          name: "Static Shell",
+          description: "Pre-built HTML/CSS/JS served instantly from Bluehost",
+        },
+        {
+          name: "Sanity CMS",
+          description: "Headless CMS storing album metadata and photos with CDN-optimized delivery",
+        },
+        {
+          name: "Client-Side Fetcher",
+          description: "React components fetch portfolio data at runtime, enabling real-time updates",
+        },
+        {
+          name: "Lightbox Gallery",
+          description: "Full-screen photo viewer with navigation and responsive images",
+        },
+      ],
+    },
+    highlights: [
+      "Real-time portfolio updates: Edit in Sanity → Refresh browser → See changes (2 seconds)",
+      "No rebuild required for content updates (edit photos/albums instantly)",
+      "Sanity Media Plugin for batch upload and organization",
+      "Responsive image optimization via Sanity CDN",
+      "Album categorization (Planned vs Candid shoots)",
+      "Drag-and-drop photo ordering",
+      "Professional lightbox with keyboard navigation",
+    ],
+    challenges: [
+      {
+        title: "Instant Updates on Static Hosting",
+        solution:
+          "Implemented client-side data fetching from Sanity API, allowing content updates without rebuilding or redeploying the entire site",
+      },
+      {
+        title: "Image Performance at Scale",
+        solution:
+          "Leveraged Sanity's CDN with automatic image optimization, WebP conversion, and responsive sizing",
+      },
+      {
+        title: "Album Discovery Without Server Routes",
+        solution:
+          "Pre-generated static routes at build time via generateStaticParams, then fetched album content client-side for flexibility",
+      },
+    ],
+    metrics: [
+      { label: "Portfolio Load Time", value: "~1.5s" },
+      { label: "Content Update Speed", value: "2s (no rebuild)" },
+      { label: "Sanity API Calls", value: "< 20k/month" },
+      { label: "Hosting Cost", value: "$3/month (Bluehost)" },
+    ],
+  },
+  coreplasma: {
+    slug: "coreplasma",
+    title: "Core Plasma",
+    description: "Professional website for plasma physics consulting services",
+    url: "https://coreplasma.org",
+    image: "/coreplasma.jpg",
+    overview:
+      "Core Plasma is a consulting firm specializing in plasma physics research and industrial applications, led by Dr. Won Yi. The website provides a professional online presence with service information and client contact capabilities.",
+    stack: [
+      { category: "Frontend", items: ["React", "Next.js", "TypeScript", "Tailwind CSS"] },
+      { category: "Hosting", items: ["Static Export", "CDN"] },
+      { category: "Features", items: ["Contact Form", "Responsive Design", "SEO"] },
+    ],
+    architecture: {
+      title: "Static Architecture",
+      description:
+        "Clean, professional static site optimized for credibility and ease of maintenance.",
+      components: [
+        {
+          name: "Services Overview",
+          description: "Clear presentation of plasma consulting capabilities and expertise",
+        },
+        {
+          name: "Contact System",
+          description: "Simple, reliable contact form for client inquiries",
+        },
+        {
+          name: "Responsive Design",
+          description: "Mobile-optimized for researchers and industrial clients",
+        },
+      ],
+    },
+    highlights: [
+      "Professional design tailored for scientific audience",
+      "SEO optimized for plasma physics consulting searches",
+      "Fast loading times for technical content",
+      "Contact form for client inquiries",
+      "Credibility-focused presentation",
+      "Low maintenance overhead",
+    ],
+    challenges: [
+      {
+        title: "Technical Audience Credibility",
+        solution:
+          "Designed with clean, professional aesthetics that appeal to scientists and engineers while maintaining accessibility",
+      },
+      {
+        title: "Specialized SEO",
+        solution:
+          "Optimized metadata and content for niche plasma physics consulting keywords to reach target industrial and research clients",
+      },
+    ],
+  },
 };
 
 export async function generateStaticParams() {
