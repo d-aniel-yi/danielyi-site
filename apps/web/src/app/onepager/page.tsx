@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Script from "next/script";
 import { PasswordGate } from "@/components/onepager/PasswordGate";
 import { HeroSection } from "@/components/onepager/HeroSection";
 import { TargetSection } from "@/components/onepager/TargetSection";
@@ -20,20 +21,6 @@ export default function OnePagerPage() {
   }, []);
 
   useEffect(() => {
-    if (!isAuthenticated) return;
-
-    // Initialize trig.js after content is authenticated and mounted
-    const initTrig = async () => {
-      const trig = await import('trig-js');
-      // Wait for DOM to be fully ready
-      setTimeout(() => {
-        trig.default.init();
-        console.log('Trig.js initialized');
-      }, 100);
-    };
-
-    initTrig();
-
     // Track scroll position for navigation dots
     const handleScroll = () => {
       const sections = document.querySelectorAll(".scroll-section");
@@ -52,7 +39,7 @@ export default function OnePagerPage() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isAuthenticated]);
+  }, []);
 
   const handlePasswordSubmit = (password: string) => {
     if (password === "henry") {
@@ -103,8 +90,17 @@ export default function OnePagerPage() {
   ];
 
   return (
-    <div className="h-screen overflow-y-scroll scroll-smooth">
-      <HeroSection />
+    <>
+      <Script 
+        src="https://cdn.jsdelivr.net/npm/trig-js/src/trig.min.js"
+        strategy="afterInteractive"
+        onLoad={() => {
+          console.log('Trig.js loaded and initialized');
+        }}
+      />
+      
+      <div className="h-screen overflow-y-scroll scroll-smooth">
+        <HeroSection />
       
       {targets.map((target, index) => (
         <TargetSection
@@ -122,7 +118,8 @@ export default function OnePagerPage() {
           sections[index]?.scrollIntoView({ behavior: "smooth" });
         }}
       />
-    </div>
+      </div>
+    </>
   );
 }
 
