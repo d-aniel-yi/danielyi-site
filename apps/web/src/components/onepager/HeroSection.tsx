@@ -1,27 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export function HeroSection() {
-  const [opacity, setOpacity] = useState(1);
-
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      const windowHeight = window.innerHeight;
-      // Fade out when scrolling down from 0 to 1 viewport height
-      const newOpacity = Math.max(0, 1 - scrollPosition / windowHeight);
-      setOpacity(newOpacity);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    // Dynamically import trig-js for client-side only
+    import('trig-js').then((trig) => {
+      trig.default.init();
+    });
   }, []);
 
   return (
     <section 
-      className="scroll-section h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white sticky top-0"
-      style={{ opacity }}
+      className="scroll-section h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white sticky top-0 enable-trig"
+      data-trig="fadeOut"
+      data-trig-start="0vh"
+      data-trig-end="100vh"
     >
       {/* Animated background pattern */}
       <div className="absolute inset-0 opacity-10">
