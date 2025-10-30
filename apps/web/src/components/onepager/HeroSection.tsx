@@ -3,12 +3,19 @@
 export function HeroSection() {
   return (
     <section 
-      className="scroll-section hero-section h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white sticky top-0"
+      className="scroll-section hero-section h-screen flex items-center justify-center relative overflow-hidden text-white sticky top-0"
+      style={{ backgroundColor: 'var(--op-black)' }}
     >
       {/* Animated background pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-purple-500 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+      <div className="absolute inset-0 opacity-20">
+        <div 
+          className="absolute top-20 left-20 w-72 h-72 rounded-full blur-3xl animate-pulse" 
+          style={{ backgroundColor: 'var(--op-accent)' }}
+        />
+        <div 
+          className="absolute bottom-20 right-20 w-96 h-96 rounded-full blur-3xl animate-pulse" 
+          style={{ backgroundColor: 'var(--op-accent-dark)', animationDelay: '1s' }}
+        />
       </div>
 
       <div className="relative z-10 max-w-4xl mx-auto px-8 text-center">

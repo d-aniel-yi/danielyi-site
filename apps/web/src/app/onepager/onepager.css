@@ -1,6 +1,16 @@
-/* Simple, reliable scroll animations using Intersection Observer pattern */
+/* Custom Color Scheme */
+:root {
+  --op-black: #100f0f;
+  --op-white: #ffffff;
+  --op-accent: #23ddbe;
+  --op-accent-dark: #1cb09a;
+  --op-accent-darker: #158570;
+  --op-gray: #61646b;
+  --op-gray-2: #5d5c5c;
+  --op-dark-gray: #3d3c3c;
+}
 
-/* Fade-up animation - starts hidden, reveals on scroll */
+/* Animations using Intersection Observer */
 @keyframes fadeUp {
   from {
     opacity: 0;
@@ -12,13 +22,11 @@
   }
 }
 
-/* Elements with data-animate attribute start hidden */
 [data-animate] {
   opacity: 0;
   transform: translateY(20px);
 }
 
-/* Animated class is added by IntersectionObserver */
 [data-animate].animated {
   animation: fadeUp 0.8s ease-out forwards;
 }
@@ -33,7 +41,7 @@
 [data-delay="600"].animated { animation-delay: 600ms; }
 [data-delay="800"].animated { animation-delay: 800ms; }
 
-/* Hero fade-out on scroll */
+/* Hero fade on scroll */
 .hero-section {
   transition: opacity 0.3s ease-out;
 }

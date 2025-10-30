@@ -21,11 +21,11 @@ export function NavigationDots({
         <button
           key={index}
           onClick={() => onNavigate(index)}
-          className={`w-3 h-3 rounded-full transition-all ${
-            currentSection === index
-              ? 'bg-slate-900 scale-125'
-              : 'bg-slate-300 hover:bg-slate-400'
-          }`}
+          className="w-3 h-3 rounded-full transition-all"
+          style={{
+            backgroundColor: currentSection === index ? 'var(--op-accent)' : 'var(--op-gray)',
+            transform: currentSection === index ? 'scale(1.25)' : 'scale(1)',
+          }}
           aria-label={`Go to section ${index + 1}`}
         />
       ))}
