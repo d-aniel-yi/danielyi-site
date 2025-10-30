@@ -30,11 +30,11 @@ export function TargetSection({
     >
       <div className="max-w-6xl mx-auto px-8 w-full">
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          {/* Number Badge & Logo */}
+          {/* Number Badge, Title & Logo */}
           <div className={`${isEven ? 'md:order-1' : 'md:order-2'}`}>
-            <div data-animate data-delay="0" className="flex items-center gap-4 mb-6">
+            <div data-animate data-delay="0">
               <div 
-                className="inline-flex items-center justify-center w-20 h-20 rounded-full text-3xl font-bold shadow-lg flex-shrink-0"
+                className="inline-flex items-center justify-center w-20 h-20 rounded-full text-3xl font-bold mb-6 shadow-lg"
                 style={{ 
                   background: 'linear-gradient(135deg, var(--op-accent) 0%, var(--op-accent-darker) 100%)',
                   color: 'var(--op-black)'
@@ -42,25 +42,6 @@ export function TargetSection({
               >
                 {number}
               </div>
-              
-              {logo && (
-                <div 
-                  className="flex items-center justify-center p-4 rounded-xl shadow-sm flex-shrink-0"
-                  style={{ 
-                    backgroundColor: 'var(--op-white)', 
-                    borderWidth: '1px', 
-                    borderColor: 'var(--op-gray)',
-                    width: '120px',
-                    height: '80px'
-                  }}
-                >
-                  <img 
-                    src={logo} 
-                    alt={`${title} logo`} 
-                    className="max-w-full max-h-full object-contain"
-                  />
-                </div>
-              )}
             </div>
             
             <h2 
@@ -73,13 +54,28 @@ export function TargetSection({
             </h2>
             
             <p 
-              className="text-xl mb-8"
+              className="text-xl mb-4"
               data-animate
               data-delay="200"
               style={{ color: 'var(--op-gray)' }}
             >
               {subtitle}
             </p>
+            
+            {logo && (
+              <div 
+                data-animate
+                data-delay="300"
+                className="mb-8"
+              >
+                <img 
+                  src={logo} 
+                  alt={`${title} logo`} 
+                  className="h-12 object-contain"
+                  style={{ maxWidth: '200px' }}
+                />
+              </div>
+            )}
           </div>
 
           {/* Content */}
