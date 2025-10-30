@@ -3,8 +3,8 @@
 export function HeroSection() {
   return (
     <section 
-      className="scroll-section hero-section h-screen flex items-center justify-center relative overflow-hidden text-white sticky top-0"
-      style={{ backgroundColor: 'var(--op-black)' }}
+      className="scroll-section hero-section h-screen flex items-center justify-center relative overflow-hidden text-white"
+      style={{ backgroundColor: 'var(--op-black)', position: 'sticky', top: 0 }}
     >
       {/* Animated background pattern */}
       <div className="absolute inset-0 opacity-20">

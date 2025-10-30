@@ -55,3 +55,17 @@
 .target-card:hover {
   border-color: var(--op-accent) !important;
 }
+
+/* Mobile scrolling improvements */
+.onepager-container {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  touch-action: pan-y;
+  scroll-snap-type: none;
+}
+
+/* Prevent layout shifts on mobile */
+.scroll-section {
+  position: relative;
+  will-change: auto;
+}

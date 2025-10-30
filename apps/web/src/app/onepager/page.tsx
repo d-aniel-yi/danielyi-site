@@ -19,6 +19,12 @@ export default function OnePagerPage() {
     if (auth === "true") {
       setIsAuthenticated(true);
     }
+    
+    // Reset scroll position immediately on mount
+    const container = document.querySelector(".onepager-container") as HTMLElement;
+    if (container) {
+      container.scrollTop = 0;
+    }
   }, []);
 
   useEffect(() => {
