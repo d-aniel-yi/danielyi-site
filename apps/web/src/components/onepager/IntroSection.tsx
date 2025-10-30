@@ -28,9 +28,8 @@ export function IntroSection() {
             data-animate
             data-delay="200"
           >
-            <h3 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-              <span className="text-3xl">💡</span>
-              <span>Why Customers Buy</span>
+            <h3 className="text-2xl font-bold text-slate-900 mb-6">
+              Why Customers Buy
             </h3>
             
             <div className="space-y-6">
@@ -40,9 +39,9 @@ export function IntroSection() {
                   &ldquo;If my smart contract has any security issues or holes in it, it will be at best useless, and at worst, exploitable.&rdquo;
                 </p>
                 <ul className="text-sm text-slate-600 space-y-1 list-disc pl-5">
-                  <li>Working with the best auditor minimizes risk</li>
-                  <li>H1 2025: $263M in Web3 damages</li>
-                  <li>Avoiding disasters like Poly Network, Ronin Bridge</li>
+                  <li>Working with the best auditor brings the chances of that fear being realized as close to zero as possible</li>
+                  <li>How can we avoid disasters like Poly Network, Ronin Bridge?</li>
+                  <li>H1 2025 already had $263M in damages across all Web3</li>
                 </ul>
               </div>
 
@@ -52,9 +51,8 @@ export function IntroSection() {
                   &ldquo;I need assurances in order to secure institutional capital.&rdquo;
                 </p>
                 <ul className="text-sm text-slate-600 space-y-1 list-disc pl-5">
-                  <li>Auditors who understand the context</li>
-                  <li>Respected name increases confidence</li>
-                  <li>Essential for institutional investment</li>
+                  <li>Working with specific auditors who understand the context</li>
+                  <li>Having the audit done by a respected name increases confidence</li>
                 </ul>
               </div>
             </div>
@@ -66,21 +64,20 @@ export function IntroSection() {
             data-animate
             data-delay="300"
           >
-            <h3 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-              <span className="text-3xl">🎯</span>
-              <span>Target Qualification</span>
+            <h3 className="text-2xl font-bold text-slate-900 mb-6">
+              Target Qualification
             </h3>
             
             <div className="space-y-5">
               <div>
                 <h4 className="font-bold text-slate-900 mb-2 flex items-center gap-2">
                   <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-slate-900 text-white text-xs">1</span>
-                  <span>Use Case Fit</span>
+                  <span>Use Case</span>
                 </h4>
                 <ul className="text-sm text-slate-600 space-y-1 list-disc pl-5">
-                  <li>Falls into fear and/or credibility bucket</li>
-                  <li>Strong signal they value respected audits</li>
-                  <li>Potential for recurring audit needs (bonus)</li>
+                  <li>Company falls into one or both of the above buckets</li>
+                  <li>Strong signal they believe in the value of respected audits</li>
+                  <li>Potential for recurring need for audits (bonus)</li>
                 </ul>
               </div>
 
@@ -90,18 +87,60 @@ export function IntroSection() {
                   <span>Capital Potential</span>
                 </h4>
                 <ul className="text-sm text-slate-600 space-y-1 list-disc pl-5">
-                  <li>Resources to invest in top-tier audits</li>
-                  <li>Recent VC funding or strong revenue</li>
+                  <li>Does the company have money to spend on a top-tier audit?</li>
+                  <li>Recent VC funding</li>
                   <li>Large growth signals</li>
-                  <li>High recent yield or TVL</li>
+                  <li>High recent yield</li>
                 </ul>
               </div>
+            </div>
+          </div>
+        </div>
 
-              <div className="pt-4 border-t border-slate-200">
-                <p className="text-xs text-slate-500 italic">
-                  Each target is evaluated against these criteria to ensure strategic fit and partnership potential.
-                </p>
-              </div>
+        {/* Outreach Methodology */}
+        <div 
+          className="bg-white rounded-2xl p-8 shadow-lg border border-slate-200 mb-12"
+          data-animate
+          data-delay="400"
+        >
+          <h3 className="text-2xl font-bold text-slate-900 mb-6">
+            General Outreach Methodology
+          </h3>
+          
+          <div className="grid md:grid-cols-4 gap-6">
+            <div>
+              <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-900 text-white text-sm font-bold mb-3">1</div>
+              <h4 className="font-bold text-slate-900 mb-2">Research</h4>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Find companies with a compelling use case and strong potential to be interested.
+              </p>
+            </div>
+
+            <div>
+              <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-900 text-white text-sm font-bold mb-3">2</div>
+              <h4 className="font-bold text-slate-900 mb-2">Outreach</h4>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Choose best method based on customer. Warm introduction via connections? Or cold outreach where they are: LinkedIn, Discord, Telegram, email.
+              </p>
+            </div>
+
+            <div>
+              <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-900 text-white text-sm font-bold mb-3">3</div>
+              <h4 className="font-bold text-slate-900 mb-2">Cold Outreach</h4>
+              <p className="text-sm text-slate-600 leading-relaxed mb-2">
+                Personalized, short, straight to the point.
+              </p>
+              <p className="text-xs text-slate-500 italic">
+                &ldquo;Hey xyz, noticed you&apos;re building a new smart contract—open for a conversation about security auditing?&rdquo;
+              </p>
+            </div>
+
+            <div>
+              <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-900 text-white text-sm font-bold mb-3">4</div>
+              <h4 className="font-bold text-slate-900 mb-2">Follow Up</h4>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Sales rarely happens on first touch. Balance between being visible and being annoying. Begin sales process once communication is open.
+              </p>
             </div>
           </div>
         </div>
