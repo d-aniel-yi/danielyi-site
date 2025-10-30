@@ -17,7 +17,7 @@ export function HeroSection() {
           data-animate
           data-delay="0"
         >
-          Strategic Target Analysis
+          Spearbit/Cantina Targeting
         </h1>
         
         <p 
@@ -25,7 +25,7 @@ export function HeroSection() {
           data-animate
           data-delay="200"
         >
-          A deep dive into high-value prospects and engagement strategies
+          Strategic target analysis for high-value Web3 security clients
         </p>
         
         <div data-animate data-delay="400">

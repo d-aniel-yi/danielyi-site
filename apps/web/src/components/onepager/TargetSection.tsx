@@ -60,7 +60,7 @@ export function TargetSection({
               <h3 className="text-sm uppercase tracking-wider text-slate-500 font-semibold mb-3">
                 Why This Target
               </h3>
-              <p className="text-slate-700 leading-relaxed">{rationale}</p>
+              <p className="text-slate-700 leading-relaxed text-sm">{rationale}</p>
             </div>
 
             <div 
@@ -69,9 +69,9 @@ export function TargetSection({
               data-delay="400"
             >
               <h3 className="text-sm uppercase tracking-wider text-slate-500 font-semibold mb-3">
-                Approach Strategy
+                Use Case & Approach
               </h3>
-              <p className="text-slate-700 leading-relaxed">{approach}</p>
+              <p className="text-slate-700 leading-relaxed text-sm">{approach}</p>
             </div>
 
             <div 
@@ -80,9 +80,9 @@ export function TargetSection({
               data-delay="500"
             >
               <h3 className="text-sm uppercase tracking-wider text-slate-500 font-semibold mb-3">
-                Value Proposition
+                Capital Potential
               </h3>
-              <p className="text-slate-700 leading-relaxed">{value}</p>
+              <p className="text-slate-700 leading-relaxed text-sm">{value}</p>
             </div>
           </div>
         </div>
