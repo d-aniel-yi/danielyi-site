@@ -61,6 +61,16 @@ export function IntroSection() {
                   <li>Having the audit done by a respected name increases investor, customer, and institutional confidence.</li>
                 </ul>
               </div>
+
+              <div className="pl-4" style={{ borderLeft: '4px solid var(--op-accent)' }}>
+                <h4 className="font-bold mb-2 text-lg" style={{ color: 'var(--op-black)' }}>Bonus</h4>
+                <p className="text-sm leading-relaxed mb-2" style={{ color: 'var(--op-dark-gray)' }}>
+                  Additional value add outside of the audit service, effectively BDing on behalf of the project.
+                </p>
+                <ul className="text-sm space-y-1 list-disc pl-5" style={{ color: 'var(--op-gray)' }}>
+                  <li>Introductions to other connections, like institutional depositors who trust the Cantina/Spearbit audit.</li>
+                </ul>
+              </div>
             </div>
           </div>
 
