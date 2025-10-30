@@ -7,6 +7,7 @@ interface TargetSectionProps {
   rationale: string;
   approach: string;
   value: string;
+  bonus?: string;  // Optional bonus section
   isEven: boolean;
 }
 
@@ -17,6 +18,7 @@ export function TargetSection({
   rationale,
   approach,
   value,
+  bonus,
   isEven,
 }: TargetSectionProps) {
   return (
@@ -111,6 +113,29 @@ export function TargetSection({
               </h3>
               <p className="leading-relaxed text-sm" style={{ color: 'var(--op-dark-gray)' }}>{value}</p>
             </div>
+
+            {bonus && (
+              <div 
+                className="rounded-xl p-6 shadow-sm"
+                data-animate
+                data-delay="600"
+                style={{ 
+                  backgroundColor: 'var(--op-white)', 
+                  borderWidth: '1px', 
+                  borderLeftWidth: '4px',
+                  borderColor: 'var(--op-gray)',
+                  borderLeftColor: 'var(--op-accent)'
+                }}
+              >
+                <h3 
+                  className="text-sm uppercase tracking-wider font-semibold mb-3"
+                  style={{ color: 'var(--op-accent-darker)' }}
+                >
+                  Bonus
+                </h3>
+                <p className="leading-relaxed text-sm" style={{ color: 'var(--op-dark-gray)' }}>{bonus}</p>
+              </div>
+            )}
           </div>
         </div>
       </div>

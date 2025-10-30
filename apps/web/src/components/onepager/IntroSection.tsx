@@ -39,7 +39,7 @@ export function IntroSection() {
             </h3>
             
             <div className="space-y-6">
-              <div className="pl-4" style={{ borderLeft: '4px solid var(--op-accent)' }}>
+              <div className="pl-4" style={{ borderLeft: '4px solid var(--op-accent-darker)' }}>
                 <h4 className="font-bold mb-2 text-lg" style={{ color: 'var(--op-black)' }}>Fear</h4>
                 <p className="text-sm leading-relaxed italic mb-2" style={{ color: 'var(--op-dark-gray)' }}>
                   &ldquo;If my smart contract has any security issues or holes in it, it will be at best useless, and at worst, exploitable.&rdquo;
@@ -51,7 +51,7 @@ export function IntroSection() {
                 </ul>
               </div>
 
-              <div className="pl-4" style={{ borderLeft: '4px solid var(--op-accent-darker)' }}>
+              <div className="pl-4" style={{ borderLeft: '4px solid var(--op-dark-gray)' }}>
                 <h4 className="font-bold mb-2 text-lg" style={{ color: 'var(--op-black)' }}>Credibility</h4>
                 <p className="text-sm leading-relaxed italic mb-2" style={{ color: 'var(--op-dark-gray)' }}>
                   &ldquo;I need assurances in order to secure institutional capital.&rdquo;
@@ -72,11 +72,11 @@ export function IntroSection() {
             style={{ backgroundColor: 'var(--op-white)', borderWidth: '1px', borderColor: 'var(--op-gray)' }}
           >
             <h3 className="text-2xl font-bold mb-6" style={{ color: 'var(--op-black)' }}>
-              Target Qualification Criteria
+              Target Qualification Gut Check
             </h3>
             
             <div className="space-y-6">
-              <div className="pl-4" style={{ borderLeft: '4px solid var(--op-accent)' }}>
+              <div className="pl-4" style={{ borderLeft: '4px solid var(--op-accent-darker)' }}>
                 <h4 className="font-bold mb-2 text-lg" style={{ color: 'var(--op-black)' }}>Use Case</h4>
                 <ul className="text-sm space-y-1 list-disc pl-5" style={{ color: 'var(--op-gray)' }}>
                   <li>The company falls into one or both of the “why” buckets and ideally has some sort of strong signal that they believe in the value of respected audits.</li>
@@ -85,7 +85,7 @@ export function IntroSection() {
                 </ul>
               </div>
 
-              <div className="pl-4" style={{ borderLeft: '4px solid var(--op-accent-darker)' }}>
+              <div className="pl-4" style={{ borderLeft: '4px solid var(--op-dark-gray)' }}>
                 <h4 className="font-bold mb-2 text-lg" style={{ color: 'var(--op-black)' }}>Capital Potential</h4>
             
                 <ul className="text-sm space-y-1 list-disc pl-5" style={{ color: 'var(--op-gray)' }}>
@@ -127,7 +127,7 @@ export function IntroSection() {
               >2</div>
               <h4 className="font-bold mb-2" style={{ color: 'var(--op-black)' }}>Outreach</h4>
               <p className="text-sm leading-relaxed" style={{ color: 'var(--op-gray)' }}>
-                Choose best method based on customer. Warm introduction via connections? Or cold outreach where they are: LinkedIn, Discord, Telegram, email.
+              Choose the best method of outreach based on the customer. Do we have any way for a warm introduction? Any connections to them? If not, cold outreach, meeting the customer where they are (LinkedIn, Discord, Telegram, email, etc).
               </p>
             </div>
 
@@ -143,6 +143,9 @@ export function IntroSection() {
               <p className="text-xs italic" style={{ color: 'var(--op-gray-2)' }}>
                 &ldquo;Hey xyz, noticed you&apos;re building a new smart contract—open for a conversation about security auditing?&rdquo;
               </p>
+              <p className="text-xs italic" style={{ color: 'var(--op-gray-2)' }}>
+                &ldquo;Congratulations on your recent funding round! Your new stablecoin lending protocol sounds really interesting, and I think that Rikard Hjort would be a really great fit for an audit. Interested in a convo to talk details?&rdquo;
+              </p>
             </div>
 
             <div>
@@ -152,7 +155,7 @@ export function IntroSection() {
               >4</div>
               <h4 className="font-bold mb-2" style={{ color: 'var(--op-black)' }}>Follow Up</h4>
               <p className="text-sm leading-relaxed" style={{ color: 'var(--op-gray)' }}>
-                Sales rarely happens on first touch. Balance between being visible and being annoying. Begin sales process once communication is open.
+                Sales rarely happens on first touch. Balance between being visible and being annoying. Once a line of communication is open, the real sales process begins. 
               </p>
             </div>
           </div>
