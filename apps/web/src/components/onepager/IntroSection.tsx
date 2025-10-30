@@ -39,26 +39,26 @@ export function IntroSection() {
             </h3>
             
             <div className="space-y-6">
-              <div className="pl-4" style={{ borderLeft: '4px solid var(--op-accent-darker)' }}>
+              <div className="pl-4" style={{ borderLeft: '4px solid var(--op-accent)' }}>
                 <h4 className="font-bold mb-2 text-lg" style={{ color: 'var(--op-black)' }}>Fear</h4>
                 <p className="text-sm leading-relaxed italic mb-2" style={{ color: 'var(--op-dark-gray)' }}>
                   &ldquo;If my smart contract has any security issues or holes in it, it will be at best useless, and at worst, exploitable.&rdquo;
                 </p>
                 <ul className="text-sm space-y-1 list-disc pl-5" style={{ color: 'var(--op-gray)' }}>
-                  <li>Working with the best auditor brings the chances of that fear being realized as close to zero as possible</li>
+                  <li>Working with the best auditor brings the chances of that fear being realized as close to zero as possible.</li>
                   <li>How can we avoid disasters like Poly Network, Ronin Bridge?</li>
-                  <li>H1 2025 already had $263M in damages across all Web3</li>
+                  <li>H1 2025 already had $263M in damages across all Web3.</li>
                 </ul>
               </div>
 
-              <div className="pl-4" style={{ borderLeft: '4px solid var(--op-accent)' }}>
+              <div className="pl-4" style={{ borderLeft: '4px solid var(--op-accent-darker)' }}>
                 <h4 className="font-bold mb-2 text-lg" style={{ color: 'var(--op-black)' }}>Credibility</h4>
                 <p className="text-sm leading-relaxed italic mb-2" style={{ color: 'var(--op-dark-gray)' }}>
                   &ldquo;I need assurances in order to secure institutional capital.&rdquo;
                 </p>
                 <ul className="text-sm space-y-1 list-disc pl-5" style={{ color: 'var(--op-gray)' }}>
-                  <li>Working with specific auditors who understand the context</li>
-                  <li>Having the audit done by a respected name increases confidence</li>
+                  <li>Working with specific auditors who understand the context.</li>
+                  <li>Having the audit done by a respected name increases investor, customer, and institutional confidence.</li>
                 </ul>
               </div>
             </div>
@@ -68,42 +68,29 @@ export function IntroSection() {
           <div 
             className="rounded-2xl p-8 shadow-lg"
             data-animate
-            data-delay="300"
+            data-delay="200"
             style={{ backgroundColor: 'var(--op-white)', borderWidth: '1px', borderColor: 'var(--op-gray)' }}
           >
             <h3 className="text-2xl font-bold mb-6" style={{ color: 'var(--op-black)' }}>
-              Target Qualification
+              Target Qualification Criteria
             </h3>
             
-            <div className="space-y-5">
-              <div>
-                <h4 className="font-bold mb-2 flex items-center gap-2" style={{ color: 'var(--op-black)' }}>
-                  <span 
-                    className="inline-flex items-center justify-center w-6 h-6 rounded-full text-xs"
-                    style={{ backgroundColor: 'var(--op-accent)', color: 'var(--op-black)' }}
-                  >1</span>
-                  <span>Use Case</span>
-                </h4>
+            <div className="space-y-6">
+              <div className="pl-4" style={{ borderLeft: '4px solid var(--op-accent)' }}>
+                <h4 className="font-bold mb-2 text-lg" style={{ color: 'var(--op-black)' }}>Use Case</h4>
                 <ul className="text-sm space-y-1 list-disc pl-5" style={{ color: 'var(--op-gray)' }}>
-                  <li>Company falls into one or both of the above buckets</li>
-                  <li>Strong signal they believe in the value of respected audits</li>
-                  <li>Potential for recurring need for audits (bonus)</li>
+                  <li>The company falls into one or both of the “why” buckets and ideally has some sort of strong signal that they believe in the value of respected audits.</li>
+                  <li>Potential for recurring need for audits is a bonus.</li>
+                  
                 </ul>
               </div>
 
-              <div>
-                <h4 className="font-bold mb-2 flex items-center gap-2" style={{ color: 'var(--op-black)' }}>
-                  <span 
-                    className="inline-flex items-center justify-center w-6 h-6 rounded-full text-xs"
-                    style={{ backgroundColor: 'var(--op-accent)', color: 'var(--op-black)' }}
-                  >2</span>
-                  <span>Capital Potential</span>
-                </h4>
+              <div className="pl-4" style={{ borderLeft: '4px solid var(--op-accent-darker)' }}>
+                <h4 className="font-bold mb-2 text-lg" style={{ color: 'var(--op-black)' }}>Capital Potential</h4>
+            
                 <ul className="text-sm space-y-1 list-disc pl-5" style={{ color: 'var(--op-gray)' }}>
-                  <li>Does the company have money to spend on a top-tier audit?</li>
-                  <li>Recent VC funding</li>
-                  <li>Large growth signals</li>
-                  <li>High recent yield</li>
+                  <li>Does the company have money to spend on a top-tier audit? </li>
+                  <li>Recent VC funding, large growth signals, high recent yield, strong partnerships, etc.</li>
                 </ul>
               </div>
             </div>
