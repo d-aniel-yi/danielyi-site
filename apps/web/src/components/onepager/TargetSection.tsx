@@ -116,17 +116,11 @@ export function TargetSection({
                 className="rounded-xl p-6 shadow-sm target-card"
                 data-animate
                 data-delay="600"
-                style={{ 
-                  backgroundColor: 'var(--op-white)', 
-                  borderWidth: '1px', 
-                  borderLeftWidth: '4px',
-                  borderColor: 'var(--op-gray)',
-                  borderLeftColor: 'var(--op-accent)'
-                }}
+                style={{ backgroundColor: 'var(--op-white)', borderWidth: '1px', borderColor: 'var(--op-gray)' }}
               >
                 <h3 
                   className="text-sm uppercase tracking-wider font-semibold mb-3"
-                  style={{ color: 'var(--op-accent-darker)' }}
+                  style={{ color: 'var(--op-gray-2)' }}
                 >
                   Bonus
                 </h3>

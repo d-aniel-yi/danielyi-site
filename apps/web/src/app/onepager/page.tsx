@@ -5,6 +5,7 @@ import { PasswordGate } from "@/components/onepager/PasswordGate";
 import { HeroSection } from "@/components/onepager/HeroSection";
 import { IntroSection } from "@/components/onepager/IntroSection";
 import { TargetSection } from "@/components/onepager/TargetSection";
+import { ClosingSection } from "@/components/onepager/ClosingSection";
 import { NavigationDots } from "@/components/onepager/NavigationDots";
 import "./onepager.css";
 
@@ -151,8 +152,10 @@ export default function OnePagerPage() {
         />
       ))}
 
+      <ClosingSection />
+
       <NavigationDots 
-        totalSections={targets.length + 2} 
+        totalSections={targets.length + 3} 
         currentSection={currentSection}
         onNavigate={(index) => {
           const sections = document.querySelectorAll(".scroll-section");
