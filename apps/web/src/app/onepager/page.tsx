@@ -24,6 +24,13 @@ export default function OnePagerPage() {
   useEffect(() => {
     if (!isAuthenticated) return;
 
+    // Get the scrollable container
+    const container = document.querySelector(".onepager-container") as HTMLElement;
+    if (!container) return;
+
+    // Reset scroll position to top when authenticated
+    container.scrollTop = 0;
+
     // Intersection Observer for animations
     const observer = new IntersectionObserver(
       (entries) => {
@@ -39,10 +46,6 @@ export default function OnePagerPage() {
     // Observe all elements with data-animate
     const elements = document.querySelectorAll("[data-animate]");
     elements.forEach((el) => observer.observe(el));
-
-    // Get the scrollable container
-    const container = document.querySelector(".onepager-container") as HTMLElement;
-    if (!container) return;
 
     // Hero fade-out and section tracking on scroll
     const handleScroll = () => {
@@ -140,7 +143,7 @@ export default function OnePagerPage() {
   ];
 
   return (
-      <div className="h-screen overflow-y-scroll scroll-smooth onepager-container">
+      <div className="h-screen overflow-y-scroll scroll-smooth onepager-container" style={{ scrollBehavior: 'auto' }}>
         <HeroSection />
         <IntroSection />
       
