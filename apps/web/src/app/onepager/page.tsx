@@ -98,7 +98,7 @@ export default function OnePagerPage() {
       number: 2,
       title: "Silhouette",
       subtitle: "Decentralized Trading Platform on Hyperliquid",
-      logo: "/logos/silhouette.webp",
+      logo: "/logos/silhouette.svg",
       rationale: "Built on Hyperliquid with permissionless listings, Silhouette offers alternative trading types to the ecosystem. From their documentation, they demonstrate confidence in their methodology but would benefit significantly from institutional backing and user confidence. Trade volume is critical for liquidity—credibility directly impacts their core business metrics.",
       approach: "Use Case: From their documentation, they seem like they are confident in their methodology, so the larger value add of the two would be to get more institutional backing and confidence from potential users. Trade volume is a premium for these markets in order to provide liquidity for essential functionality.",
       value: "Capital Potential: 3M in pre-seed funding in June from 8 investors, led by RockawayX.",
@@ -131,7 +131,7 @@ export default function OnePagerPage() {
       
       {targets.map((target, index) => (
         <TargetSection
-          key={target.number}
+          key={target.title}
           {...target}
           isEven={index % 2 === 0}
         />

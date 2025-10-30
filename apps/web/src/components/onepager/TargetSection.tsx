@@ -1,7 +1,6 @@
 "use client";
 
 interface TargetSectionProps {
-  number: number;
   title: string;
   subtitle: string;
   logo?: string;  // Optional logo path
@@ -13,7 +12,6 @@ interface TargetSectionProps {
 }
 
 export function TargetSection({
-  number,
   title,
   subtitle,
   logo,
@@ -30,19 +28,22 @@ export function TargetSection({
     >
       <div className="max-w-6xl mx-auto px-8 w-full">
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          {/* Number Badge, Title & Logo */}
+          {/* Logo, Title & Subtitle */}
           <div className={`${isEven ? 'md:order-1' : 'md:order-2'}`}>
-            <div data-animate data-delay="0">
+            {logo && (
               <div 
-                className="inline-flex items-center justify-center w-20 h-20 rounded-full text-3xl font-bold mb-6 shadow-lg"
-                style={{ 
-                  background: 'linear-gradient(135deg, var(--op-accent) 0%, var(--op-accent-darker) 100%)',
-                  color: 'var(--op-black)'
-                }}
+                data-animate
+                data-delay="0"
+                className="mb-6"
               >
-                {number}
+                <img 
+                  src={logo} 
+                  alt={`${title} logo`} 
+                  className="h-16 object-contain"
+                  style={{ maxWidth: '240px' }}
+                />
               </div>
-            </div>
+            )}
             
             <h2 
               className="display-serif text-4xl md:text-5xl font-bold mb-3"
@@ -54,28 +55,13 @@ export function TargetSection({
             </h2>
             
             <p 
-              className="text-xl mb-4"
+              className="text-xl mb-8"
               data-animate
               data-delay="200"
               style={{ color: 'var(--op-gray)' }}
             >
               {subtitle}
             </p>
-            
-            {logo && (
-              <div 
-                data-animate
-                data-delay="300"
-                className="mb-8"
-              >
-                <img 
-                  src={logo} 
-                  alt={`${title} logo`} 
-                  className="h-12 object-contain"
-                  style={{ maxWidth: '200px' }}
-                />
-              </div>
-            )}
           </div>
 
           {/* Content */}
