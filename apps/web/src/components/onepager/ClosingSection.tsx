@@ -31,7 +31,7 @@ export function ClosingSection() {
         >
           <p 
             className="text-lg font-medium mb-6"
-            style={{ color: 'var(--op-gray)' }}
+            style={{ color: 'var(--op-light-gray)' }}
           >
             — Daniel Yi
           </p>
@@ -40,7 +40,7 @@ export function ClosingSection() {
             <a 
               href="tel:+15035458728"
               className="block text-xl font-medium transition-colors hover:underline"
-              style={{ color: 'var(--op-accent)' }}
+              style={{ color: 'var(--op-gray)' }}
             >
               503 545 8728
             </a>
@@ -48,7 +48,7 @@ export function ClosingSection() {
             <a 
               href="mailto:d@nielyi.com"
               className="block text-xl font-medium transition-colors hover:underline"
-              style={{ color: 'var(--op-accent)' }}
+              style={{ color: 'var(--op-gray)' }}
             >
               d@nielyi.com
             </a>
