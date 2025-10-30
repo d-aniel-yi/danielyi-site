@@ -39,7 +39,7 @@ export default function OnePagerPage() {
     const elements = document.querySelectorAll("[data-animate]");
     elements.forEach((el) => observer.observe(el));
 
-    // Hero fade-out on scroll
+    // Hero fade-out and section tracking on scroll
     const handleScroll = () => {
       const hero = document.querySelector(".hero-section") as HTMLElement;
       if (hero) {
@@ -64,7 +64,10 @@ export default function OnePagerPage() {
       });
     };
 
-    window.addEventListener("scroll", handleScroll);
+    // Initial call to set current section on load
+    setTimeout(handleScroll, 100);
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", handleScroll);
       observer.disconnect();
