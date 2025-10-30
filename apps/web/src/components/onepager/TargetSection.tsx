@@ -67,7 +67,7 @@ export function TargetSection({
           {/* Content */}
           <div className={`space-y-6 ${isEven ? 'md:order-2' : 'md:order-1'}`}>
             <div 
-              className="rounded-xl p-6 shadow-sm"
+              className="rounded-xl p-6 shadow-sm target-card"
               data-animate
               data-delay="300"
               style={{ backgroundColor: 'var(--op-white)', borderWidth: '1px', borderColor: 'var(--op-gray)' }}
@@ -82,20 +82,14 @@ export function TargetSection({
             </div>
 
             <div 
-              className="rounded-xl p-6 shadow-sm"
+              className="rounded-xl p-6 shadow-sm target-card"
               data-animate
               data-delay="400"
-              style={{ 
-                backgroundColor: 'var(--op-white)', 
-                borderWidth: '1px', 
-                borderLeftWidth: '4px',
-                borderColor: 'var(--op-gray)',
-                borderLeftColor: 'var(--op-accent)'
-              }}
+              style={{ backgroundColor: 'var(--op-white)', borderWidth: '1px', borderColor: 'var(--op-gray)' }}
             >
               <h3 
                 className="text-sm uppercase tracking-wider font-semibold mb-3"
-                style={{ color: 'var(--op-accent-darker)' }}
+                style={{ color: 'var(--op-gray-2)' }}
               >
                 Use Case & Approach
               </h3>
@@ -103,7 +97,7 @@ export function TargetSection({
             </div>
 
             <div 
-              className="rounded-xl p-6 shadow-sm"
+              className="rounded-xl p-6 shadow-sm target-card"
               data-animate
               data-delay="500"
               style={{ backgroundColor: 'var(--op-white)', borderWidth: '1px', borderColor: 'var(--op-gray)' }}
@@ -119,7 +113,7 @@ export function TargetSection({
 
             {bonus && (
               <div 
-                className="rounded-xl p-6 shadow-sm"
+                className="rounded-xl p-6 shadow-sm target-card"
                 data-animate
                 data-delay="600"
                 style={{ 

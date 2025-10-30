@@ -45,3 +45,12 @@
 .hero-section {
   transition: opacity 0.3s ease-out;
 }
+
+/* Target card hover effect with accent color */
+.target-card {
+  transition: border-color 0.2s ease-out;
+}
+
+.target-card:hover {
+  border-color: var(--op-accent) !important;
+}
