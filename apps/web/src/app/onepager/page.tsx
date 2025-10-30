@@ -39,37 +39,48 @@ export default function OnePagerPage() {
     const elements = document.querySelectorAll("[data-animate]");
     elements.forEach((el) => observer.observe(el));
 
+    // Get the scrollable container
+    const container = document.querySelector(".onepager-container") as HTMLElement;
+    if (!container) return;
+
     // Hero fade-out and section tracking on scroll
     const handleScroll = () => {
+      const scrollPosition = container.scrollTop;
+      const viewportHeight = window.innerHeight;
+      
+      // Hero fade
       const hero = document.querySelector(".hero-section") as HTMLElement;
       if (hero) {
-        const scrollPosition = window.scrollY;
-        const windowHeight = window.innerHeight;
-        const opacity = Math.max(0, 1 - scrollPosition / windowHeight);
+        const opacity = Math.max(0, 1 - scrollPosition / viewportHeight);
         hero.style.opacity = String(opacity);
       }
 
-      // Track section for navigation dots
+      // Track section for navigation dots using container's scroll position
       const sections = document.querySelectorAll(".scroll-section");
-      const scrollPos = window.scrollY + window.innerHeight / 2;
+      const centerPoint = scrollPosition + viewportHeight / 2;
 
+      let newSection = 0;
       sections.forEach((section, index) => {
         const element = section as HTMLElement;
-        if (
-          scrollPos >= element.offsetTop &&
-          scrollPos < element.offsetTop + element.offsetHeight
-        ) {
-          setCurrentSection(index);
+        const sectionTop = element.offsetTop;
+        const sectionBottom = sectionTop + element.offsetHeight;
+        
+        if (centerPoint >= sectionTop && centerPoint < sectionBottom) {
+          newSection = index;
         }
       });
+
+      setCurrentSection(newSection);
     };
 
     // Initial call to set current section on load
     setTimeout(handleScroll, 100);
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    // Listen to scroll on the scrollable container
+    container.addEventListener("scroll", handleScroll, { passive: true });
+    
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      container.removeEventListener("scroll", handleScroll);
       observer.disconnect();
     };
   }, [isAuthenticated]);
