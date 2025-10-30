@@ -105,7 +105,7 @@ export default function OnePagerPage() {
       number: 3,
       title: "Felix",
       subtitle: "DeFi Platform with Hyperion Partnership",
-      rationale: "Felix just announced a partnership with Hyperion (HYPD), Looking to build out exchange.",
+      rationale: "Just announced a partnership with Hyperion (HYPD), Looking to build out their exchange where there will inevitably be audit needs.",
       approach: "Use Case: Felix doesn’t appear to advertise any strong auditing, strong credibility play as they look to strengthen their brand. Working with Hyperion is a huge step for them, and continuing to add big names and confidence would be key for them.",
       value: "Capital Potential: Recent partnership with large DeFi org, Felix passed $1B TVL and has pretty well scaled liquidity. ",
     },
