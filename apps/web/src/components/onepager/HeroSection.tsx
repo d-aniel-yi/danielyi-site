@@ -18,9 +18,9 @@ export function HeroSection() {
         />
       </div>
 
-      <div className="relative z-10 max-w-4xl mx-auto px-8 text-center">
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 md:px-8 text-center">
         <h1 
-          className="display-serif text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6"
+          className="display-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight mb-4 sm:mb-6 leading-[1.1]"
           data-animate
           data-delay="0"
         >
@@ -28,18 +28,19 @@ export function HeroSection() {
         </h1>
         
         <p 
-          className="text-xl md:text-2xl text-slate-300 mb-8"
+          className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 px-4 leading-relaxed"
           data-animate
           data-delay="200"
+          style={{ color: 'var(--op-accent)' }}
         >
           Strategic target analysis for high-value Web3 security clients
         </p>
         
         <div data-animate data-delay="400">
-          <p className="text-sm uppercase tracking-widest text-slate-400 mb-4">
+          <p className="text-xs sm:text-sm uppercase tracking-wider sm:tracking-widest mb-3 sm:mb-4" style={{ color: 'var(--op-gray)' }}>
             Prepared by Daniel Yi
           </p>
-          <div className="inline-flex items-center gap-2 text-slate-400 text-sm animate-bounce">
+          <div className="inline-flex items-center gap-2 text-xs sm:text-sm animate-bounce" style={{ color: 'var(--op-gray)' }}>
             <span>Scroll to explore</span>
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
