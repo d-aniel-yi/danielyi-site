@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { PasswordGate } from "@/components/onepager/PasswordGate";
 import { HeroSection } from "@/components/onepager/HeroSection";
+import { IntroSection } from "@/components/onepager/IntroSection";
 import { TargetSection } from "@/components/onepager/TargetSection";
 import { NavigationDots } from "@/components/onepager/NavigationDots";
 import "./onepager.css";
@@ -121,6 +122,7 @@ export default function OnePagerPage() {
   return (
       <div className="h-screen overflow-y-scroll scroll-smooth onepager-container">
         <HeroSection />
+        <IntroSection />
       
       {targets.map((target, index) => (
         <TargetSection
@@ -131,7 +133,7 @@ export default function OnePagerPage() {
       ))}
 
       <NavigationDots 
-        totalSections={targets.length + 1} 
+        totalSections={targets.length + 2} 
         currentSection={currentSection}
         onNavigate={(index) => {
           const sections = document.querySelectorAll(".scroll-section");
