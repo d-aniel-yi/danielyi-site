@@ -155,7 +155,7 @@ export function IntroSection() {
               >4</div>
               <h4 className="font-bold mb-2" style={{ color: 'var(--op-black)' }}>Follow Up</h4>
               <p className="text-sm leading-relaxed" style={{ color: 'var(--op-gray)' }}>
-                Sales rarely happens on first touch. Balance between being visible and being annoying. Once a line of communication is open, the real sales process begins. 
+              Sales rarely happens on first touch, but there’s a balance between being visible and being annoying. Once a line of communication is open, the real sales process begins. 
               </p>
             </div>
           </div>
