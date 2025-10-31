@@ -270,6 +270,84 @@ const projectsData: Record<string, ProjectDetails> = {
       { label: "Hosting Cost", value: "$3/month (Bluehost)" },
     ],
   },
+  "crypto-tipjar": {
+    slug: "crypto-tipjar",
+    title: "Crypto Tip Jar Smart Contract",
+    description: "Full-stack Web3 tip jar with soulbound NFT badges on Base L2",
+    url: "https://djgrill.house/crypto-tip",
+    image: "/hero-dj.webp",
+    overview:
+      "A production-ready Web3 crypto tip jar built on Base Layer 2 that rewards tippers with unique, soulbound NFT badges. Features programmatically generated SVG artwork, IPFS storage, and costs just $0.01 per transaction—99.8% cheaper than Ethereum L1.",
+    stack: [
+      { category: "Smart Contract", items: ["Solidity 0.8.24", "ERC-1155", "OpenZeppelin", "Foundry"] },
+      { category: "Frontend", items: ["Next.js 14", "React 18", "TypeScript", "Tailwind CSS"] },
+      { category: "Web3", items: ["Wagmi 2.x", "Viem 2.x", "RainbowKit 2.x"] },
+      { category: "Infrastructure", items: ["Base L2", "IPFS (Pinata)", "MetaMask"] },
+    ],
+    architecture: {
+      title: "Full-Stack Web3 Architecture",
+      description:
+        "Decentralized tip jar using ERC-1155 soulbound NFTs on Base L2 with programmatically generated artwork stored on IPFS.",
+      components: [
+        {
+          name: "GrillTipJar Smart Contract",
+          description: "ERC-1155 contract on Base Mainnet with soulbound badges, reentrancy protection, and custom errors for gas efficiency",
+        },
+        {
+          name: "NFT Generation Pipeline",
+          description: "Algorithmically generates 30 unique SVG badges with random colors and emojis, uploaded to IPFS via Pinata",
+        },
+        {
+          name: "Web3 Frontend",
+          description: "React app with Wagmi/Viem for blockchain interaction, RainbowKit for wallet UI, real-time event listening",
+        },
+        {
+          name: "Hall of Fame",
+          description: "Event-driven display of all tips using blockchain event logs, updates in real-time without backend",
+        },
+      ],
+    },
+    highlights: [
+      "Live on Base Mainnet with real ETH: 0x3e34E90b0D3B2052B3618E76A2eb86A56B27B948",
+      "Gas costs: $0.01 per tip (99.8% cheaper than Ethereum L1)",
+      "30 unique programmatically generated SVG NFT badges",
+      "Soulbound tokens (non-transferable, permanent proof of support)",
+      "Decentralized storage on IPFS (censorship-resistant)",
+      "100% test coverage with 21 Foundry test cases",
+      "Real-time Hall of Fame using blockchain event logs",
+      "No backend required (JAMstack architecture)",
+    ],
+    challenges: [
+      {
+        title: "Gas Optimization on Layer 2",
+        solution:
+          "Used custom errors (50% cheaper than strings), immutable variables, constants, and calldata parameters. Result: ~100K gas per tip (~$0.01 USD)",
+      },
+      {
+        title: "Soulbound NFT Implementation",
+        solution:
+          "Override ERC-1155 _update() to prevent all transfers except minting/burning. Also override public transfer functions to revert with custom error",
+      },
+      {
+        title: "Programmatic NFT Generation",
+        solution:
+          "Built Node.js script to generate 30 unique SVG badges with random HSL colors (108K combinations) and 1-3 random emojis (5.4K combinations)",
+      },
+      {
+        title: "Decentralized Metadata Storage",
+        solution:
+          "Uploaded all 30 SVG images and metadata JSONs to IPFS via Pinata, then configured smart contract with individual token URIs",
+      },
+    ],
+    metrics: [
+      { label: "Deployment Cost", value: "$0.14 USD" },
+      { label: "Tip Transaction Cost", value: "$0.01 USD" },
+      { label: "Gas Savings vs ETH L1", value: "99.8%" },
+      { label: "Test Coverage", value: "100% (21 tests)" },
+      { label: "Unique Badge Designs", value: "30 SVGs" },
+      { label: "Development Time", value: "8 days" },
+    ],
+  },
   coreplasma: {
     slug: "coreplasma",
     title: "Core Plasma",

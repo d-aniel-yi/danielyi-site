@@ -67,12 +67,25 @@ export default function ProjectsPage() {
       href: "https://djgrill.house/photography",
       excerpt: "Professional photography portfolio powered by Sanity CMS with real-time updates.",
       tags: ["photography", "Sanity CMS", "JAMstack"],
-      image: "/hero-dj.webp",
+      image: "/photographyhero.webp",
       detailsSlug: "djgrill-photography",
       techDetails: {
         stack: ["Next.js 14", "Sanity.io", "TypeScript", "Tailwind CSS"],
         architecture: "Hybrid architecture: static HTML with client-side data fetching from Sanity CMS for instant content updates without rebuilds.",
         highlights: ["Real-time portfolio updates (no rebuild needed)", "Headless CMS integration", "Lightbox photo viewer", "Album organization"],
+      },
+    },
+    {
+      title: "Crypto Tip Jar Smart Contract",
+      href: "https://djgrill.house/crypto-tip",
+      excerpt: "Full-stack Web3 tip jar with soulbound NFT badges. Live on Base L2 with 99.8% lower gas costs.",
+      tags: ["Web3", "Solidity", "NFTs", "Base L2"],
+      image: "/hero-dj.webp",
+      detailsSlug: "crypto-tipjar",
+      techDetails: {
+        stack: ["Solidity", "Wagmi", "Viem", "RainbowKit", "IPFS", "Base L2"],
+        architecture: "ERC-1155 smart contract on Base L2 with programmatically generated SVG NFT badges. Client-side Web3 integration, no backend required.",
+        highlights: ["$0.01 per transaction (99.8% cheaper than Ethereum)", "30 unique soulbound NFT badges", "100% test coverage", "IPFS decentralized storage"],
       },
     },
     {
