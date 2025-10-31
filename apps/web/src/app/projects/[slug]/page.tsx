@@ -344,8 +344,6 @@ const projectsData: Record<string, ProjectDetails> = {
       { label: "Tip Transaction Cost", value: "$0.01 USD" },
       { label: "Gas Savings vs ETH L1", value: "99.8%" },
       { label: "Test Coverage", value: "100% (21 tests)" },
-      { label: "Unique Badge Designs", value: "30 SVGs" },
-      { label: "Development Time", value: "8 days" },
     ],
   },
   coreplasma: {
