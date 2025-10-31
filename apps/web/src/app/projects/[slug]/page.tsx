@@ -205,7 +205,7 @@ const projectsData: Record<string, ProjectDetails> = {
     title: "DJ GRILL Photography Portfolio",
     description: "Professional photography portfolio for young families, powered by Sanity CMS",
     url: "https://djgrill.house/photography",
-    image: "/hero-dj.webp",
+    image: "/photographyhero.webp",
     overview:
       "A sophisticated photography portfolio showcasing work with young families. Built with a hybrid architecture that enables instant content updates through Sanity CMS while maintaining the benefits of static hosting.",
     stack: [
@@ -275,7 +275,7 @@ const projectsData: Record<string, ProjectDetails> = {
     title: "Crypto Tip Jar Smart Contract",
     description: "Full-stack Web3 tip jar with soulbound NFT badges on Base L2",
     url: "https://djgrill.house/crypto-tip",
-    image: "/hero-dj.webp",
+    image: "/nft.png",
     overview:
       "A production-ready Web3 crypto tip jar built on Base Layer 2 that rewards tippers with unique, soulbound NFT badges. Features programmatically generated SVG artwork, IPFS storage, and costs just $0.01 per transaction—99.8% cheaper than Ethereum L1.",
     stack: [
@@ -478,7 +478,13 @@ export default async function ProjectDetailPage({
       {/* Hero Image */}
       {project.image && (
         <div className="mb-12 rounded-2xl overflow-hidden border border-black/10">
-          <img src={project.image} alt={project.title} className="w-full h-auto" loading="eager" />
+          {project.url ? (
+            <a href={project.url} target="_blank" rel="noopener noreferrer" className="block hover:opacity-90 transition">
+              <img src={project.image} alt={project.title} className="w-full h-auto" loading="eager" />
+            </a>
+          ) : (
+            <img src={project.image} alt={project.title} className="w-full h-auto" loading="eager" />
+          )}
         </div>
       )}
 

@@ -80,7 +80,7 @@ export default function ProjectsPage() {
       href: "https://djgrill.house/crypto-tip",
       excerpt: "Full-stack Web3 tip jar with soulbound NFT badges. Live on Base L2 with 99.8% lower gas costs.",
       tags: ["Web3", "Solidity", "NFTs", "Base L2"],
-      image: "/hero-dj.webp",
+      image: "/nft.png",
       detailsSlug: "crypto-tipjar",
       techDetails: {
         stack: ["Solidity", "Wagmi", "Viem", "RainbowKit", "IPFS", "Base L2"],
