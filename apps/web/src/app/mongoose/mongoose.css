@@ -1,0 +1,72 @@
+/* Custom Color Scheme */
+:root {
+  --op-black: #100f0f;
+  --op-white: #ffffff;
+  --op-accent: #23ddbe;
+  --op-accent-dark: #1cb09a;
+  --op-accent-darker: #158570;
+  --op-gray: #61646b;
+  --op-light-gray: #acb0ba;
+  --op-gray-2: #5d5c5c;
+  --op-dark-gray: #3d3c3c;
+}
+
+/* Animations using Intersection Observer */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+[data-animate] {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+[data-animate].animated {
+  animation: fadeUp 0.8s ease-out forwards;
+}
+
+/* Staggered delays */
+[data-delay="0"].animated { animation-delay: 0ms; }
+[data-delay="100"].animated { animation-delay: 100ms; }
+[data-delay="200"].animated { animation-delay: 200ms; }
+[data-delay="300"].animated { animation-delay: 300ms; }
+[data-delay="400"].animated { animation-delay: 400ms; }
+[data-delay="500"].animated { animation-delay: 500ms; }
+[data-delay="600"].animated { animation-delay: 600ms; }
+[data-delay="800"].animated { animation-delay: 800ms; }
+
+/* Hero fade on scroll */
+.hero-section {
+  transition: opacity 0.3s ease-out;
+}
+
+/* Target card hover effect with accent color */
+.target-card {
+  transition: border-color 0.2s ease-out;
+}
+
+.target-card:hover {
+  border-color: var(--op-accent) !important;
+}
+
+/* Mobile scrolling improvements */
+.onepager-container {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  touch-action: pan-y;
+  scroll-snap-type: none;
+}
+
+/* Prevent layout shifts on mobile */
+.scroll-section {
+  position: relative;
+  will-change: auto;
+}
+
