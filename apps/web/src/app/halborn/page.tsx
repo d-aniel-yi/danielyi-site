@@ -1,25 +1,41 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { HeroSection } from "@/components/softstack/HeroSection";
-import { IntroSection } from "@/components/softstack/IntroSection";
-import { TargetSection } from "@/components/softstack/TargetSection";
-import { ClosingSection } from "@/components/softstack/ClosingSection";
-import { NavigationDots } from "@/components/softstack/NavigationDots";
-import "./softstack.css";
+import { PasswordGate } from "@/components/halborn/PasswordGate";
+import { HeroSection } from "@/components/halborn/HeroSection";
+import { IntroSection } from "@/components/halborn/IntroSection";
+import { TargetSection } from "@/components/halborn/TargetSection";
+import { ClosingSection } from "@/components/halborn/ClosingSection";
+import { NavigationDots } from "@/components/halborn/NavigationDots";
+import "./halborn.css";
 
-export default function SoftstackPage() {
+export default function HalbornPage() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentSection, setCurrentSection] = useState(0);
 
   useEffect(() => {
+    // Check if already authenticated in this session
+    const auth = sessionStorage.getItem("halborn_auth");
+    if (auth === "true") {
+      setIsAuthenticated(true);
+    }
+    
     // Reset scroll position immediately on mount
-    const container = document.querySelector(".softstack-container") as HTMLElement;
+    const container = document.querySelector(".halborn-container") as HTMLElement;
     if (container) {
       container.scrollTop = 0;
     }
+  }, []);
+
+  useEffect(() => {
+    if (!isAuthenticated) return;
 
     // Get the scrollable container
+    const container = document.querySelector(".halborn-container") as HTMLElement;
     if (!container) return;
+
+    // Reset scroll position to top when authenticated
+    container.scrollTop = 0;
 
     // Intersection Observer for animations
     const observer = new IntersectionObserver(
@@ -77,7 +93,20 @@ export default function SoftstackPage() {
       container.removeEventListener("scroll", handleScroll);
       observer.disconnect();
     };
-  }, []);
+  }, [isAuthenticated]);
+
+  const handlePasswordSubmit = (password: string) => {
+    if (password === "halb0rn") {
+      setIsAuthenticated(true);
+      sessionStorage.setItem("halborn_auth", "true");
+      return true;
+    }
+    return false;
+  };
+
+  if (!isAuthenticated) {
+    return <PasswordGate onSubmit={handlePasswordSubmit} />;
+  }
 
   const targets = [
     {
@@ -120,7 +149,7 @@ export default function SoftstackPage() {
   ];
 
   return (
-      <div className="h-screen overflow-y-scroll scroll-smooth softstack-container" style={{ scrollBehavior: 'auto' }}>
+      <div className="h-screen overflow-y-scroll scroll-smooth halborn-container" style={{ scrollBehavior: 'auto' }}>
         <HeroSection />
         <IntroSection />
       
