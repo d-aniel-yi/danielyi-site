@@ -89,7 +89,7 @@ export function IntroSection() {
               <div className="pl-4" style={{ borderLeft: '4px solid var(--op-accent-darker)' }}>
                 <h4 className="font-bold mb-2 text-lg" style={{ color: 'var(--op-black)' }}>Use Case</h4>
                 <ul className="text-sm space-y-1 list-disc pl-5" style={{ color: 'var(--op-gray)' }}>
-                  <li>The company falls into one or both of the "why" buckets and ideally has some sort of strong signal that they believe in the value of respected audits.</li>
+                  <li>The company falls into one or both of the &ldquo;why&rdquo; buckets and ideally has some sort of strong signal that they believe in the value of respected audits.</li>
                   <li>Potential for recurring need for audits is a bonus.</li>
                   
                 </ul>
@@ -165,7 +165,7 @@ export function IntroSection() {
               >4</div>
               <h4 className="font-bold mb-2" style={{ color: 'var(--op-black)' }}>Follow Up</h4>
               <p className="text-sm leading-relaxed" style={{ color: 'var(--op-gray)' }}>
-              Sales rarely happens on first touch, but there's a balance between being visible and being annoying. Once a line of communication is open, the real sales process begins. 
+              Sales rarely happens on first touch, but there&apos;s a balance between being visible and being annoying. Once a line of communication is open, the real sales process begins. 
               </p>
             </div>
           </div>
