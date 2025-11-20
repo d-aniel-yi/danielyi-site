@@ -55,7 +55,7 @@ export default function LetterPage() {
           </p>
 
           <p className="mt-4">
-            If you&rsquo;re someone who is looking to work with me, partner with me, and/or invest in something I&rsquo;m working on, I genuinely hope that this gives you some insight into how I operate. One of my core principles is to just be genuine, honest, and lead with kindness. I pride myself on being a great listener, and I hope that I&rsquo;m able to live up to that expectation.
+            If you&rsquo;re someone who is looking to work with me, partner with me, and/or invest in something I&rsquo;m working on, I genuinely hope that this gives you some insight into how I operate. Some of my core principles are to just be genuine, honest, and lead with kindness. I pride myself on being a great listener, and I hope that I&rsquo;m able to live up to that expectation.
           </p>
 
           <p className="mt-4">
