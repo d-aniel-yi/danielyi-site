@@ -12,7 +12,7 @@ export function ClosingSection() {
           data-animate
           data-delay="0"
         >
-          Ready to invest in exceptional ROI?
+          Ready to make this a reality?
         </h2>
         
         <p 
@@ -46,18 +46,17 @@ export function ClosingSection() {
             </a>
             
             <a 
-              href="mailto:d@nielyi.com"
+              href="mailto:062daniel.yi@gmail.com"
               className="block text-xl font-medium transition-colors hover:underline"
               style={{ color: 'var(--cg-gray)' }}
             >
-              d@nielyi.com
+              062daniel.yi@gmail.com
             </a>
           </div>
 
           <div className="mt-12 pt-8 border-t" style={{ borderColor: 'var(--cg-dark-gray)' }}>
             <p className="text-sm" style={{ color: 'var(--cg-gray)' }}>
-              This entire site demonstrates my ability to execute strategically, think critically, 
-              and deliver exceptional results. I don&apos;t just talk about value—I create it.
+              Feel free to check out the rest of this site! It features a custom built frontend and backend, hosted on AWS, meant to showcase my learning ability, technical acumen, and creative engine.
             </p>
           </div>
         </div>

@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { PasswordGate } from "@/components/chainguard/PasswordGate";
 import { HeroSection } from "@/components/chainguard/HeroSection";
 import { IntroSection } from "@/components/chainguard/IntroSection";
+import { BeforeDayZeroSection } from "@/components/chainguard/BeforeDayZeroSection";
 import { PlanSection } from "@/components/chainguard/PlanSection";
 import { ROISection } from "@/components/chainguard/ROISection";
 import { ClosingSection } from "@/components/chainguard/ClosingSection";
@@ -11,31 +11,14 @@ import { NavigationDots } from "@/components/chainguard/NavigationDots";
 import "./chainguard.css";
 
 export default function ChainguardPage() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentSection, setCurrentSection] = useState(0);
 
   useEffect(() => {
-    // Check if already authenticated in this session
-    const auth = sessionStorage.getItem("chainguard_auth");
-    if (auth === "true") {
-      setIsAuthenticated(true);
-    }
-    
-    // Reset scroll position immediately on mount
-    const container = document.querySelector(".chainguard-container") as HTMLElement;
-    if (container) {
-      container.scrollTop = 0;
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!isAuthenticated) return;
-
     // Get the scrollable container
     const container = document.querySelector(".chainguard-container") as HTMLElement;
     if (!container) return;
 
-    // Reset scroll position to top when authenticated
+    // Reset scroll position immediately on mount
     container.scrollTop = 0;
 
     // Intersection Observer for animations
@@ -94,78 +77,97 @@ export default function ChainguardPage() {
       container.removeEventListener("scroll", handleScroll);
       observer.disconnect();
     };
-  }, [isAuthenticated]);
+  }, []);
 
-  const handlePasswordSubmit = (password: string) => {
-    if (password === "chainguard") {
-      setIsAuthenticated(true);
-      sessionStorage.setItem("chainguard_auth", "true");
-      return true;
-    }
-    return false;
+  const beforeDayZeroData = {
+    goals: [
+
+    
+      {
+        goal: "Relearn and become familiar with supply-chain security basics",
+
+        actions: [
+          "Read through SLSA documentation",
+          "Study CNCF Software Supply Chain Best Practices Whitepaper",
+          "Learn from cybersecurity thought leaders and experts (John Hammond, Black Hills Information Security, etc",
+          "Read through Verizon DBIR, Study major security breaches (Google security blog) "
+        ]
+      },
+
+      {
+        goal: "Understand the Chainguard Landscape",
+        actions: [
+          "Study Chainguard Academy (edu.chainguard.dev)",
+          "Study the solutions (chainguard.dev/solutions)",
+          "Relearn supply-chain security basics",
+          "Understand terminology (SBOMs, SLSA, images, etc.)"
+        ]
+      },
+      {
+        goal: "Begin planning for sales",
+
+        actions: [
+          "Meet with friends and colleagues who sell cybersecurity software, with a focus on increasing conversation fluency of cybersecurity topics",
+          "Study Chainguard customer stories and use cases",
+          "Begin looking for target accounts and understanding ICP fit"
+        ]
+      }
+    ]
   };
-
-  if (!isAuthenticated) {
-    return <PasswordGate onSubmit={handlePasswordSubmit} />;
-  }
 
   const planData = [
     {
       days: "30",
       title: "Foundation & Immersion",
-      focus: "Understanding Chainguard's ecosystem and establishing credibility",
+      focus: "Come to work with a strong background foundation and a humble attitude to learn",
       goals: [
         "Deep dive into Chainguard's product suite: Containers, VMs, Libraries, and Images",
-        "Master the security landscape - understand SLSA, SBOM, and supply chain security",
-        "Map the sales process, identify key stakeholders, and learn from top performers",
-        "Build relationships with engineering, product, and marketing teams",
+        "Master the security landscape, understanding SLSA, SBOM, and supply chain security",
+        "Quick gut check: does my understanding of the environment stack up? What do I need to become fluent in how Chainguard's value prop is positioned?",
+        "Map the sales process, identify internal resources, and learn from top performers",
         "Research target accounts in high-growth sectors (fintech, healthcare, government)"
       ],
       deliverables: [
-        "Complete product certification and technical deep-dive",
-        "Map of 50+ target accounts with ICP fit analysis",
-        "Sales playbook v1.0 with objection handling framework",
-        "First 10 qualified discovery calls booked"
+        "Complete training, any certifications, and build trust to begin speaking to prospects",
+        "Map target accounts with ICP fit analysis, creating a concrete plan of action, including who to target and how.",
+        "Understand Chainguard-specific common objections and how to handle them",
+        "Book demos: My job as an AE is close deals, but the more that I can do to fill the funnel, the better"
       ],
-      impact: "Establish myself as a technical sales professional who understands both the product and the market"
+      impact: "Establish myself as a team player with a humble attitude - someone who is eager to contribute, easy to work with, but willing to learn the ropes"
     },
     {
       days: "60",
       title: "Pipeline Development & Execution",
-      focus: "Building momentum and closing initial deals",
+      focus: "Building momentum with a bias for action",
       goals: [
         "Execute on target account list with personalized, value-driven outreach",
-        "Develop case studies and proof points from early wins",
-        "Collaborate with SDR team to optimize lead qualification",
-        "Establish partnerships with key channel partners and integrators",
-        "Create sales enablement materials based on real customer conversations"
+        "Collaborate with SDR/BDR teams (if applicable) to optimize lead qualification",
+        "Refine messaging with intentional reps - the goal is quality over quantity",
+        "Build strong habits of daily activity and follow-up"
       ],
       deliverables: [
-        "Active pipeline of $500K+ ARR in qualified opportunities",
-        "2-3 closed deals with enterprise customers",
-        "Refined sales playbook v2.0 with proven messaging",
-        "Channel partner program framework established"
+        "Active pipeline with qualified opportunities at different stages",
+        "Closed deal(s), learning by doing",
+        "Proven emphasis on inputs and constantly refining those inputs",
       ],
-      impact: "Demonstrate immediate revenue contribution and establish repeatable sales motion"
+      impact: "Demonstrate product knowledge through revenue contribution and establishing a repeatable sales motion"
     },
     {
       days: "90",
       title: "Scale & Optimization",
       focus: "Proving ROI and setting up for long-term success",
       goals: [
-        "Exceed quarterly quota with consistent pipeline generation",
-        "Build strategic relationships with Fortune 500 security teams",
-        "Contribute to product roadmap based on customer feedback",
-        "Mentor new sales hires and share best practices",
-        "Establish thought leadership through content and speaking"
+        "Understand what daily habits are working and what are not",
+        "Refined sales process, building on foundation of experience with lessons learned at Chainguard",
+        "Create a repeatable sales motion to enable myself to focus on closing deals with a focus on quality at every stage of the sales process"
       ],
       deliverables: [
-        "150%+ of quarterly quota achieved",
-        "5+ enterprise deals closed with expansion potential",
-        "Documented sales methodology shared across team",
-        "Pipeline coverage of 3x+ for next quarter"
+        "Quota (or at least would-be quota if on a ramp period) met or exceeded, showing that I can hit the ground running",
+        "Closed deals with a strong product market fit, giving CS team the best chance at renewals or upsells",
+        "Exceptional Salesforce hygiene, adhering to Chainguard's sales process and best practices",
+        "Pipeline coverage for next quarter, always looking out for opportunities to fill the funnel"
       ],
-      impact: "Prove that investing in me delivers measurable ROI and positions Chainguard for accelerated growth"
+      impact: "Prove that I was the right investment for Chainguard's bottom line AND culture"
     }
   ];
 
@@ -173,6 +175,7 @@ export default function ChainguardPage() {
     <div className="h-screen overflow-y-scroll scroll-smooth chainguard-container" style={{ scrollBehavior: 'auto' }}>
       <HeroSection />
       <IntroSection />
+      <BeforeDayZeroSection {...beforeDayZeroData} />
       
       {planData.map((plan, index) => (
         <PlanSection
@@ -186,7 +189,7 @@ export default function ChainguardPage() {
       <ClosingSection />
 
       <NavigationDots 
-        totalSections={planData.length + 4} 
+        totalSections={planData.length + 5} 
         currentSection={currentSection}
         onNavigate={(index) => {
           const sections = document.querySelectorAll(".scroll-section");

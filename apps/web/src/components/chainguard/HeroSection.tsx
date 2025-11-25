@@ -33,17 +33,14 @@ export function HeroSection() {
           data-delay="200"
           style={{ color: 'var(--cg-gray)' }}
         >
-          Why Your Investment in Me Delivers Exceptional ROI
+          A 30-60-90 Day Plan for Sales Excellence
         </p>
         
         <div data-animate data-delay="400" className="space-y-6">
           <p className="text-xs sm:text-sm uppercase tracking-wider sm:tracking-widest" style={{ color: 'var(--cg-gray)' }}>
-            A 30-60-90 Day Plan for Sales Excellence
+          After being denied at the resume screener, I'm here to make the case for why I belong at Chainguard and the impact I&apos;ll make
           </p>
           
-          <p className="text-sm sm:text-base max-w-2xl mx-auto" style={{ color: 'var(--cg-gray)' }}>
-            After being denied at the resume screener, here&apos;s why I belong at Chainguard and the impact I&apos;ll make
-          </p>
           
           <div className="inline-flex items-center gap-2 text-xs sm:text-sm" style={{ color: 'var(--cg-gray)' }}>
             <span>scroll to explore</span>
