@@ -6,6 +6,7 @@ import { IntroSection } from "@/components/chainguard/IntroSection";
 import { BeforeDayZeroSection } from "@/components/chainguard/BeforeDayZeroSection";
 import { PlanSection } from "@/components/chainguard/PlanSection";
 import { ROISection } from "@/components/chainguard/ROISection";
+import { SalesProcessSection } from "@/components/chainguard/SalesProcessSection";
 import { ClosingSection } from "@/components/chainguard/ClosingSection";
 import { NavigationDots } from "@/components/chainguard/NavigationDots";
 import "./chainguard.css";
@@ -131,7 +132,7 @@ export default function ChainguardPage() {
         "Complete training, any certifications, and build trust to begin speaking to prospects",
         "Map target accounts with ICP fit analysis, creating a concrete plan of action, including who to target and how.",
         "Understand Chainguard-specific common objections and how to handle them",
-        "Book demos: My job as an AE is close deals, but the more that I can do to fill the funnel, the better"
+        "Book demos: to run the whole sales process and learn by doing, we need to create opportunities"
       ],
       impact: "Establish myself as a team player with a humble attitude - someone who is eager to contribute, easy to work with, but willing to learn the ropes"
     },
@@ -186,10 +187,11 @@ export default function ChainguardPage() {
       ))}
 
       <ROISection />
+      <SalesProcessSection />
       <ClosingSection />
 
       <NavigationDots 
-        totalSections={planData.length + 5} 
+        totalSections={planData.length + 6} 
         currentSection={currentSection}
         onNavigate={(index) => {
           const sections = document.querySelectorAll(".scroll-section");

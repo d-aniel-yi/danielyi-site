@@ -33,7 +33,7 @@ export function BeforeDayZeroSection({
                 0
               </div>
               <div className="text-sm uppercase tracking-wider mb-2" style={{ color: 'var(--cg-gray)' }}>
-                Before Day
+                Before Day 1
               </div>
             </div>
             
