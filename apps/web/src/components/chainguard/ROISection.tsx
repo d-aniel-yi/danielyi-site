@@ -66,7 +66,7 @@ export function ROISection() {
             </h3>
             <ul className="space-y-2 text-sm mb-8" style={{ color: 'var(--cg-gray)' }}>
               <li>B2B SaaS companies are always popping up, always growing, and always looking for ways to improve their value proposition</li>
-              <li>A strong and necessary indicator for SMB's is if they are looking to sell into enterprise accounts (Are they hiring enterprise reps? Do they have an enterprise AE team?)</li>
+              <li>A strong and necessary indicator for SMB&apos;s is if they are looking to sell into enterprise accounts (Are they hiring enterprise reps? Do they have an enterprise AE team?)</li>
               <li>Strong need to pass enterprise security requirements/reviews, but may not have a dedicated security team (security in a box is huge here)</li>
             </ul>
 
@@ -75,7 +75,7 @@ export function ROISection() {
                 Example Companies
               </h4>
               <ul className="space-y-3 text-sm" style={{ color: 'var(--cg-gray)' }}>
-                <li><strong className="text-white">Happyrobot</strong> — $44M in September, developing an "enterprise-grade platform" for AI workforce. Looks to be targeting enterprise accounts.</li>
+                <li><strong className="text-white">Happyrobot</strong> — $44M in September, developing an &quot;enterprise-grade platform&quot; for AI workforce. Looks to be targeting enterprise accounts.</li>
                 <li><strong className="text-white">Mem0</strong> — Open-source-native, $24M in recent funding targeting large AI agents</li>
                 <li><strong className="text-white">LaunchDarkly</strong> — Have some personal connections from when they acquired Highlight.io, an open-source-native Open Telemetry platform. Seeing large growth and targeting the enterprise segment</li>
               </ul>

@@ -38,7 +38,7 @@ export function HeroSection() {
         
         <div data-animate data-delay="400" className="space-y-6">
           <p className="text-xs sm:text-sm uppercase tracking-wider sm:tracking-widest" style={{ color: 'var(--cg-gray)' }}>
-          After being denied at the resume screener, I'm here to make the case for why I belong at Chainguard and the impact I&apos;ll make
+          After being denied at the resume screener, I&apos;m here to make the case for why I belong at Chainguard and the impact I&apos;ll make
           </p>
           
           

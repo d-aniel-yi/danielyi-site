@@ -40,7 +40,7 @@ export function IntroSection() {
               Technical Credibility
             </h3>
             <p className="leading-relaxed" style={{ color: 'var(--cg-dark-gray)' }}>
-                While my resume doesn't carry a direct background in cybersecurity, I've built technical acumen through experience building technical products, allowing me to speak the language of CTOs, CISOs, and security teams.
+                While my resume doesn&apos;t carry a direct background in cybersecurity, I&apos;ve built technical acumen through experience building technical products, allowing me to speak the language of CTOs, CISOs, and security teams.
             </p>
           </div>
 
@@ -55,7 +55,7 @@ export function IntroSection() {
               Proven Execution
             </h3>
             <p className="leading-relaxed" style={{ color: 'var(--cg-dark-gray)' }}>
-                I've consistently exceeded targets throughout multiple industries by focusing on efficiently qualifying prospects, identifying business value, and bringing together the right stakeholders to get the deal done.
+                I&apos;ve consistently exceeded targets throughout multiple industries by focusing on efficiently qualifying prospects, identifying business value, and bringing together the right stakeholders to get the deal done.
             </p>
            
           </div>
@@ -71,7 +71,7 @@ export function IntroSection() {
             Learning Agility
             </h3>
             <p className="leading-relaxed" style={{ color: 'var(--cg-dark-gray)' }}>
-            Not only have I proved I can sell, I've shown that I'm an extremely quick learner, and if the biggest hurdle is learning the product, environment, or company, we've got nothing to worry about.
+            Not only have I proved I can sell, I&apos;ve shown that I&apos;m an extremely quick learner, and if the biggest hurdle is learning the product, environment, or company, we&apos;ve got nothing to worry about.
 
             </p>
           </div>
@@ -89,7 +89,7 @@ export function IntroSection() {
               Strategic Mindset
             </h3>
             <p className="leading-relaxed" style={{ color: 'var(--cg-dark-gray)' }}>
-              I'm here to demonstrate my ability to think strategically, execute quickly, and create creative solutions when necessary. 
+              I&apos;m here to demonstrate my ability to think strategically, execute quickly, and create creative solutions when necessary. 
 
             </p>
           </div>
