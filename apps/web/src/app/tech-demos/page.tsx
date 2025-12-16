@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ArrowRight, Server, Box, MousePointer2 } from "lucide-react";
+import { ArrowRight, Server, Box, FileText } from "lucide-react";
 import React, { useRef } from "react";
 
 export default function TechDemosPage() {
@@ -37,7 +37,7 @@ export default function TechDemosPage() {
                     </p>
                 </motion.header>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <TiltCard
                         href="/tech-demos/website"
                         category="Infrastructure"
@@ -55,6 +55,15 @@ export default function TechDemosPage() {
                         icon={<Box className="w-8 h-8" />}
                         color="from-emerald-500/10 to-teal-500/10"
                         delay={0.3}
+                    />
+                    <TiltCard
+                        href="/tech-demos/fsbo"
+                        category="System Anatomy"
+                        title="Compliance Engine"
+                        description="A 5-layer deep dive into an automated legal document generator. Exploring complex UX logic, address normalization, and PDF assembly."
+                        icon={<FileText className="w-8 h-8" />}
+                        color="from-blue-500/10 to-indigo-500/10"
+                        delay={0.4}
                     />
                 </div>
 
