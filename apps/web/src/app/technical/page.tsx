@@ -13,10 +13,10 @@ export default function TechnicalPage() {
       <header className="mb-10">
         <h1 className="display-serif text-4xl tracking-[-0.01em]">Technical notes</h1>
         <p className="mt-2 text-black/70 dark:text-white/70 max-w-2xl">
-          A full‑stack demo deployed on AWS free‑tier. Static‑first, accessible, and observable — all planned by me and built with the help of Cursor.
+          A full‑stack demo deployed on AWS free‑tier. Static‑first, accessible, and observable.
         </p>
         <p className="mt-2 text-black/70 dark:text-white/70 max-w-2xl">
-        <a href="https://github.com/d-aniel-yi/danielyi-site" className="underline">View on GitHub</a>
+          <a href="https://github.com/d-aniel-yi/danielyi-site" className="underline">View on GitHub</a>
         </p>
       </header>
 

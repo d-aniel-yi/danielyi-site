@@ -14,7 +14,10 @@
   "dependencies": {
     "@mdx-js/react": "^3.0.0",
     "@next/mdx": "15.5.0",
+    "@xyflow/react": "^12.10.0",
+    "framer-motion": "^12.23.26",
     "liquid-glass-react": "^1.1.1",
+    "lucide-react": "^0.561.0",
     "next": "15.5.0",
     "react": "19.1.0",
     "react-dom": "19.1.0"
