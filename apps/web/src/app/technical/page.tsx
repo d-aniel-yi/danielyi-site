@@ -16,6 +16,7 @@ export default function TechnicalPage() {
           A full‑stack demo deployed on AWS free‑tier. Static‑first, accessible, and observable.
         </p>
         <p className="mt-2 text-black/70 dark:text-white/70 max-w-2xl">
+          <a href="/projects" className="underline">View tech deep dives</a>
           <a href="https://github.com/d-aniel-yi/danielyi-site" className="underline">View on GitHub</a>
         </p>
       </header>
