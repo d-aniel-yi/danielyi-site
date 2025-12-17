@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { ReactFlow, Background, useNodesState, useEdgesState } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
@@ -70,6 +70,17 @@ function UXLayer() {
                 </ReactFlow>
             </div>
             <div className="space-y-6">
+                <div className="flex items-start gap-4 pt-6 border-t border-blue-900/30">
+                    <div className="p-3 bg-blue-900/30 rounded-lg border border-blue-800">
+                        <FileText className="w-6 h-6 text-blue-400" />
+                    </div>
+                    <div>
+                        <h4 className="text-xl font-bold text-white mb-2">The Volume Problem</h4>
+                        <p className="text-blue-200/80 leading-relaxed">
+                            Just the listing contract form alone has over 750 possible fields and checkboxes, not all of which are relevant or required. If the whole point of this product is to be no-BS and simple for the users, we definitely can't ask them 18 pages worth of questions. Part of the challenge was filtering out which questions were necessary (not just from a legal standpoint, but to give the user the best chance at a successful listing), and part of the challenge was making the whole experience of filling out a form as pleasant as possible.
+                        </p>
+                    </div>
+                </div>
                 <div className="flex items-start gap-4">
                     <div className="p-3 bg-blue-900/30 rounded-lg border border-blue-800">
                         <Layers className="w-6 h-6 text-blue-400" />
@@ -77,9 +88,7 @@ function UXLayer() {
                     <div>
                         <h4 className="text-xl font-bold text-white mb-2">Conditional Complexity</h4>
                         <p className="text-blue-200/80 leading-relaxed">
-                            The intake form isn&apos;t static. It&apos;s a state machine that adapts to 13+ pages of user input.
-                            I used a graph-based approach to conditionally show/hide fields, ensuring users only see
-                            what&apos;s relevant to their specific property type (Condo, SFH, Multi-family).
+                            The intake form isn&apos;t static. It&apos;s a state machine that adapts to user input, showing/hiding fields based on previous answers. Redundant questions are cumbersome for the user, and irrelevant questions are a waste of time, so I built smart javascript logic to make sure to keep the users on track.
                         </p>
                     </div>
                 </div>
@@ -90,32 +99,134 @@ function UXLayer() {
                     <p className="pl-4">pages.show(&apos;STRATA_DOCS&apos;);</p>
                     <p>&#125;</p>
                 </div>
+
+
             </div>
         </div>
     );
 }
 
 // --- Layer 2: Address Parser ---
+import { parseAddress } from "@/lib/address-parser";
+
+declare global {
+    interface Window {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        google: any;
+        initAutocomplete?: () => void;
+    }
+}
+
+// Placeholder for Google Maps API key - user needs to provide this
+const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
+
 function DataLayer() {
-    const [input, setInput] = useState("1234 Evergreen Terrace, Springfield OR 97403");
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [parsed, setParsed] = useState<any>(null);
+    const [scriptLoaded, setScriptLoaded] = useState(false);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const autocompleteRef = useRef<any>(null);
+    const inputWrapperRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        // Simulate parsing delay
-        const timer = setTimeout(() => {
-            setParsed({
-                street_number: "1234",
-                route: "Evergreen Terrace",
-                city: "Springfield",
-                state: "OR",
-                zip: "97403",
-                lat: 44.0462,
-                lng: -123.0220
-            });
-        }, 500);
-        return () => clearTimeout(timer);
-    }, [input]);
+        const wrapper = inputWrapperRef.current;
+        if (!wrapper) return;
+
+        const stopPropagation = (e: Event) => e.stopPropagation();
+
+        // Stop both keydown and keyup to prevent React Flow from catching Backspace/Delete
+        wrapper.addEventListener('keydown', stopPropagation);
+        wrapper.addEventListener('keyup', stopPropagation);
+
+        return () => {
+            wrapper.removeEventListener('keydown', stopPropagation);
+            wrapper.removeEventListener('keyup', stopPropagation);
+        };
+    }, [scriptLoaded]);
+
+    useEffect(() => {
+        if (!GOOGLE_MAPS_API_KEY) {
+            console.warn('Google Maps API Key missing');
+            return;
+        }
+
+        const checkLoaded = () => {
+            if (window.google?.maps?.places?.PlaceAutocompleteElement) {
+                setScriptLoaded(true);
+                return true;
+            }
+            return false;
+        };
+
+        if (checkLoaded()) return;
+
+        const SCRIPT_ID = 'google-maps-script';
+        let script = document.getElementById(SCRIPT_ID) as HTMLScriptElement;
+
+        if (!script) {
+            script = document.createElement('script');
+            script.id = SCRIPT_ID;
+            script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places&loading=async&callback=initAutocomplete`;
+            script.async = true;
+            script.defer = true;
+
+            window.initAutocomplete = () => {
+                setScriptLoaded(true);
+            };
+
+            document.body.appendChild(script);
+        } else {
+            const intervalId = setInterval(() => {
+                if (checkLoaded()) {
+                    clearInterval(intervalId);
+                }
+            }, 100);
+            return () => clearInterval(intervalId);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (!scriptLoaded || !autocompleteRef.current) return;
+
+        const element = autocompleteRef.current;
+        console.log('Setting up Google Maps autocomplete listener', element);
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const listener = async (event: any) => {
+            console.log('Place selected event fired', event);
+
+            // Get the place prediction from the event
+            const placePrediction = event.placePrediction;
+            if (!placePrediction) {
+                console.warn('No placePrediction in event');
+                return;
+            }
+
+            try {
+                // Convert prediction to Place object
+                const place = placePrediction.toPlace();
+                console.log('Place object created:', place);
+
+                // Fetch necessary fields
+                await place.fetchFields({
+                    fields: ['addressComponents', 'formattedAddress', 'location']
+                });
+
+                console.log('Place details fetched:', place);
+                const parsedResult = parseAddress(place.addressComponents, place.formattedAddress);
+                console.log('Parsed result:', parsedResult);
+                setParsed(parsedResult);
+            } catch (error) {
+                console.error("Error fetching place details:", error);
+            }
+        };
+
+        element.addEventListener('gmp-select', listener);
+
+        return () => {
+            element.removeEventListener('gmp-select', listener);
+        };
+    }, [scriptLoaded]);
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -127,9 +238,8 @@ function DataLayer() {
                     <div>
                         <h4 className="text-xl font-bold text-white mb-2">Normalization Engine</h4>
                         <p className="text-blue-200/80 leading-relaxed">
-                            User input is messy. I integrated with the Google Maps API to validate and parse
-                            addresses in real-time. This ensures that &quot;123 Main St&quot; and &quot;123 Main Street&quot;
-                            resolve to the same canonical entity in the database.
+                            User input is messy. I integrated with the Google Maps API to validate addresses in real-time and built a parsing algorithm. This ensures that &quot;123 Main St&quot; and &quot;123 Main Street&quot;
+                            resolve to the same canonical entity in the database and the pieces of the address are stored in their respective stable keys.
                         </p>
                     </div>
                 </div>
@@ -137,17 +247,61 @@ function DataLayer() {
 
             <div className="bg-blue-950/50 border border-blue-900 rounded-lg p-6 order-1 lg:order-2">
                 <label className="block text-xs font-mono text-blue-400 mb-2 uppercase">Raw User Input</label>
-                <input
-                    type="text"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    className="w-full bg-blue-900/20 border border-blue-800 rounded p-3 text-white font-mono focus:outline-none focus:border-blue-500 transition-colors mb-8"
-                />
+
+                <div className="mb-8">
+                    {scriptLoaded ? (
+                        <div
+                            ref={inputWrapperRef}
+                            className="relative"
+                        >
+                            {/* @ts-ignore - Web Component */}
+                            <gmp-place-autocomplete
+                                ref={autocompleteRef}
+                                placeholder="Enter an address..."
+                            />
+                            <style jsx global>{`
+                                gmp-place-autocomplete {
+                                    width: 100%;
+                                    display: block;
+                                }
+                                gmp-place-autocomplete input {
+                                    width: 100% !important;
+                                    height: 48px !important;
+                                    border-radius: 0.5rem !important;
+                                    border: 1px solid #1e3a8a !important;
+                                    background-color: rgba(30, 58, 138, 0.2) !important;
+                                    color: white !important;
+                                    padding: 0 1rem !important;
+                                    font-size: 1rem !important;
+                                    font-family: monospace !important;
+                                }
+                                gmp-place-autocomplete input::placeholder {
+                                    color: rgba(255, 255, 255, 0.5) !important;
+                                }
+                                gmp-place-autocomplete input:focus {
+                                    outline: none !important;
+                                    border-color: #3b82f6 !important;
+                                }
+                            `}</style>
+                        </div>
+                    ) : (
+                        <input
+                            disabled
+                            placeholder={GOOGLE_MAPS_API_KEY ? "Loading maps..." : "API Key Missing"}
+                            className="w-full bg-blue-900/20 border border-blue-800 rounded p-3 text-white font-mono focus:outline-none focus:border-blue-500 transition-colors"
+                        />
+                    )}
+                    {!GOOGLE_MAPS_API_KEY && (
+                        <p className="text-xs text-red-400 mt-2 font-mono">
+                            Warning: NEXT_PUBLIC_GOOGLE_MAPS_API_KEY not found.
+                        </p>
+                    )}
+                </div>
 
                 <div className="space-y-2">
                     <label className="block text-xs font-mono text-blue-400 mb-2 uppercase">Normalized Data Object</label>
                     <div className="grid grid-cols-2 gap-4">
-                        {parsed && Object.entries(parsed).map(([key, value]) => (
+                        {parsed ? Object.entries(parsed).map(([key, value]) => (
                             <motion.div
                                 key={key}
                                 initial={{ opacity: 0, y: 10 }}
@@ -155,9 +309,13 @@ function DataLayer() {
                                 className="bg-blue-900/40 p-3 rounded border border-blue-800/50"
                             >
                                 <span className="block text-[10px] text-blue-500 uppercase font-bold mb-1">{key}</span>
-                                <span className="font-mono text-sm text-blue-100">{String(value)}</span>
+                                <span className="font-mono text-sm text-blue-100 break-all">{String(value)}</span>
                             </motion.div>
-                        ))}
+                        )) : (
+                            <div className="col-span-2 p-4 text-center text-blue-500/50 font-mono text-sm border border-dashed border-blue-900 rounded">
+                                Waiting for valid address selection...
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
@@ -174,7 +332,7 @@ function KeyLayer() {
                 <p className="text-blue-200/80 leading-relaxed">
                     The biggest challenge was bridging the gap between a modern, flexible database schema
                     and the rigid, legacy field names of PDF forms (Acroforms). I created a &quot;Stable Key&quot;
-                    system to map these entities reliably.
+                    system to map user input to the correct database fields.
                 </p>
             </div>
 
@@ -197,9 +355,9 @@ function KeyLayer() {
                 {/* Column 2: Stable Key */}
                 <div className="space-y-4">
                     <div className="text-yellow-500 text-xs uppercase tracking-widest border-b border-blue-800 pb-2">2. Stable Key</div>
-                    <div className="p-3 bg-yellow-900/10 border border-yellow-700/50 rounded text-yellow-200">owner.full_name</div>
-                    <div className="p-3 bg-yellow-900/10 border border-yellow-700/50 rounded text-yellow-200">property.address.street</div>
-                    <div className="p-3 bg-yellow-900/10 border border-yellow-700/50 rounded text-yellow-200">listing.price</div>
+                    <div className="p-3 bg-yellow-900/10 border border-yellow-700/50 rounded text-yellow-200">owner</div>
+                    <div className="p-3 bg-yellow-900/10 border border-yellow-700/50 rounded text-yellow-200">address_street</div>
+                    <div className="p-3 bg-yellow-900/10 border border-yellow-700/50 rounded text-yellow-200">price</div>
                 </div>
 
                 {/* Arrow */}
@@ -231,7 +389,7 @@ function PDFLayer() {
                 {/* PDF Mockup */}
                 <div className="bg-white h-full w-full border border-gray-200 p-8 relative overflow-hidden">
                     <div className="absolute top-0 left-0 w-full h-2 bg-blue-600"></div>
-                    <h3 className="font-serif text-2xl text-gray-900 mb-8 border-b pb-4">Real Estate Purchase Agreement</h3>
+                    <h3 className="font-serif text-2xl text-gray-900 mb-8 border-b pb-4">Listing Agreement</h3>
 
                     <div className="space-y-6 text-gray-300 text-xs font-mono select-none">
                         {Array.from({ length: 15 }).map((_, i) => (
@@ -250,7 +408,7 @@ function PDFLayer() {
                     </motion.div>
 
                     <div className="absolute top-[160px] left-[40px] text-[10px] text-blue-500 font-mono uppercase tracking-wider">
-                        Mapped: owner.full_name
+                        Mapped: owner
                     </div>
                 </div>
             </div>
@@ -263,9 +421,11 @@ function PDFLayer() {
                     <div>
                         <h4 className="text-xl font-bold text-white mb-2">The PDF Assembler</h4>
                         <p className="text-blue-200/80 leading-relaxed">
-                            I don&apos;t just fill forms; I generate legal documents. The system takes the normalized data,
-                            applies the stable key mapping, and &quot;prints&quot; the text onto the coordinate system of the
-                            underlying PDF template using `pdf-lib`.
+                            The stakes are high - selling a home is a big deal, and it's often the largest financial decision that a person will make in their lifetime, so it's important to get this right. These are legally binding documents, and I have to make sure that the system is robust enough to handle all cases. Once the data structure is in place and the data is captured, we have to make sure that it is properly printed on the document. The RMLS and uploading team require these contracts to be filled out, and our system allows for this to happen in a more user-friendly manner.
+                        </p>
+                        <br></br>
+                        <p className="text-blue-200/80 leading-relaxed">
+                            I manually created acroform fields on the blank contract template, mapped each stable key to the correct acroform field, and created a script to generate a coordinate mapping of all of the different acroform fields. The system queries the database, pulls the correct data that corresponds to each stable key, and prints it according to the generated coordinate system using 'pdf-lib'.
                         </p>
                     </div>
                 </div>
@@ -367,7 +527,7 @@ export default function FSBODemoPage() {
                 <p className="text-xl text-blue-300/60 max-w-2xl font-light leading-relaxed">
                     A no-nonsense solution allowing homeowners to list directly on the MLS for a flat fee.
                     I built this to remove the barrier to entry and provide a genuine tool for self-sellers,
-                    replacing &quot;lead gen&quot; tactics with automated legal compliance.
+                    replacing &quot;lead gen&quot; tactics with an easy to use, no-BS approach. This is a showcase of a few of the technical problems I faced, and how I tackled them.
                 </p>
             </header>
 

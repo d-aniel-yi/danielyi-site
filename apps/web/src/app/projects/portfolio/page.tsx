@@ -31,13 +31,13 @@ const SECTIONS = [
         content: (
             <>
                 <p>
-                    When you visit this site, you aren&apos;t hitting a server in Virginia. You&apos;re
-                    connecting to a <strong>CloudFront</strong> Point of Presence (PoP) nearest to you.
+                    To achieve sub-100ms latency globally, I architected a <strong>CloudFront</strong> distribution strategy
+                    that caches static assets at the edge.
                 </p>
                 <p className="mt-4">
-                    Static assets (HTML, CSS, JS) are cached at the edge. The origin is an
-                    <strong>S3 Bucket</strong>, locked down with an Origin Access Identity (OAI) so
-                    only CloudFront can read from it.
+                    The <strong>S3 origin</strong> is strictly isolated using Origin Access Identity (OAI),
+                    enforcing a zero-trust model where the bucket is completely invisible to the public internet
+                    and only accessible via the signed edge delivery network.
                 </p>
                 <div className="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-sm font-mono text-xs overflow-x-auto">
                     <p className="text-gray-500">{/* CDK: CloudFront Distribution */}</p>
@@ -93,6 +93,34 @@ const SECTIONS = [
             </>
         ),
     },
+    {
+        id: "security",
+        title: "4. Security & Cost Control",
+        content: (
+            <>
+                <p>
+                    Exposing a site to the public internet comes with risks. We mitigate them with
+                    <strong>AWS WAF</strong> (Web Application Firewall) attached to CloudFront, providing
+                    protection against common exploits and DDoS attacks.
+                </p>
+                <p className="mt-4">
+                    To prevent unexpected bills, we use <strong>AWS Budgets</strong>.
+                    If the forecasted monthly spend exceeds $1.00, an SNS alert is immediately sent to my phone.
+                </p>
+                <div className="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-sm font-mono text-xs overflow-x-auto">
+                    <p className="text-gray-500">{/* CDK: Budget Alarm */}</p>
+                    <p className="text-purple-700">new</p> budgets.CfnBudget(<p className="text-yellow-600">this</p>, <span className="text-green-600">&apos;CostAlarm&apos;</span>, &#123;
+                    <br />&nbsp;&nbsp;budget: &#123;
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;budgetLimit: &#123; amount: <span className="text-blue-600">1</span>, unit: <span className="text-green-600">&apos;USD&apos;</span> &#125;,
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;notificationsWithSubscribers: [
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123; notification: &#123; threshold: <span className="text-blue-600">80</span>, comparisonOperator: <span className="text-green-600">&apos;GREATER_THAN&apos;</span> &#125;, subscribers: [&#123; address: email, subscriptionType: <span className="text-green-600">&apos;EMAIL&apos;</span> &#125;] &#125;
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;]
+                    <br />&nbsp;&nbsp;&#125;
+                    <br />&#125;);
+                </div>
+            </>
+        ),
+    },
 ];
 
 // --- Nodes & Edges Setup ---
@@ -100,10 +128,12 @@ const SECTIONS = [
 const initialNodes = [
     { id: 'user', position: { x: 0, y: 0 }, data: { label: 'User' }, type: 'input', style: { background: '#fff', border: '1px solid #777', width: 80 } },
     { id: 'cloudfront', position: { x: 0, y: 150 }, data: { label: 'CloudFront' }, style: { background: '#f3f4f6', border: '1px solid #777' } },
+    { id: 'waf', position: { x: -120, y: 150 }, data: { label: 'WAF' }, style: { background: '#fee2e2', border: '1px solid #ef4444' } },
     { id: 's3', position: { x: -150, y: 300 }, data: { label: 'S3 Bucket' }, style: { background: '#fff7ed', border: '1px solid #ea580c' } },
     { id: 'apigw', position: { x: 150, y: 300 }, data: { label: 'API Gateway' }, style: { background: '#eff6ff', border: '1px solid #2563eb' } },
     { id: 'lambda', position: { x: 150, y: 450 }, data: { label: 'Lambda' }, style: { background: '#fff7ed', border: '1px solid #ea580c' } },
     { id: 'dynamo', position: { x: 150, y: 600 }, data: { label: 'DynamoDB' }, style: { background: '#eff6ff', border: '1px solid #2563eb' } },
+    { id: 'budgets', position: { x: 200, y: 0 }, data: { label: 'AWS Budgets' }, style: { background: '#ecfccb', border: '1px solid #65a30d' } },
 ];
 
 const initialEdges = [
@@ -112,6 +142,7 @@ const initialEdges = [
     { id: 'e3', source: 'cloudfront', target: 'apigw', label: 'API /contact', animated: false },
     { id: 'e4', source: 'apigw', target: 'lambda', animated: false },
     { id: 'e5', source: 'lambda', target: 'dynamo', animated: false },
+    { id: 'e6', source: 'waf', target: 'cloudfront', label: 'Protect', animated: false, style: { strokeDasharray: '5,5' } },
 ];
 
 // --- Component ---
@@ -126,7 +157,7 @@ export default function WebsiteArchPage() {
         const newEdges = initialEdges.map(edge => ({
             ...edge,
             animated: false,
-            style: { stroke: '#b1b1b7', strokeWidth: 1 },
+            style: { ...edge.style, stroke: '#b1b1b7', strokeWidth: 1 },
         }));
 
         const newNodes = initialNodes.map(node => ({
@@ -144,7 +175,7 @@ export default function WebsiteArchPage() {
             const e = newEdges.find(e => e.id === id);
             if (e) {
                 e.animated = true;
-                e.style = { stroke: '#2563eb', strokeWidth: 2 };
+                e.style = { ...e.style, stroke: '#2563eb', strokeWidth: 2 };
             }
         };
 
@@ -168,6 +199,11 @@ export default function WebsiteArchPage() {
             highlightNode('lambda');
             highlightNode('dynamo');
             highlightEdge('e5');
+        } else if (activeSection === "security") {
+            highlightNode('waf');
+            highlightNode('cloudfront');
+            highlightNode('budgets');
+            highlightEdge('e6');
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -200,6 +236,9 @@ export default function WebsiteArchPage() {
                         <h1 className="font-serif text-4xl md:text-5xl font-medium tracking-tight mb-6 text-gray-900">
                             Serverless at Scale
                         </h1>
+                        <p className="text-xl text-gray-600 leading-relaxed font-light">
+                            A technical deep dive into the event-driven architecture, global caching strategy, and cost-optimization patterns that power this portfolio.
+                        </p>
                     </header>
 
                     <div className="space-y-[50vh]">
