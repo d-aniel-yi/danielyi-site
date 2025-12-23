@@ -12,6 +12,7 @@ import { QuestionsSection } from "@/components/mercury/QuestionsSection";
 import { StrategySection } from "@/components/mercury/StrategySection";
 import { ClosingSection } from "@/components/mercury/ClosingSection";
 import { NavigationDots } from "@/components/mercury/NavigationDots";
+import { TableOfContentsSection } from "@/components/mercury/TableOfContentsSection";
 import "./mercury.css";
 
 export default function MercuryPage() {
@@ -115,6 +116,7 @@ export default function MercuryPage() {
 
     const sections = [
         HeroSection,
+        TableOfContentsSection,
         InitialQuestionsAssumptions,
         QualificationSection,
         DataSection,
@@ -128,6 +130,10 @@ export default function MercuryPage() {
     return (
         <div className="h-screen overflow-y-scroll scroll-smooth mercury-container" style={{ scrollBehavior: 'auto' }}>
             <HeroSection />
+            <TableOfContentsSection onNavigate={(index) => {
+                const scrollSections = document.querySelectorAll(".scroll-section");
+                scrollSections[index]?.scrollIntoView({ behavior: "smooth" });
+            }} />
             <InitialQuestionsAssumptions />
             <QualificationSection />
             <DataSection />

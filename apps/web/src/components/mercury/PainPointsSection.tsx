@@ -38,12 +38,8 @@ export function PainPointsSection() {
                                 Banking may not seem like an obvious place to optimize time, but when we start looking at the greater financial picture, digital marketing agencies are:
                             </p>
                             <ul className="list-disc pl-5 space-y-2 text-gray-400">
-                                <li>
-                                    <strong className="text-gray-300">High Spenders:</strong> Especially if they are buying placements on behalf of their buyer. Every client has expenses in multiple categories and usually lots of different personas working with clients. They need to be able to manage expenses, cost centers, invoices, and bills in a way that is both efficient and adaptable.
-                                </li>
-                                <li>
-                                    <strong className="text-gray-300">Modern by Design:</strong> Marketing agencies have to keep up with the times, and importantly, have to project that.
-                                </li>
+                                <strong className="text-gray-300">High Spenders:</strong> Especially if they are buying placements on behalf of their buyer. Every client has expenses in multiple categories and usually lots of different personas working with clients. They need to be able to manage expenses, cost centers, invoices, and bills in a way that is both efficient and adaptable.
+
                             </ul>
                         </div>
                     </div>
@@ -85,7 +81,7 @@ export function PainPointsSection() {
                                 Since agencies are essentially spending other people&apos;s money, every expense that does not get charged back to the client with accuracy and efficiency is pure lost profit.
                             </p>
                             <p>
-                                It is paramount that the every transaction is reconciled, invoices are easily tracked, and the whole system is transparent and easily auditable.
+                                It is paramount that the every transaction is reconciled, invoices are easily tracked, and the whole system is transparent and easily auditable - both for the agency and the client.
                             </p>
                             <p>
                                 Having everything in one place assures that nothing falls through the cracks.

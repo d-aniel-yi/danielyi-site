@@ -17,7 +17,7 @@ export function ValuePropSection() {
         {
             title: "Accounting",
             painPoint: "Managing multiple clients, revenue streams, and expenses gets messy fast. Big or small, agencies need to be able to manage their books with 100% reconciliation.",
-            solution: "Keeping everything in one place and/or automated integrations with popular accounting software ensures nothing slips through the cracks. Additionally, how the Mercury account is set up can allow for auto-reconciliation of most transactions.",
+            solution: "Keeping everything in one place and/or automated integrations with popular accounting software ensures nothing slips through the cracks. Additionally, how the Mercury account is set up can allow for auto-reconciliation of most transactions, ensuring accuracy.",
             color: "from-gray-200 to-slate-400"
         },
         {

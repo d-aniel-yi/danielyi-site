@@ -33,12 +33,6 @@ export function QuestionsSection() {
 
                         <div className="space-y-6">
                             <div>
-                                <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--mercury-white)' }}>Legacy Habits</h3>
-                                <p className="text-base leading-relaxed" style={{ color: 'var(--mercury-text-muted)' }}>
-                                    Points rewards, activation energy, fear of not fixing something that isn&apos;t broken
-                                </p>
-                            </div>
-                            <div>
                                 <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--mercury-white)' }}>Marketing Narrative</h3>
                                 <p className="text-base leading-relaxed" style={{ color: 'var(--mercury-text-muted)' }}>
                                     Mercury is branded as &quot;Banking For Startups&quot;, which speaks more directly to tech startup companies. While Mercury has a strong value proposition for Digital Marketing Agencies, the marketing and branding strategy of Mercury isn&apos;t currently directed towards them.
@@ -47,9 +41,17 @@ export function QuestionsSection() {
                             <div>
                                 <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--mercury-white)' }}>Focus</h3>
                                 <p className="text-base leading-relaxed" style={{ color: 'var(--mercury-text-muted)' }}>
-                                    Simply put, resources are limited, and this hasn&apos;t been a strong ICP-priority historically.
+                                    Simply put, resources are limited, and this hasn&apos;t been a strong ICP-priority historically. To really grow our stronghold in this vertical, we need to become fluent in the field of digital marketing.
                                 </p>
                             </div>
+                            <div>
+                                <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--mercury-white)' }}>Legacy Habits</h3>
+                                <p className="text-base leading-relaxed" style={{ color: 'var(--mercury-text-muted)' }}>
+                                    Points rewards, activation energy, fear of not fixing something that isn&apos;t broken. Many agencies work with traditional big banks, and while Mercury can provide huge value, it's our job to bring to light the pains that traditional banking can bring.
+                                </p>
+                            </div>
+
+
                         </div>
                     </div>
 
@@ -66,6 +68,11 @@ export function QuestionsSection() {
                             <div>
                                 <p className="text-base leading-relaxed mb-4" style={{ color: 'var(--mercury-text-muted)' }}>
                                     One of the advantages of digital marketing agencies is that their product is marketing, so they themselves are very visible.
+                                </p>
+                            </div>
+                            <div>
+                                <p className="text-base leading-relaxed mb-4" style={{ color: 'var(--mercury-text-muted)' }}>
+                                    This is a ripe opportunity to go after freelance, small agencies, challenger shops, and influencer management companies, who are hungry for growth and always looking for visibility.
                                 </p>
                             </div>
                             <div>
@@ -105,8 +112,8 @@ export function QuestionsSection() {
                                 {
                                     team: "Partnerships",
                                     desc: [
-                                        "1. Integrations with the large ad platforms (Google, Meta, TikTok, ESPN, etc).",
-                                        "2. Modern-day principal buying: Many agencies buy large amounts upfront, and then resells it to clients. If we had some sort of partnership with the platforms as a trade desk, we could provide a some sort of incentive (like the 1.5% cashback) for our clients to buy using this trade desk, rather than on a credit card. This is more of a long-term, DMA specific play."
+                                        "1. Integrations with the large ad platforms (Google, Meta, TikTok, ESPN, etc), at minimum automating categorization and reconciliation.",
+                                        "2. A unique partnership potential specific to digital marketing:Modern-day principal buying: Many agencies buy large amounts upfront, and then resells it to clients. If we had some sort of partnership with the platforms as a trade desk, we could provide a some sort of incentive (like the 1.5% cashback) for our clients to buy using this trade desk, rather than on a credit card."
                                     ]
                                 },
                                 {
