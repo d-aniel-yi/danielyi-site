@@ -67,6 +67,32 @@ export function StrategySection() {
                         </div>
                     </div>
 
+
+                    {/* Where are they? */}
+                    <div
+                        className="md:col-span-2 rounded-2xl p-8 shadow-lg"
+                        data-animate
+                        data-delay="150"
+                        style={{ backgroundColor: 'var(--mercury-card-bg)', borderWidth: '1px', borderColor: 'var(--mercury-border)' }}
+                    >
+                        <h3 className="text-xl font-bold mb-4" style={{ color: 'var(--mercury-white)' }}>
+                            Where are they?
+                        </h3>
+                        <div className="space-y-4" style={{ color: 'var(--mercury-text)' }}>
+                            <p className="text-sm leading-relaxed">
+                                One of the advantages of digital marketing agencies is that their product is marketing, so they themselves are very visible.
+                            </p>
+                            <ul className="list-disc pl-5 space-y-2 text-sm text-gray-400">
+                                <li>
+                                    <strong className="text-gray-300">Data Providers:</strong> PitchBook, Clay, Ocean.io, LinkedIn are great places to cold look.
+                                </li>
+                                <li>
+                                    <strong className="text-gray-300">Mercury Network:</strong> Look at current Mercury clients (especially larger ones) and see who their marketing agencies are.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
                     {/* Discovery Flow */}
                     <div
                         className="md:col-span-2 rounded-2xl p-8 shadow-lg"

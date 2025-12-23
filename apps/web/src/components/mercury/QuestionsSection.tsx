@@ -7,7 +7,21 @@ export function QuestionsSection() {
             style={{ backgroundColor: 'var(--mercury-card-bg)' }}
         >
             <div className="max-w-6xl mx-auto px-8 w-full">
-                <div className="grid md:grid-cols-2 gap-16">
+                <div className="text-center mb-16">
+                    <h2
+                        className="display-serif text-4xl md:text-5xl font-bold mb-4"
+                        data-animate
+                        data-delay="0"
+                        style={{ color: 'var(--mercury-white)' }}
+                    >
+                        Internal & External Hurdles
+                    </h2>
+                    <p className="text-lg text-gray-400 italic" style={{ color: 'var(--mercury-text-muted)' }}>
+                        Questions to ask ourselves to better inform our strategy
+                    </p>
+                </div>
+
+                <div className="max-w-4xl mx-auto space-y-24">
                     {/* Why haven't we won? */}
                     <div data-animate data-delay="0">
                         <h2
@@ -19,12 +33,11 @@ export function QuestionsSection() {
 
                         <div className="space-y-6">
                             <div
-                                className="p-6 rounded-xl border border-dashed border-red-900/40 bg-red-900/10"
-                                style={{ borderColor: 'rgba(239, 68, 68, 0.2)' }}
+                                className="p-6 rounded-xl border border-white/10 bg-white/5"
                             >
-                                <h3 className="text-xl font-bold mb-2 text-red-200">Legacy Habits</h3>
+                                <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--mercury-white)' }}>Legacy Habits</h3>
                                 <p style={{ color: 'var(--mercury-text-muted)' }}>
-                                    Points rewards, activation energy, fear of not fixing something that isn't broke.
+                                    Points rewards, activation energy, fear of not fixing something that isn&apos;t broke.
                                 </p>
                             </div>
                         </div>
@@ -39,35 +52,45 @@ export function QuestionsSection() {
                             What internal teams do we need support from?
                         </h2>
 
-                        <div className="space-y-4">
+                        <div className="space-y-8">
                             {[
                                 {
                                     team: "Underwriting / Risk",
-                                    desc: "Agencies generally need a large credit line because they have a ton of ad spend, far outpacing their revenue, because they are buying on behalf of clients, not necessarily collecting that revenue.",
-                                    color: "border-blue-500/30 bg-blue-500/10 text-blue-200"
+                                    desc: [
+                                        "Agencies generally need a large credit line because they have a ton of ad spend, far outpacing their revenue, because they are buying on behalf of clients, not necessarily collecting that revenue.",
+                                        "This is especially true for smaller agencies who may not have accounts set up with the larger ad platforms (Google, Meta, TikTok, ESPN, etc).",
+                                        "This can also be a huge pain point that is specific to smaller/newer agencies that we can address with the help with the underwriting team."
+                                    ]
                                 },
                                 {
                                     team: "Partnerships",
-                                    desc: "If we can integrate with large ad platforms to automate a lot of the workflow, huge win.",
-                                    color: "border-purple-500/30 bg-purple-500/10 text-purple-200"
+                                    desc: [
+                                        "1. Integrations with the large ad platforms (Google, Meta, TikTok, ESPN, etc).",
+                                        "2. Modern-day principal buying: Many agencies buy large amounts upfront, and then resells it to clients. If we had some sort of partnership with the platforms as a trade desk, we could provide a some sort of incentive (like the 1.5% cashback) for our clients to buy using this trade desk, rather than on a credit card. This is more of a long-term, DMA specific play."
+                                    ]
                                 },
                                 {
                                     team: "Marketing / Sales Enablement",
-                                    desc: "The hardest thing to sell against is inaction. While in the sales motion we can identify, build upon, and expand pain points, it's helpful to have the seed planted and have direct materials, such as mercury vs amex points.",
-                                    color: "border-pink-500/30 bg-pink-500/10 text-pink-200"
+                                    desc: [
+                                        "The hardest thing to sell against is inaction. While in the sales motion we can identify, build upon, and expand pain points, it's helpful to have the seed planted and have direct materials to address certain scenarios, such as Mercury vs AMEX points."
+                                    ]
                                 },
                                 {
                                     team: "Customer Success / Onboarding",
-                                    desc: "Larger agencies are complex and if we are selling against inaction, we need to make sure that the activation energy is as low as possible.",
-                                    color: "border-green-500/30 bg-green-500/10 text-green-200"
+                                    desc: [
+                                        "Larger agencies are complex and if we are selling against inaction, we need to make sure that the activation energy is as low as possible, and that getting them started and set up is as simple as possible."
+                                    ]
                                 }
                             ].map((item, i) => (
-                                <div
-                                    key={i}
-                                    className={`p-4 rounded-lg border ${item.color}`}
-                                >
-                                    <h3 className="font-bold mb-1" style={{ color: 'var(--mercury-white)' }}>{item.team}</h3>
-                                    <p className="text-sm leading-relaxed" style={{ color: 'var(--mercury-text-muted)' }}>{item.desc}</p>
+                                <div key={i}>
+                                    <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--mercury-white)' }}>
+                                        {item.team}
+                                    </h3>
+                                    {item.desc.map((paragraph, j) => (
+                                        <p key={j} className="text-base leading-relaxed mb-4 last:mb-0" style={{ color: 'var(--mercury-text-muted)' }}>
+                                            {paragraph}
+                                        </p>
+                                    ))}
                                 </div>
                             ))}
                         </div>

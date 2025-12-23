@@ -77,7 +77,7 @@ function UXLayer() {
                     <div>
                         <h4 className="text-xl font-bold text-white mb-2">The Volume Problem</h4>
                         <p className="text-blue-200/80 leading-relaxed">
-                            Just the listing contract form alone has over 750 possible fields and checkboxes, not all of which are relevant or required. If the whole point of this product is to be no-BS and simple for the users, we definitely can't ask them 18 pages worth of questions. Part of the challenge was filtering out which questions were necessary (not just from a legal standpoint, but to give the user the best chance at a successful listing), and part of the challenge was making the whole experience of filling out a form as pleasant as possible.
+                            Just the listing contract form alone has over 750 possible fields and checkboxes, not all of which are relevant or required. If the whole point of this product is to be no-BS and simple for the users, we definitely can&apos;t ask them 18 pages worth of questions. Part of the challenge was filtering out which questions were necessary (not just from a legal standpoint, but to give the user the best chance at a successful listing), and part of the challenge was making the whole experience of filling out a form as pleasant as possible.
                         </p>
                     </div>
                 </div>
@@ -254,7 +254,7 @@ function DataLayer() {
                             ref={inputWrapperRef}
                             className="relative"
                         >
-                            {/* @ts-ignore - Web Component */}
+                            {/* @ts-expect-error - Web Component */}
                             <gmp-place-autocomplete
                                 ref={autocompleteRef}
                                 placeholder="Enter an address..."
@@ -425,7 +425,7 @@ function PDFLayer() {
                         </p>
                         <br></br>
                         <p className="text-blue-200/80 leading-relaxed">
-                            I manually created acroform fields on the blank contract template, mapped each stable key to the correct acroform field, and created a script to generate a coordinate mapping of all of the different acroform fields. The system queries the database, pulls the correct data that corresponds to each stable key, and prints it according to the generated coordinate system using 'pdf-lib'.
+                            I manually created acroform fields on the blank contract template, mapped each stable key to the correct acroform field, and created a script to generate a coordinate mapping of all of the different acroform fields. The system queries the database, pulls the correct data that corresponds to each stable key, and prints it according to the generated coordinate system using &apos;pdf-lib&apos;.
                         </p>
                     </div>
                 </div>

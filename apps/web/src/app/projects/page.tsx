@@ -149,7 +149,7 @@ export default function ProjectsPage() {
           </h1>
 
           <p className="text-lg text-gray-600 leading-relaxed font-light max-w-2xl mx-auto">
-            A collection of projects and a selection of deep dives into the architecture and technical challenges, showcasing what I've been working on, both professionally and personally.
+            A collection of projects and a selection of deep dives into the architecture and technical challenges, showcasing what I&apos;ve been working on, both professionally and personally.
           </p>
         </motion.header>
 

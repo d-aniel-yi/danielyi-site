@@ -56,7 +56,7 @@ export function QualificationSection() {
                         style={{ backgroundColor: 'var(--mercury-bg)', borderWidth: '1px', borderColor: 'var(--mercury-border)' }}
                     >
                         <h3 className="text-2xl font-bold mb-6" style={{ color: 'var(--mercury-white)' }}>
-                            On first glance, DMA's:
+                            On first glance, DMA&apos;s:
                         </h3>
 
                         <ul className="grid grid-cols-1 gap-3">
@@ -64,7 +64,7 @@ export function QualificationSection() {
                                 "Cash free",
                                 "Potential for high spend",
                                 "Appetite for cashback",
-                                "Large number of transaction categories",
+                                "Large number of transaction categories, cost centers, spenders, etc",
                                 "Fast paced, modern environment"
                             ].map((item, i) => (
                                 <li key={i} className="flex items-center gap-3">

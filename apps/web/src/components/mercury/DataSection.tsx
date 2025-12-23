@@ -46,7 +46,7 @@ export function DataSection() {
                             </div>
 
                             <p className="text-base leading-relaxed mb-6" style={{ color: 'var(--mercury-text)' }}>
-                                Digital Marketing Agencies have shown consistent growth in recent years, with a historical and projected CAGR between 6-22%.
+                                Digital Marketing Agencies have shown consistent growth in recent years, with a historical and projected CAGR between 6-22% and a market size between $57B-$75B.
                             </p>
                             <p className="text-xs uppercase tracking-wider" style={{ color: 'var(--mercury-text-muted)' }}>
                                 Sources: PitchBook, BusinessWire, Financial Buzz Media, PR Newswire
@@ -69,37 +69,11 @@ export function DataSection() {
                             <span className="ml-2 text-sm text-gray-400">CAGR</span>
                         </div>
                         <p className="text-sm" style={{ color: 'var(--mercury-text-muted)' }}>
-                            The # of estimates within the Digital Marketing Agencies .
+                            The # of estimates within the Digital Marketing Agencies are low, so looking at an adjacent industry, SEO Service Agencies, shows us an even stronger growth trend. This is further evidence that even if the market size estimates are off, we can be confident that the trends are correct.
                         </p>
                     </div>
                 </div>
-
-                <div className="grid md:grid-cols-2 gap-8">
-                    {/* Where are they? */}
-                    <div
-                        className="rounded-2xl p-8 shadow-lg"
-                        data-animate
-                        data-delay="300"
-                        style={{ backgroundColor: 'var(--mercury-card-bg)', borderWidth: '1px', borderColor: 'var(--mercury-border)' }}
-                    >
-                        <h3 className="text-xl font-bold mb-4" style={{ color: 'var(--mercury-white)' }}>
-                            Where are they?
-                        </h3>
-                        <div className="space-y-4" style={{ color: 'var(--mercury-text)' }}>
-                            <p className="text-sm leading-relaxed">
-                                One of the advantages of digital marketing agencies is that their product is marketing, so they themselves are very visible.
-                            </p>
-                            <ul className="list-disc pl-5 space-y-2 text-sm text-gray-400">
-                                <li>
-                                    <strong className="text-gray-300">Data Providers:</strong> PitchBook, Clay, Ocean.io, LinkedIn are great places to cold look.
-                                </li>
-                                <li>
-                                    <strong className="text-gray-300">Mercury Network:</strong> Look at current Mercury clients (especially larger ones) and see who their marketing agencies are.
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
+                <div className="grid grid-cols-1 gap-8">
                     {/* Assumptions */}
                     <div
                         className="rounded-2xl p-8 shadow-lg border border-dashed"
@@ -112,10 +86,13 @@ export function DataSection() {
                     >
                         <h3 className="text-lg font-bold mb-4 flex items-center gap-2" style={{ color: 'var(--mercury-text)' }}>
                             <span className="w-2 h-2 rounded-full bg-yellow-500"></span>
-                            Assumptions
+                            Assumptions for this exercise
                         </h3>
-                        <p className="text-lg italic" style={{ color: 'var(--mercury-text-muted)' }}>
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco..."
+                        <p className="text-lg" style={{ color: 'var(--mercury-text-muted)' }}>
+                            <li>Mercury is strategically planning for aggressive growth into a new vertical, meaning that we will have the full backing of internal teams.</li>
+                            <li>A high-value customer utilizes a large portion of our services (product is sticky), carries a high balance (higher $ in bank capital requirements), and/or processes large volumes.</li>
+                            <li>Mercury makes money on interchange fees.</li>
+                            <li>Mercury has an org structure that is similar to traditional SaaS companies, with sales, marketing/enablement, partnerships, and onboarding/customer success.</li>
                         </p>
                     </div>
                 </div>
