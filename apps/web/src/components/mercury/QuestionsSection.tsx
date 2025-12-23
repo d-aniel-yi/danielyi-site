@@ -47,7 +47,7 @@ export function QuestionsSection() {
                             <div>
                                 <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--mercury-white)' }}>Legacy Habits</h3>
                                 <p className="text-base leading-relaxed" style={{ color: 'var(--mercury-text-muted)' }}>
-                                    Points rewards, activation energy, fear of not fixing something that isn&apos;t broken. Many agencies work with traditional big banks, and while Mercury can provide huge value, it's our job to bring to light the pains that traditional banking can bring.
+                                    Points rewards, activation energy, fear of not fixing something that isn&apos;t broken. Many agencies work with traditional big banks, and while Mercury can provide huge value, it&apos;s our job to bring to light the pains that traditional banking can bring.
                                 </p>
                             </div>
 
