@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ReactFlow, Background, useNodesState, useEdgesState } from "@xyflow/react";
+import { ReactFlow, Background, useNodesState, useEdgesState, type Node, type Edge } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
 // --- Data ---
@@ -125,7 +125,7 @@ const SECTIONS = [
 
 // --- Nodes & Edges Setup ---
 
-const initialNodes = [
+const initialNodes: Node[] = [
     { id: 'user', position: { x: 0, y: 0 }, data: { label: 'User' }, type: 'input', style: { background: '#fff', border: '1px solid #777', width: 80 } },
     { id: 'cloudfront', position: { x: 0, y: 150 }, data: { label: 'CloudFront' }, style: { background: '#f3f4f6', border: '1px solid #777' } },
     { id: 'waf', position: { x: -120, y: 150 }, data: { label: 'WAF' }, style: { background: '#fee2e2', border: '1px solid #ef4444' } },
@@ -136,7 +136,7 @@ const initialNodes = [
     { id: 'budgets', position: { x: 200, y: 0 }, data: { label: 'AWS Budgets' }, style: { background: '#ecfccb', border: '1px solid #65a30d' } },
 ];
 
-const initialEdges = [
+const initialEdges: Edge[] = [
     { id: 'e1', source: 'user', target: 'cloudfront', animated: true },
     { id: 'e2', source: 'cloudfront', target: 's3', label: 'Static Content', animated: false },
     { id: 'e3', source: 'cloudfront', target: 'apigw', label: 'API /contact', animated: false },
@@ -149,8 +149,8 @@ const initialEdges = [
 
 export default function WebsiteArchPage() {
     const [activeSection, setActiveSection] = useState("intro");
-    const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+    const [nodes, setNodes, onNodesChange] = useNodesState<Node>(initialNodes);
+    const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>(initialEdges);
 
     // Update diagram based on active section
     useEffect(() => {
