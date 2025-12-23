@@ -4,7 +4,7 @@ export function ClosingSection() {
     return (
         <section
             className="scroll-section min-h-screen flex items-center justify-center py-20 relative z-10"
-            style={{ backgroundColor: 'var(--mercury-bg)' }}
+            style={{ backgroundColor: 'var(--mercury-card-bg)' }}
         >
             <div className="max-w-3xl mx-auto px-8 text-center">
                 <h2
@@ -46,11 +46,11 @@ export function ClosingSection() {
                         </a>
 
                         <a
-                            href="mailto:d@nielyi.com"
+                            href="mailto:062daniel.yi@gmail.com"
                             className="block text-xl font-medium transition-colors hover:underline"
                             style={{ color: 'var(--mercury-text)' }}
                         >
-                            d@nielyi.com
+                            062daniel.yi@gmail.com
                         </a>
                     </div>
                 </div>

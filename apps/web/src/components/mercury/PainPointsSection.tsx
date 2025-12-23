@@ -82,7 +82,7 @@ export function PainPointsSection() {
                         <h3 className="text-xl font-bold mb-4" style={{ color: 'var(--mercury-white)' }}>Trust</h3>
                         <div className="space-y-4 text-sm leading-relaxed" style={{ color: 'var(--mercury-text)' }}>
                             <p>
-                                Since agencies are essentially spending other people’s money, every expense that does not get charged back to the client with accuracy and efficiency is pure lost profit.
+                                Since agencies are essentially spending other people&apos;s money, every expense that does not get charged back to the client with accuracy and efficiency is pure lost profit.
                             </p>
                             <p>
                                 It is paramount that the every transaction is reconciled, invoices are easily tracked, and the whole system is transparent and easily auditable.

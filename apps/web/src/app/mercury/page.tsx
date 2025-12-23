@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { PasswordGate } from "@/components/mercury/PasswordGate";
 import { HeroSection } from "@/components/mercury/HeroSection";
+import { InitialQuestionsAssumptions } from "@/components/mercury/InitialQuestionsAssumptions";
 import { QualificationSection } from "@/components/mercury/QualificationSection";
 import { DataSection } from "@/components/mercury/DataSection";
 import { PainPointsSection } from "@/components/mercury/PainPointsSection";
@@ -114,6 +115,7 @@ export default function MercuryPage() {
 
     const sections = [
         HeroSection,
+        InitialQuestionsAssumptions,
         QualificationSection,
         DataSection,
         PainPointsSection,
@@ -126,6 +128,7 @@ export default function MercuryPage() {
     return (
         <div className="h-screen overflow-y-scroll scroll-smooth mercury-container" style={{ scrollBehavior: 'auto' }}>
             <HeroSection />
+            <InitialQuestionsAssumptions />
             <QualificationSection />
             <DataSection />
             <PainPointsSection />

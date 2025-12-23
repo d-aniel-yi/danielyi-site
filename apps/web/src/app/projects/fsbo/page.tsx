@@ -421,7 +421,7 @@ function PDFLayer() {
                     <div>
                         <h4 className="text-xl font-bold text-white mb-2">The PDF Assembler</h4>
                         <p className="text-blue-200/80 leading-relaxed">
-                            The stakes are high - selling a home is a big deal, and it's often the largest financial decision that a person will make in their lifetime, so it's important to get this right. These are legally binding documents, and I have to make sure that the system is robust enough to handle all cases. Once the data structure is in place and the data is captured, we have to make sure that it is properly printed on the document. The RMLS and uploading team require these contracts to be filled out, and our system allows for this to happen in a more user-friendly manner.
+                            The stakes are high - selling a home is a big deal, and it&apos;s often the largest financial decision that a person will make in their lifetime, so it&apos;s important to get this right. These are legally binding documents, and I have to make sure that the system is robust enough to handle all cases. Once the data structure is in place and the data is captured, we have to make sure that it is properly printed on the document. The RMLS and uploading team require these contracts to be filled out, and our system allows for this to happen in a more user-friendly manner.
                         </p>
                         <br></br>
                         <p className="text-blue-200/80 leading-relaxed">

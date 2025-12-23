@@ -22,7 +22,7 @@ export function TargetSection({
   isEven,
 }: TargetSectionProps) {
   return (
-    <section 
+    <section
       className="scroll-section min-h-screen flex items-center py-20 relative z-10"
       style={{ backgroundColor: isEven ? 'var(--op-white)' : '#f9f9f9' }}
     >
@@ -31,21 +31,21 @@ export function TargetSection({
           {/* Logo, Title & Subtitle */}
           <div className={`${isEven ? 'md:order-1' : 'md:order-2'}`}>
             {logo && (
-              <div 
+              <div
                 data-animate
                 data-delay="0"
                 className="mb-6"
               >
-                <img 
-                  src={logo} 
-                  alt={`${title} logo`} 
+                <img
+                  src={logo}
+                  alt={`${title} logo`}
                   className="h-16 object-contain"
                   style={{ maxWidth: '240px' }}
                 />
               </div>
             )}
-            
-            <h2 
+
+            <h2
               className="display-serif text-4xl md:text-5xl font-bold mb-3"
               data-animate
               data-delay="100"
@@ -53,8 +53,8 @@ export function TargetSection({
             >
               {title}
             </h2>
-            
-            <p 
+
+            <p
               className="text-xl mb-8"
               data-animate
               data-delay="200"
@@ -66,13 +66,13 @@ export function TargetSection({
 
           {/* Content */}
           <div className={`space-y-6 ${isEven ? 'md:order-2' : 'md:order-1'}`}>
-            <div 
+            <div
               className="rounded-xl p-6 shadow-sm target-card"
               data-animate
               data-delay="300"
               style={{ backgroundColor: 'var(--op-white)', borderWidth: '1px', borderColor: 'var(--op-gray)' }}
             >
-              <h3 
+              <h3
                 className="text-sm uppercase tracking-wider font-semibold mb-3"
                 style={{ color: 'var(--op-gray-2)' }}
               >
@@ -81,13 +81,13 @@ export function TargetSection({
               <p className="leading-relaxed text-sm" style={{ color: 'var(--op-dark-gray)' }}>{rationale}</p>
             </div>
 
-            <div 
+            <div
               className="rounded-xl p-6 shadow-sm target-card"
               data-animate
               data-delay="400"
               style={{ backgroundColor: 'var(--op-white)', borderWidth: '1px', borderColor: 'var(--op-gray)' }}
             >
-              <h3 
+              <h3
                 className="text-sm uppercase tracking-wider font-semibold mb-3"
                 style={{ color: 'var(--op-gray-2)' }}
               >
@@ -96,13 +96,13 @@ export function TargetSection({
               <p className="leading-relaxed text-sm" style={{ color: 'var(--op-dark-gray)' }}>{approach}</p>
             </div>
 
-            <div 
+            <div
               className="rounded-xl p-6 shadow-sm target-card"
               data-animate
               data-delay="500"
               style={{ backgroundColor: 'var(--op-white)', borderWidth: '1px', borderColor: 'var(--op-gray)' }}
             >
-              <h3 
+              <h3
                 className="text-sm uppercase tracking-wider font-semibold mb-3"
                 style={{ color: 'var(--op-gray-2)' }}
               >
@@ -112,13 +112,13 @@ export function TargetSection({
             </div>
 
             {bonus && (
-              <div 
+              <div
                 className="rounded-xl p-6 shadow-sm target-card"
                 data-animate
                 data-delay="600"
                 style={{ backgroundColor: 'var(--op-white)', borderWidth: '1px', borderColor: 'var(--op-gray)' }}
               >
-                <h3 
+                <h3
                   className="text-sm uppercase tracking-wider font-semibold mb-3"
                   style={{ color: 'var(--op-gray-2)' }}
                 >
