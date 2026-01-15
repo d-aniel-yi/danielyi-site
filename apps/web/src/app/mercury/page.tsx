@@ -102,7 +102,7 @@ export default function MercuryPage() {
     }, [isAuthenticated]);
 
     const handlePasswordSubmit = (password: string) => {
-        if (password === "mercury") {
+        if (password === "danielonly") {
             setIsAuthenticated(true);
             sessionStorage.setItem("mercury_auth", "true");
             return true;
