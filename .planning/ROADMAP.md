@@ -12,7 +12,7 @@ Diagnose and fix all build errors on the `dev` branch so that new project deep d
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Diagnose** - Identify root causes of build failures
+- [x] **Phase 1: Diagnose** - Identify root causes of build failures
 - [ ] **Phase 2: Fix Pages** - Repair broken pages for static export
 - [ ] **Phase 3: Validate** - Ensure quality checks pass
 - [ ] **Phase 4: Integrate** - Merge to main without regressions
@@ -30,7 +30,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 1 plan
 
 Plans:
-- [ ] 01-01-PLAN.md — Run build diagnostics and document all errors with categorization
+- [x] 01-01-PLAN.md — Run build diagnostics and document all errors with categorization
 
 ### Phase 2: Fix Pages
 **Goal**: All new pages render correctly in static export
@@ -81,7 +81,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Diagnose | 0/1 | Planned | - |
+| 1. Diagnose | 1/1 | ✓ Complete | 2026-02-10 |
 | 2. Fix Pages | 0/TBD | Not started | - |
 | 3. Validate | 0/TBD | Not started | - |
 | 4. Integrate | 0/TBD | Not started | - |

@@ -45,7 +45,7 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| BUILD-01 | Phase 1, Phase 3 | Pending |
+| BUILD-01 | Phase 1, Phase 3 | In Progress (Phase 1 diagnosed) |
 | BUILD-02 | Phase 2, Phase 3 | Pending |
 | PAGE-01 | Phase 2 | Pending |
 | PAGE-02 | Phase 2 | Pending |
