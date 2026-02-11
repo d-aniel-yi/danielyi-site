@@ -27,10 +27,10 @@ Decimal phases appear between their surrounding integers in numeric order.
   1. All build errors from `next build` are documented with file paths and error messages
   2. Root causes are identified for each failure (SSR-only APIs, missing dependencies, import errors, etc.)
   3. Scope of required fixes is known (which pages, which files)
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] TBD (to be created during phase planning)
+- [ ] 01-01-PLAN.md — Run build diagnostics and document all errors with categorization
 
 ### Phase 2: Fix Pages
 **Goal**: All new pages render correctly in static export
@@ -81,7 +81,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Diagnose | 0/TBD | Not started | - |
+| 1. Diagnose | 0/1 | Planned | - |
 | 2. Fix Pages | 0/TBD | Not started | - |
 | 3. Validate | 0/TBD | Not started | - |
 | 4. Integrate | 0/TBD | Not started | - |
