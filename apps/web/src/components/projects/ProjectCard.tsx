@@ -9,7 +9,7 @@ export interface ProjectItem {
   href: string;
   excerpt: string;
   image: string;
-  tags: string[];
+  tags?: string[];
   featured?: boolean;
   accentColor?: string;
   detailsSlug?: string;
@@ -22,7 +22,7 @@ export interface ProjectItem {
 
 interface ProjectCardProps {
   item: ProjectItem;
-  variant?: "deep-dive" | "standard";
+  variant?: "deep-dive" | "featured" | "standard";
 }
 
 export function ProjectCard({ item, variant = "standard" }: ProjectCardProps) {
@@ -30,7 +30,7 @@ export function ProjectCard({ item, variant = "standard" }: ProjectCardProps) {
   const linkHref = item.detailsSlug ? `/projects/${item.detailsSlug}` : item.href;
   const isExternal = !item.detailsSlug;
 
-  if (variant === "deep-dive") {
+  if (variant === "deep-dive" || variant === "featured") {
     return (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -68,21 +68,23 @@ export function ProjectCard({ item, variant = "standard" }: ProjectCardProps) {
           {/* Content Section */}
           <div className="p-8">
             {/* Tags */}
-            <div className="flex flex-wrap gap-2 mb-4">
-              {item.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-3 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-700 border border-gray-200"
-                  style={{
-                    backgroundColor: item.accentColor ? `${item.accentColor}10` : undefined,
-                    borderColor: item.accentColor ? `${item.accentColor}30` : undefined,
-                    color: item.accentColor || undefined,
-                  }}
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
+            {item.tags && item.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-4">
+                {item.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-3 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-700 border border-gray-200"
+                    style={{
+                      backgroundColor: item.accentColor ? `${item.accentColor}10` : undefined,
+                      borderColor: item.accentColor ? `${item.accentColor}30` : undefined,
+                      color: item.accentColor || undefined,
+                    }}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
 
             {/* Title */}
             <h3 className="font-serif text-2xl md:text-3xl font-medium mb-4 text-gray-900 group-hover:text-gray-700 transition-colors">
@@ -171,16 +173,18 @@ export function ProjectCard({ item, variant = "standard" }: ProjectCardProps) {
         {/* Content Section */}
         <div className="p-6">
           {/* Tags */}
-          <div className="flex flex-wrap gap-2 mb-3">
-            {item.tags.map((tag) => (
-              <span
-                key={tag}
-                className="px-2 py-1 text-xs font-medium rounded bg-gray-100 text-gray-600"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
+          {item.tags && item.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mb-3">
+              {item.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="px-2 py-1 text-xs font-medium rounded bg-gray-100 text-gray-600"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
 
           {/* Title */}
           <h3 className="font-serif text-xl font-medium mb-2 text-gray-900 group-hover:text-gray-700 transition-colors">
