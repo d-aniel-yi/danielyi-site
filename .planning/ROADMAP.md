@@ -13,7 +13,7 @@ Diagnose and fix all build errors on the `dev` branch so that new project deep d
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Diagnose** - Identify root causes of build failures
-- [ ] **Phase 2: Fix Pages** - Repair broken pages for static export
+- [x] **Phase 2: Fix Pages** - Repair broken pages for static export
 - [ ] **Phase 3: Validate** - Ensure quality checks pass
 - [ ] **Phase 4: Integrate** - Merge to main without regressions
 
@@ -45,10 +45,10 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Implement parseAddress utility for FSBO page
-- [ ] 02-02-PLAN.md — Implement ProjectCard component for projects listing
-- [ ] 02-03-PLAN.md — Implement shared TargetSection for halborn/softstack pages
-- [ ] 02-04-PLAN.md — Verify build succeeds with all component implementations
+- [x] 02-01-PLAN.md — Implement parseAddress utility for FSBO page
+- [x] 02-02-PLAN.md — Implement ProjectCard component for projects listing
+- [x] 02-03-PLAN.md — Implement shared TargetSection for halborn/softstack pages
+- [x] 02-04-PLAN.md — Verify build succeeds with all component implementations
 
 ### Phase 3: Validate
 **Goal**: Build succeeds and code quality checks pass
@@ -85,10 +85,10 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Diagnose | 1/1 | ✓ Complete | 2026-02-10 |
-| 2. Fix Pages | 0/4 | Ready to execute | - |
+| 2. Fix Pages | 4/4 | ✓ Complete | 2026-02-11 |
 | 3. Validate | 0/TBD | Not started | - |
 | 4. Integrate | 0/TBD | Not started | - |
 
 ---
 *Created: 2026-02-10*
-*Last updated: 2026-02-10*
+*Last updated: 2026-02-11*
