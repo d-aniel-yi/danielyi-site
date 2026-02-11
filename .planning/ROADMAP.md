@@ -42,10 +42,13 @@ Plans:
   3. Mobi deep dive page (`/projects/mobi`) renders without errors
   4. Portfolio deep dive page (`/projects/portfolio`) renders without errors
   5. Tech demos page (`/technical`) updates render without errors
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] TBD (to be created during phase planning)
+- [ ] 02-01-PLAN.md — Implement parseAddress utility for FSBO page
+- [ ] 02-02-PLAN.md — Implement ProjectCard component for projects listing
+- [ ] 02-03-PLAN.md — Implement shared TargetSection for halborn/softstack pages
+- [ ] 02-04-PLAN.md — Verify build succeeds with all component implementations
 
 ### Phase 3: Validate
 **Goal**: Build succeeds and code quality checks pass
@@ -82,7 +85,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Diagnose | 1/1 | ✓ Complete | 2026-02-10 |
-| 2. Fix Pages | 0/TBD | Not started | - |
+| 2. Fix Pages | 0/4 | Ready to execute | - |
 | 3. Validate | 0/TBD | Not started | - |
 | 4. Integrate | 0/TBD | Not started | - |
 
