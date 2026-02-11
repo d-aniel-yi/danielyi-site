@@ -45,23 +45,25 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| BUILD-01 | — | Pending |
-| BUILD-02 | — | Pending |
-| PAGE-01 | — | Pending |
-| PAGE-02 | — | Pending |
-| PAGE-03 | — | Pending |
-| PAGE-04 | — | Pending |
-| PAGE-05 | — | Pending |
-| QUAL-01 | — | Pending |
-| QUAL-02 | — | Pending |
-| INTG-01 | — | Pending |
-| INTG-02 | — | Pending |
+| BUILD-01 | Phase 1, Phase 3 | Pending |
+| BUILD-02 | Phase 2, Phase 3 | Pending |
+| PAGE-01 | Phase 2 | Pending |
+| PAGE-02 | Phase 2 | Pending |
+| PAGE-03 | Phase 2 | Pending |
+| PAGE-04 | Phase 2 | Pending |
+| PAGE-05 | Phase 2 | Pending |
+| QUAL-01 | Phase 3 | Pending |
+| QUAL-02 | Phase 3 | Pending |
+| INTG-01 | Phase 4 | Pending |
+| INTG-02 | Phase 4 | Pending |
 
 **Coverage:**
 - v1 requirements: 11 total
-- Mapped to phases: 0
-- Unmapped: 11 ⚠️
+- Mapped to phases: 11 (100%)
+- Unmapped: 0
+
+**Note:** BUILD-01 and BUILD-02 appear in multiple phases because they're validated at different stages (diagnosis, fixing, and final validation).
 
 ---
 *Requirements defined: 2026-02-10*
-*Last updated: 2026-02-10 after initial definition*
+*Last updated: 2026-02-10 after roadmap creation*
