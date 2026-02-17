@@ -101,11 +101,25 @@ export default function ProjectsPage() {
       excerpt: "Full-stack Web3 tip jar with soulbound NFT badges. Live on Base L2 with 99.8% lower gas costs.",
       tags: ["Web3", "Solidity", "NFTs", "Base L2"],
       image: "/nft.png",
+      basescan: "https://basescan.org/address/0x3e34E90b0D3B2052B3618E76A2eb86A56B27B948#code",
       // detailsSlug removed
       techDetails: {
         stack: ["Solidity", "Wagmi", "Viem", "RainbowKit", "IPFS", "Base L2"],
         architecture: "ERC-1155 smart contract on Base L2 with programmatically generated SVG NFT badges. Client-side Web3 integration, no backend required.",
         highlights: ["$0.01 per transaction (99.8% cheaper than Ethereum)", "30 unique soulbound NFT badges", "100% test coverage", "IPFS decentralized storage"],
+      },
+    },
+    {
+      title: "Film Scrubber",
+      href: "https://film.nielyi.com",
+      excerpt: "A sports film viewing webapp I created, modeling the functionality off of football film clickers I used during my days working in football. The app allows a user to easily scrub through a YouTube video and watch back their play from their sport of choice. The app was created to test out the functionality of Claude 4.6.",
+      tags: ["Next.js", "React 19", "Tailwind v4"],
+      image: "/film-scrubber-card.webp",
+      github: "https://github.com/d-aniel-yi/film-scrubber",
+      techDetails: {
+        stack: ["Next.js 15", "React 19", "Tailwind v4"],
+        architecture: "Modern Next.js app leveraging the latest React features for performant video scrubbing and state management.",
+        highlights: ["YouTube Player API integration", "Precise video scrubbing control", "Built with Claude 4.6 Opus"],
       },
     },
     {

@@ -39,7 +39,6 @@ export function SiteHeader() {
             <HeaderLink href="/">Home</HeaderLink>
             <HeaderLink href="/resume">Resume</HeaderLink>
             <HeaderLink href="/projects">Projects</HeaderLink>
-            <HeaderLink href="/technical">Technical Details</HeaderLink>
             <HeaderLink href="/letter">Dear Reader</HeaderLink>
             <HeaderLink href="/contact">Contact</HeaderLink>
           </nav>
@@ -74,7 +73,6 @@ export function SiteHeader() {
               <MobileLink href="/" onClick={() => setOpen(false)}>Home</MobileLink>
               <MobileLink href="/resume" onClick={() => setOpen(false)}>Resume</MobileLink>
               <MobileLink href="/projects" onClick={() => setOpen(false)}>Projects</MobileLink>
-              <MobileLink href="/technical" onClick={() => setOpen(false)}>Technical Details</MobileLink>
               <MobileLink href="/letter" onClick={() => setOpen(false)}>Dear Reader</MobileLink>
               <MobileLink href="/contact" onClick={() => setOpen(false)}>Contact</MobileLink>
             </div>

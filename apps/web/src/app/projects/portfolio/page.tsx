@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ReactFlow, Background, useNodesState, useEdgesState, type Node, type Edge } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
+import { TechnicalDetails } from "@/components/projects/portfolio/TechnicalDetails";
 
 // --- Data ---
 
@@ -57,12 +58,10 @@ const SECTIONS = [
         content: (
             <>
                 <p>
-                    Dynamic requests (like the contact form) bypass the cache and hit
-                    <strong>API Gateway</strong>.
+                    Dynamic requests (like the contact form) bypass the cache and hit <strong>API Gateway</strong>.
                 </p>
                 <p className="mt-4">
-                    This triggers a <strong>Lambda</strong> function running Node.js. It&apos;s ephemeral compute:
-                    it spins up, processes the request, and shuts down. No idle servers to pay for.
+                    This triggers a <strong>Lambda</strong> function running Node.js, spinning up, processing the request, and shutting down. No idle servers.
                 </p>
                 <div className="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-sm font-mono text-xs overflow-x-auto">
                     <p className="text-gray-500">{/* Lambda Handler (TypeScript) */}</p>
@@ -149,6 +148,7 @@ const initialEdges: Edge[] = [
 
 export default function WebsiteArchPage() {
     const [activeSection, setActiveSection] = useState("intro");
+    const [isTechnicalExpanded, setIsTechnicalExpanded] = useState(false);
     const [nodes, setNodes, onNodesChange] = useNodesState<Node>(initialNodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>(initialEdges);
 
@@ -253,8 +253,15 @@ export default function WebsiteArchPage() {
                         ))}
                     </div>
 
-                    <div className="h-[20vh]" /> {/* Spacer at bottom */}
+                    <div className="h-[10vh]" /> {/* Spacer */}
                 </div>
+            </div>
+
+            <div className="relative z-10 bg-white border-t border-gray-200">
+                <TechnicalDetails
+                    isOpen={isTechnicalExpanded}
+                    toggle={() => setIsTechnicalExpanded(!isTechnicalExpanded)}
+                />
             </div>
         </div>
     );
