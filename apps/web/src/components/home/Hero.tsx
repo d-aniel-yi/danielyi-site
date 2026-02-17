@@ -38,7 +38,7 @@ export function Hero() {
                 <em className="italic"></em>
               </h1>
               <p className="mt-3 max-w-xl text-base md:text-lg text-left text-[#f5f1e9]/85">
-                
+
               </p>
             </div>
             <div className="col-span-12 md:col-span-5 md:justify-self-end">
@@ -58,7 +58,6 @@ export function Hero() {
 const quickLinks = [
   { label: "Explore", value: "Resume", href: "/resume" },
   { label: "Explore", value: "Projects", href: "/projects" },
-  { label: "Explore", value: "Technical notes", href: "/technical" },
 ];
 
 // carousel and reduced motion helpers removed per request
