@@ -1,69 +1,63 @@
-# Requirements: Resume Site — Bug Fix & Merge
+# Requirements: Resume Site
 
 **Defined:** 2026-02-10
-**Core Value:** New pages build successfully as static export and deploy to S3
+**Updated:** 2026-04-06
+**Core Value:** Showcase technical work through polished, detailed project deep dives
 
-## v1 Requirements
+## v1.0 Requirements (Complete)
 
 ### Build Fixes
 
-- [ ] **BUILD-01**: `next build` with `output: 'export'` completes without errors
-- [ ] **BUILD-02**: All new pages produce valid static HTML in the export output
+- [x] **BUILD-01**: `next build` with `output: 'export'` completes without errors
+- [x] **BUILD-02**: All new pages produce valid static HTML in the export output
 
 ### Page Fixes
 
-- [ ] **PAGE-01**: Projects listing page (`/projects`) renders correctly in static export
-- [ ] **PAGE-02**: FSBO deep dive page (`/projects/fsbo`) renders correctly in static export
-- [ ] **PAGE-03**: Mobi deep dive page (`/projects/mobi`) renders correctly in static export
-- [ ] **PAGE-04**: Portfolio deep dive page (`/projects/portfolio`) renders correctly in static export
-- [ ] **PAGE-05**: Tech demos page (`/technical`) updates render correctly in static export
+- [x] **PAGE-01**: Projects listing page (`/projects`) renders correctly in static export
+- [x] **PAGE-02**: FSBO deep dive page (`/projects/fsbo`) renders correctly in static export
+- [x] **PAGE-03**: Mobi deep dive page (`/projects/mobi`) renders correctly in static export
+- [x] **PAGE-04**: Portfolio deep dive page (`/projects/portfolio`) renders correctly in static export
+- [x] **PAGE-05**: Tech demos page (`/technical`) updates render correctly in static export
 
-### Code Quality
+## v1.1 Requirements
 
-- [ ] **QUAL-01**: All new/modified files pass linting (`next lint` or eslint)
-- [ ] **QUAL-02**: No TypeScript errors in new/modified files
+### Diagram Layout
 
-### Integration
+- [ ] **DIAG-01**: Mobi architecture diagram is inline in the page content flow (not a fixed side panel)
+- [ ] **DIAG-02**: Diagram is view-only — no zoom, pan, or node dragging
+- [ ] **DIAG-03**: Diagram edges auto-animate on page load (no simulation button/UI)
 
-- [ ] **INTG-01**: `dev` branch merges into `main` without conflicts
-- [ ] **INTG-02**: Existing pages on `main` still work after merge (no regressions)
+### Navigation
 
-## v2 Requirements
+- [ ] **NAV-01**: "View on GitHub" button links to https://github.com/d-aniel-yi/mobi
 
-(None — this is a fix-and-merge project)
+### Content
+
+- [ ] **CONT-01**: Additional technical sections added sourced from Mobi repo documentation
 
 ## Out of Scope
 
 | Feature | Reason |
 |---------|--------|
-| Mercury page fixes | User excluded from scope |
-| New features or design changes | Fix what's there, don't add |
-| CDK/infrastructure changes | Deployment pipeline works, only build is broken |
-| Visual polish or redesign | Goal is functional, not aesthetic |
+| Mercury page | Not in scope for this milestone |
+| Other deep dive pages | Only Mobi is being updated |
+| Infrastructure/CDK changes | Deployment pipeline is working |
 
 ## Traceability
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| BUILD-01 | Phase 1, Phase 3 | In Progress (Phase 1 diagnosed) |
-| BUILD-02 | Phase 2, Phase 3 | Pending |
-| PAGE-01 | Phase 2 | Pending |
-| PAGE-02 | Phase 2 | Pending |
-| PAGE-03 | Phase 2 | Pending |
-| PAGE-04 | Phase 2 | Pending |
-| PAGE-05 | Phase 2 | Pending |
-| QUAL-01 | Phase 3 | Pending |
-| QUAL-02 | Phase 3 | Pending |
-| INTG-01 | Phase 4 | Pending |
-| INTG-02 | Phase 4 | Pending |
+| DIAG-01 | TBD | Pending |
+| DIAG-02 | TBD | Pending |
+| DIAG-03 | TBD | Pending |
+| NAV-01 | TBD | Pending |
+| CONT-01 | TBD | Pending |
 
 **Coverage:**
-- v1 requirements: 11 total
-- Mapped to phases: 11 (100%)
-- Unmapped: 0
-
-**Note:** BUILD-01 and BUILD-02 appear in multiple phases because they're validated at different stages (diagnosis, fixing, and final validation).
+- v1.1 requirements: 5 total
+- Mapped to phases: 0
+- Unmapped: 5 ⚠️
 
 ---
 *Requirements defined: 2026-02-10*
-*Last updated: 2026-02-10 after roadmap creation*
+*Last updated: 2026-04-06 after milestone v1.1 requirements*
