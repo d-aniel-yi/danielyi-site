@@ -111,7 +111,10 @@ Plans:
   1. At least one new technical section appears on the page beyond the existing four
   2. Content accurately reflects implementation details found in the Mobi repo documentation
   3. The page builds successfully as a static export after content additions
-**Plans**: TBD
+**Plans**: 1 plan
+
+Plans:
+- [ ] 06-01-PLAN.md — Add SAM/ML Pipeline, WebSocket notifications, and Workspace UI sections to Mobi page
 
 ## Progress
 
