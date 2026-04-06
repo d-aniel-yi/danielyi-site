@@ -97,8 +97,11 @@ Plans:
   2. The diagram cannot be zoomed, panned, or have its nodes dragged
   3. Diagram edges animate automatically when the page loads — no button required
   4. A "View on GitHub" button is visible on the page and navigates to https://github.com/d-aniel-yi/mobi
-**Plans**: TBD
+**Plans**: 1 plan
 **UI hint**: yes
+
+Plans:
+- [ ] 05-01-PLAN.md — Refactor Mobi page: sticky 35% diagram panel, view-only interactions, auto-animation loop, GitHub CTA buttons
 
 ### Phase 6: Content Expansion
 **Goal**: The Mobi page contains richer technical sections sourced from the Mobi repo's documentation
@@ -121,7 +124,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 2. Fix Pages | 4/4 | ✓ Complete | 2026-02-11 |
 | 3. Validate | —/— | ✓ Complete | 2026-04-06 |
 | 4. Integrate | —/— | ✓ Complete | 2026-04-06 |
-| 5. Diagram & Navigation | 0/TBD | Not started | - |
+| 5. Diagram & Navigation | 0/1 | Not started | - |
 | 6. Content Expansion | 0/TBD | Not started | - |
 
 ---
