@@ -47,17 +47,24 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DIAG-01 | TBD | Pending |
-| DIAG-02 | TBD | Pending |
-| DIAG-03 | TBD | Pending |
-| NAV-01 | TBD | Pending |
-| CONT-01 | TBD | Pending |
+| BUILD-01 | Phase 1, 3 | Complete |
+| BUILD-02 | Phase 2, 3 | Complete |
+| PAGE-01 | Phase 2, 4 | Complete |
+| PAGE-02 | Phase 2, 4 | Complete |
+| PAGE-03 | Phase 2, 4 | Complete |
+| PAGE-04 | Phase 2, 4 | Complete |
+| PAGE-05 | Phase 2, 4 | Complete |
+| DIAG-01 | Phase 5 | Pending |
+| DIAG-02 | Phase 5 | Pending |
+| DIAG-03 | Phase 5 | Pending |
+| NAV-01 | Phase 5 | Pending |
+| CONT-01 | Phase 6 | Pending |
 
 **Coverage:**
 - v1.1 requirements: 5 total
-- Mapped to phases: 0
-- Unmapped: 5 ⚠️
+- Mapped to phases: 5
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-02-10*
-*Last updated: 2026-04-06 after milestone v1.1 requirements*
+*Last updated: 2026-04-06 after milestone v1.1 roadmap*
