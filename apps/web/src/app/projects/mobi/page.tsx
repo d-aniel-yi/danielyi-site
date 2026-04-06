@@ -97,6 +97,175 @@ const STEPS = [
             </>
         ),
     },
+    {
+        id: "sam-ml-pipeline",
+        title: "SAM/ML Pipeline",
+        content: (
+            <>
+                <p>
+                    Mobi uses Meta&apos;s Segment Anything Model (SAM) for AI-powered image segmentation.
+                    Running inference on a GPU is expensive — the architecture separates embedding generation
+                    from prediction and caches embeddings in Redis so repeated interactions on the same image
+                    do not recompute from scratch.
+                </p>
+                <p className="mt-4">
+                    When a user uploads an image, a Celery GPU worker loads SAM using <strong>sam_model_registry</strong>,
+                    a registry pattern that maps model variant names (e.g., <code>&quot;vit_h&quot;</code>) to constructor
+                    functions. The model loads once per worker and is cached globally — subsequent calls return the
+                    cached predictor immediately.
+                </p>
+                <div className="mt-6 p-4 bg-[#1e1e1e] text-gray-300 rounded-sm font-mono text-xs overflow-x-auto border border-gray-800">
+                    <p className="text-gray-500"># gpu_sam_tasks.py — model loading (lines 43–74)</p>
+                    <p><span className="text-purple-400">def</span> <span className="text-yellow-300">get_sam_predictor_on_gpu</span>() -&gt; SamPredictor:</p>
+                    <p>&nbsp;&nbsp;<span className="text-purple-400">global</span> _gpu_sam_model, _gpu_sam_predictor, _gpu_is_model_loaded</p>
+                    <br />
+                    <p>&nbsp;&nbsp;<span className="text-purple-400">if</span> _gpu_is_model_loaded <span className="text-purple-400">and</span> _gpu_sam_predictor:</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-purple-400">return</span> _gpu_sam_predictor</p>
+                    <br />
+                    <p>&nbsp;&nbsp;sam_model_type = settings.SAM_MODEL_TYPE&nbsp;&nbsp;<span className="text-gray-500"># e.g., &quot;vit_h&quot;</span></p>
+                    <p>&nbsp;&nbsp;_gpu_sam_model = sam_model_registry[sam_model_type](checkpoint=sam_checkpoint_abs)</p>
+                    <p>&nbsp;&nbsp;_gpu_sam_model.to(device=<span className="text-green-400">&quot;cuda&quot;</span>)</p>
+                    <p>&nbsp;&nbsp;_gpu_sam_predictor = SamPredictor(_gpu_sam_model)</p>
+                    <p>&nbsp;&nbsp;_gpu_is_model_loaded = <span className="text-purple-400">True</span></p>
+                    <p>&nbsp;&nbsp;<span className="text-purple-400">return</span> _gpu_sam_predictor</p>
+                </div>
+                <p className="mt-4">
+                    After the model is ready, a second Celery task generates image embeddings.
+                    <strong> predictor.set_image()</strong> converts the image into a high-dimensional feature
+                    representation. These features (<code>predictor.features</code>) are serialized and written
+                    to Redis with a 1-hour TTL. The main service polls Redis until embeddings appear before
+                    dispatching the prediction task.
+                </p>
+                <div className="mt-6 p-4 bg-[#1e1e1e] text-gray-300 rounded-sm font-mono text-xs overflow-x-auto border border-gray-800">
+                    <p className="text-gray-500"># gpu_sam_tasks.py — embedding generation (lines 81–144)</p>
+                    <p><span className="text-blue-400">@celery_app.task</span>(name=<span className="text-green-400">&quot;gpu_sam_tasks.generate_embedding_gpu_task&quot;</span>, ignore_result=<span className="text-purple-400">True</span>)</p>
+                    <p><span className="text-purple-400">def</span> <span className="text-yellow-300">generate_embedding_gpu_task</span>(image_id: str, image_path: str):</p>
+                    <p>&nbsp;&nbsp;predictor = get_sam_predictor_on_gpu()</p>
+                    <p>&nbsp;&nbsp;image_rgb = cv2.cvtColor(cv2.imread(image_path), cv2.COLOR_BGR2RGB)</p>
+                    <p>&nbsp;&nbsp;predictor.set_image(image_rgb)</p>
+                    <br />
+                    <p>&nbsp;&nbsp;embedding_data = &#123;</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-green-400">&quot;features_serialized&quot;</span>: _serialize_tensor(predictor.features),</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-green-400">&quot;original_size_hw&quot;</span>: predictor.original_size,</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-green-400">&quot;input_size_hw&quot;</span>: predictor.input_size,</p>
+                    <p>&nbsp;&nbsp;&#125;</p>
+                    <p>&nbsp;&nbsp;sam_service.cache_image_embedding(</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;image_id=image_id, embedding_data=embedding_data, expiration_seconds=<span className="text-orange-400">3600</span></p>
+                    <p>&nbsp;&nbsp;)</p>
+                </div>
+            </>
+        ),
+    },
+    {
+        id: "websocket-notifications",
+        title: "Real-time Notifications",
+        content: (
+            <>
+                <p>
+                    Rather than polling the server for task completion, Mobi uses WebSocket connections
+                    to push notifications to the browser the moment a background job finishes. The scope
+                    is intentionally narrow: the WebSocket channel carries notification events only,
+                    not live data streams.
+                </p>
+                <p className="mt-4">
+                    <strong>ConnectionManager</strong> maintains a registry of active WebSocket connections
+                    keyed by user ID. A <code>Dict[str, List[WebSocket]]</code> structure allows a single
+                    user to have multiple simultaneous connections (e.g., multiple browser tabs) — each tab
+                    receives the notification. An <code>asyncio.Lock()</code> prevents concurrent modification
+                    of the registry.
+                </p>
+                <div className="mt-6 p-4 bg-[#1e1e1e] text-gray-300 rounded-sm font-mono text-xs overflow-x-auto border border-gray-800">
+                    <p className="text-gray-500"># connection_manager.py (lines 5–34)</p>
+                    <p><span className="text-purple-400">class</span> <span className="text-yellow-300">ConnectionManager</span>:</p>
+                    <p>&nbsp;&nbsp;<span className="text-purple-400">def</span> <span className="text-yellow-300">__init__</span>(self):</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;self._connections: <span className="text-blue-400">Dict[str, List[WebSocket]]</span> = &#123;&#125;</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;self._lock = asyncio.Lock()</p>
+                    <br />
+                    <p>&nbsp;&nbsp;<span className="text-purple-400">async def</span> <span className="text-yellow-300">connect</span>(self, user_id: str, websocket: WebSocket):</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-purple-400">await</span> websocket.accept()</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-purple-400">async with</span> self._lock:</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self._connections.setdefault(user_id, []).append(websocket)</p>
+                    <br />
+                    <p>&nbsp;&nbsp;<span className="text-purple-400">async def</span> <span className="text-yellow-300">send_personal</span>(self, user_id: str, data):</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-purple-400">async with</span> self._lock:</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conns = self._connections.get(user_id, [])</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-purple-400">for</span> ws <span className="text-purple-400">in</span> conns:</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-purple-400">await</span> ws.send_json(data)</p>
+                </div>
+                <p className="mt-4">
+                    When a Celery task completes, <strong>NotificationService.create_and_dispatch()</strong> persists
+                    a <code>Notification</code> row to PostgreSQL first, then calls <code>manager.send_personal()</code>
+                    to fan out to all of the user&apos;s connected clients. The persistence-first pattern ensures
+                    notifications survive page refreshes — the frontend can re-fetch missed notifications on reconnect.
+                </p>
+                <div className="mt-6 p-4 bg-[#1e1e1e] text-gray-300 rounded-sm font-mono text-xs overflow-x-auto border border-gray-800">
+                    <p className="text-gray-500"># notification_service.py (lines 12–20)</p>
+                    <p><span className="text-purple-400">async def</span> <span className="text-yellow-300">create_and_dispatch</span>(self, notif: NotificationCreate) -&gt; Notification:</p>
+                    <p>&nbsp;&nbsp;db_obj = crud_notification.create_notification(self.db, notif)</p>
+                    <p>&nbsp;&nbsp;<span className="text-purple-400">await</span> manager.send_personal(notif.user_id, &#123;</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-green-400">&quot;id&quot;</span>: db_obj.id,</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-green-400">&quot;message&quot;</span>: db_obj.message,</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-green-400">&quot;severity&quot;</span>: db_obj.severity,</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-green-400">&quot;type&quot;</span>: db_obj.type,</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-green-400">&quot;created_at&quot;</span>: db_obj.created_at.isoformat(),</p>
+                    <p>&nbsp;&nbsp;&#125;)</p>
+                    <p>&nbsp;&nbsp;<span className="text-purple-400">return</span> db_obj</p>
+                </div>
+            </>
+        ),
+    },
+    {
+        id: "ui-design",
+        title: "Workspace UI",
+        content: (
+            <>
+                <p>
+                    The Mobi frontend is a multi-panel workspace where every pane can be dragged, resized,
+                    and rearranged. Rather than building custom drag handlers, the app delegates this entirely
+                    to <strong>react-mosaic-component</strong> — a tiling window manager for React.
+                </p>
+                <p className="mt-4">
+                    <strong>LayoutManager</strong> is a thin controlled wrapper. It receives <code>layout</code> (the
+                    current tile tree), <code>renderTile</code> (how to render each view), and <code>onChange</code> (a
+                    callback when the user repositions a panel). The underlying <code>Mosaic</code> component handles
+                    all hit-testing, pointer events, and animation. Panels can be resized down to 1% of available
+                    space via <code>minimumPaneSizePercentage</code>.
+                </p>
+                <div className="mt-6 p-4 bg-[#1e1e1e] text-gray-300 rounded-sm font-mono text-xs overflow-x-auto border border-gray-800">
+                    <p className="text-gray-500"># LayoutManager.tsx (lines 13–72)</p>
+                    <p><span className="text-purple-400">import</span> &#123; Mosaic &#125; <span className="text-purple-400">from</span> <span className="text-green-400">&apos;react-mosaic-component&apos;</span></p>
+                    <br />
+                    <p><span className="text-purple-400">const</span> <span className="text-yellow-300">LayoutManager</span> = &lt;T <span className="text-purple-400">extends</span> string = ViewId&gt;(props: <span className="text-blue-400">LayoutManagerProps&lt;T&gt;</span>) =&gt; &#123;</p>
+                    <p>&nbsp;&nbsp;<span className="text-purple-400">const</span> &#123; renderTile, layout, onChange &#125; = props</p>
+                    <br />
+                    <p>&nbsp;&nbsp;<span className="text-purple-400">return</span> (</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&lt;Mosaic&lt;T&gt;</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderTile=&#123;renderTile&#125;</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value=&#123;layout&#125;</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onChange=&#123;onChange&#125;</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;className=<span className="text-green-400">&quot;mosaic-custom-theme&quot;</span></p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resize=&#123;&#123; minimumPaneSizePercentage: <span className="text-orange-400">1</span> &#125;&#125;</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;/&gt;</p>
+                    <p>&nbsp;&nbsp;)</p>
+                    <p>&#125;</p>
+                </div>
+                <p className="mt-4">
+                    The bottom toolbar uses Material-UI icons — pre-built accessible SVG components imported by
+                    name. Each panel type maps to a semantic icon: a ruler for the measurement tool, a clipboard
+                    for tasks, a chart for results. No hand-drawn SVGs or custom paths are needed.
+                </p>
+                <div className="mt-6 p-4 bg-[#1e1e1e] text-gray-300 rounded-sm font-mono text-xs overflow-x-auto border border-gray-800">
+                    <p className="text-gray-500"># BottomBar.tsx (lines 3–5)</p>
+                    <p><span className="text-purple-400">import</span> <span className="text-yellow-300">RulerIcon</span> <span className="text-purple-400">from</span> <span className="text-green-400">&apos;@mui/icons-material/Straighten&apos;</span></p>
+                    <p><span className="text-purple-400">import</span> <span className="text-yellow-300">TaskIcon</span> <span className="text-purple-400">from</span> <span className="text-green-400">&apos;@mui/icons-material/Assignment&apos;</span></p>
+                    <p><span className="text-purple-400">import</span> <span className="text-yellow-300">ResultsIcon</span> <span className="text-purple-400">from</span> <span className="text-green-400">&apos;@mui/icons-material/InsertChart&apos;</span></p>
+                    <br />
+                    <p className="text-gray-500"># Used in JSX as:</p>
+                    <p>&lt;<span className="text-yellow-300">RulerIcon</span> /&gt;&nbsp;&nbsp;&lt;<span className="text-yellow-300">TaskIcon</span> fontSize=<span className="text-green-400">&quot;small&quot;</span> /&gt;&nbsp;&nbsp;&lt;<span className="text-yellow-300">ResultsIcon</span> /&gt;</p>
+                </div>
+            </>
+        ),
+    },
 ];
 
 // --- Nodes & Edges ---
