@@ -28,13 +28,13 @@ Showcase technical work through polished, detailed project deep dives that demon
 - ✓ Mobi deep dive page renders and builds — v1.0
 - ✓ Portfolio deep dive page renders and builds — v1.0
 - ✓ Tech demos page renders and builds — v1.0
+- ✓ Mobi diagram is inline in the page flow (sticky 35% side panel) — Validated in Phase 5: Diagram & Navigation
+- ✓ Mobi diagram is non-interactive (no zoom/pan/drag) — Validated in Phase 5: Diagram & Navigation
+- ✓ Mobi diagram auto-animates on load (no simulation button) — Validated in Phase 5: Diagram & Navigation
+- ✓ "View on GitHub" button links to https://github.com/d-aniel-yi/mobi — Validated in Phase 5: Diagram & Navigation
 
 ### Active
 
-- [ ] Mobi diagram is inline in the page flow (not a fixed side panel)
-- [ ] Mobi diagram is non-interactive (no zoom/pan)
-- [ ] Mobi diagram auto-animates on load (no simulation button)
-- [ ] "View on GitHub" button links to https://github.com/d-aniel-yi/mobi
 - [ ] Expanded technical content sourced from Mobi repo documentation
 
 ### Out of Scope
@@ -62,7 +62,7 @@ Showcase technical work through polished, detailed project deep dives that demon
 |----------|-----------|---------|
 | Fix on dev, merge to main | Preserves working site on main while fixing | ✓ Good |
 | Mercury page excluded | User specified scope; mercury is separate work | ✓ Good |
-| Inline diagram instead of side panel | User wants diagram as part of page flow, not prominent split view | — Pending |
+| Inline diagram instead of side panel | User wants diagram as part of page flow, not prominent split view | ✓ Phase 5 |
 
 ## Evolution
 
@@ -82,4 +82,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-06 after milestone v1.1 started*
+*Last updated: 2026-04-06 after Phase 5 completion*
