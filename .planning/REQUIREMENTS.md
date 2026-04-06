@@ -23,13 +23,13 @@
 
 ### Diagram Layout
 
-- [ ] **DIAG-01**: Mobi architecture diagram is inline in the page content flow (not a fixed side panel)
-- [ ] **DIAG-02**: Diagram is view-only — no zoom, pan, or node dragging
-- [ ] **DIAG-03**: Diagram edges auto-animate on page load (no simulation button/UI)
+- [x] **DIAG-01**: Mobi architecture diagram is inline in the page content flow (not a fixed side panel)
+- [x] **DIAG-02**: Diagram is view-only — no zoom, pan, or node dragging
+- [x] **DIAG-03**: Diagram edges auto-animate on page load (no simulation button/UI)
 
 ### Navigation
 
-- [ ] **NAV-01**: "View on GitHub" button links to https://github.com/d-aniel-yi/mobi
+- [x] **NAV-01**: "View on GitHub" button links to https://github.com/d-aniel-yi/mobi
 
 ### Content
 
@@ -54,10 +54,10 @@
 | PAGE-03 | Phase 2, 4 | Complete |
 | PAGE-04 | Phase 2, 4 | Complete |
 | PAGE-05 | Phase 2, 4 | Complete |
-| DIAG-01 | Phase 5 | Pending |
-| DIAG-02 | Phase 5 | Pending |
-| DIAG-03 | Phase 5 | Pending |
-| NAV-01 | Phase 5 | Pending |
+| DIAG-01 | Phase 5 | Complete |
+| DIAG-02 | Phase 5 | Complete |
+| DIAG-03 | Phase 5 | Complete |
+| NAV-01 | Phase 5 | Complete |
 | CONT-01 | Phase 6 | Pending |
 
 **Coverage:**

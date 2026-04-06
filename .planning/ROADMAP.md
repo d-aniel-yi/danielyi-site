@@ -25,7 +25,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 ### v1.1
 
-- [ ] **Phase 5: Diagram & Navigation** - Rework diagram layout/interactivity and add GitHub link
+- [x] **Phase 5: Diagram & Navigation** - Rework diagram layout/interactivity and add GitHub link (completed 2026-04-06)
 - [ ] **Phase 6: Content Expansion** - Add technical depth to Mobi page from repo documentation
 
 ## Phase Details
@@ -101,7 +101,7 @@ Plans:
 **UI hint**: yes
 
 Plans:
-- [ ] 05-01-PLAN.md — Refactor Mobi page: sticky 35% diagram panel, view-only interactions, auto-animation loop, GitHub CTA buttons
+- [x] 05-01-PLAN.md — Refactor Mobi page: sticky 35% diagram panel, view-only interactions, auto-animation loop, GitHub CTA buttons
 
 ### Phase 6: Content Expansion
 **Goal**: The Mobi page contains richer technical sections sourced from the Mobi repo's documentation
@@ -124,7 +124,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 2. Fix Pages | 4/4 | ✓ Complete | 2026-02-11 |
 | 3. Validate | —/— | ✓ Complete | 2026-04-06 |
 | 4. Integrate | —/— | ✓ Complete | 2026-04-06 |
-| 5. Diagram & Navigation | 0/1 | Not started | - |
+| 5. Diagram & Navigation | 1/1 | Complete   | 2026-04-06 |
 | 6. Content Expansion | 0/TBD | Not started | - |
 
 ---
