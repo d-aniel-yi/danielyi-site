@@ -33,7 +33,7 @@
 
 ### Content
 
-- [ ] **CONT-01**: Additional technical sections added sourced from Mobi repo documentation
+- [x] **CONT-01**: Additional technical sections added sourced from Mobi repo documentation
 
 ## Out of Scope
 
@@ -58,7 +58,7 @@
 | DIAG-02 | Phase 5 | Complete |
 | DIAG-03 | Phase 5 | Complete |
 | NAV-01 | Phase 5 | Complete |
-| CONT-01 | Phase 6 | Pending |
+| CONT-01 | Phase 6 | Complete |
 
 **Coverage:**
 - v1.1 requirements: 5 total

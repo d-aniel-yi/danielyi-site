@@ -26,7 +26,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 ### v1.1
 
 - [x] **Phase 5: Diagram & Navigation** - Rework diagram layout/interactivity and add GitHub link (completed 2026-04-06)
-- [ ] **Phase 6: Content Expansion** - Add technical depth to Mobi page from repo documentation
+- [x] **Phase 6: Content Expansion** - Add technical depth to Mobi page from repo documentation (completed 2026-04-06)
 
 ## Phase Details
 
@@ -114,7 +114,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 06-01-PLAN.md — Add SAM/ML Pipeline, WebSocket notifications, and Workspace UI sections to Mobi page
+- [x] 06-01-PLAN.md — Add SAM/ML Pipeline, WebSocket notifications, and Workspace UI sections to Mobi page
 
 ## Progress
 
@@ -128,7 +128,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 3. Validate | —/— | ✓ Complete | 2026-04-06 |
 | 4. Integrate | —/— | ✓ Complete | 2026-04-06 |
 | 5. Diagram & Navigation | 1/1 | Complete   | 2026-04-06 |
-| 6. Content Expansion | 0/TBD | Not started | - |
+| 6. Content Expansion | 1/1 | Complete   | 2026-04-06 |
 
 ---
 *Created: 2026-02-10*
