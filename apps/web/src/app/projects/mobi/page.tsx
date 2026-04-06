@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { ReactFlow, Background, useNodesState, useEdgesState } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { Play } from "lucide-react";
+import { Github } from "lucide-react";
 
 // --- Data ---
 
@@ -121,35 +121,71 @@ export default function MobiArchPage() {
     const [nodes, , onNodesChange] = useNodesState(initialNodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
-    // Simulation state
-    const [isSimulating, setIsSimulating] = useState(false);
+    const runAnimationLoop = useCallback((): (() => void) => {
+        // Reset all edges to default (non-animated, gray)
+        setEdges(initialEdges.map(e => ({ ...e, animated: false, style: { stroke: '#b1b1b7' } })));
 
-    const runSimulation = useCallback(() => {
-        setIsSimulating(true);
-        // Reset edges
-        const resetEdges = initialEdges.map(e => ({ ...e, animated: false, style: { stroke: '#b1b1b7' } }));
-        setEdges(resetEdges);
+        const timeouts: ReturnType<typeof setTimeout>[] = [];
 
-        // Sequence
-        setTimeout(() => {
-            setEdges(eds => eds.map(e => e.id === 'e1' ? { ...e, animated: true, style: { stroke: '#16a34a', strokeWidth: 2 } } : e));
-        }, 500);
-        setTimeout(() => {
-            setEdges(eds => eds.map(e => e.id === 'e2' ? { ...e, animated: true, style: { stroke: '#dc2626', strokeWidth: 2 } } : e));
-        }, 1500);
-        setTimeout(() => {
-            setEdges(eds => eds.map(e => e.id === 'e3' ? { ...e, animated: true, style: { stroke: '#d97706', strokeWidth: 2 } } : e));
-        }, 2500);
-        setTimeout(() => {
-            setEdges(eds => eds.map(e => e.id === 'e5' ? { ...e, animated: true, style: { stroke: '#2563eb', strokeWidth: 2 } } : e));
-            setIsSimulating(false);
-        }, 4000);
+        // Sequential animation: frontend → backend (HTTP)
+        timeouts.push(
+            setTimeout(() => {
+                setEdges(eds => eds.map(e =>
+                    e.id === 'e1' ? { ...e, animated: true, style: { stroke: '#16a34a', strokeWidth: 2 } } : e
+                ));
+            }, 500)
+        );
+
+        // backend → redis (Push Job)
+        timeouts.push(
+            setTimeout(() => {
+                setEdges(eds => eds.map(e =>
+                    e.id === 'e2' ? { ...e, animated: true, style: { stroke: '#dc2626', strokeWidth: 2 } } : e
+                ));
+            }, 1500)
+        );
+
+        // redis → worker (Pop Job)
+        timeouts.push(
+            setTimeout(() => {
+                setEdges(eds => eds.map(e =>
+                    e.id === 'e3' ? { ...e, animated: true, style: { stroke: '#d97706', strokeWidth: 2 } } : e
+                ));
+            }, 2500)
+        );
+
+        // worker → db (Save Result)
+        timeouts.push(
+            setTimeout(() => {
+                setEdges(eds => eds.map(e =>
+                    e.id === 'e5' ? { ...e, animated: true, style: { stroke: '#2563eb', strokeWidth: 2 } } : e
+                ));
+            }, 4000)
+        );
+
+        // Loop: reset and start next cycle after 4500ms
+        timeouts.push(
+            setTimeout(() => {
+                runAnimationLoop();
+            }, 4500)
+        );
+
+        // Cleanup: clear all pending timeouts on unmount
+        return () => {
+            timeouts.forEach(t => clearTimeout(t));
+        };
     }, [setEdges]);
+
+    // Start animation loop on mount
+    useEffect(() => {
+        const cleanup = runAnimationLoop();
+        return cleanup;
+    }, [runAnimationLoop]);
 
     return (
         <div className="bg-[#fcfcfc] text-[#1a1a1a] min-h-screen font-sans flex flex-col lg:flex-row">
             {/* Left Panel: Diagram */}
-            <div className="lg:w-1/2 h-[50vh] lg:h-screen border-b lg:border-b-0 lg:border-r border-gray-200 bg-gray-50/50 relative">
+            <div className="hidden lg:block lg:w-[35%] h-screen sticky top-0 border-r border-gray-200 bg-gray-50/50 relative">
                 <ReactFlow
                     nodes={nodes}
                     edges={edges}
@@ -157,33 +193,44 @@ export default function MobiArchPage() {
                     onEdgesChange={onEdgesChange}
                     fitView
                     attributionPosition="bottom-left"
+                    nodesDraggable={false}
+                    nodesConnectable={false}
+                    elementsSelectable={false}
+                    zoomOnScroll={false}
+                    zoomOnPinch={false}
+                    zoomOnDoubleClick={false}
+                    panOnDrag={false}
+                    panOnScroll={false}
+                    selectNodesOnDrag={false}
+                    nodesFocusable={false}
+                    edgesFocusable={false}
                 >
                     <Background color="#e5e7eb" gap={20} />
                 </ReactFlow>
-
-                <div className="absolute top-4 right-4 bg-white p-4 rounded shadow-sm border border-gray-200">
-                    <h3 className="font-serif text-sm font-medium mb-2">Live Simulation</h3>
-                    <button
-                        onClick={runSimulation}
-                        disabled={isSimulating}
-                        className="flex items-center gap-2 px-3 py-1.5 bg-gray-900 text-white text-xs font-mono rounded hover:bg-gray-700 disabled:opacity-50 transition-colors"
-                    >
-                        <Play className="w-3 h-3" />
-                        {isSimulating ? "Processing..." : "Submit Job"}
-                    </button>
-                </div>
             </div>
 
             {/* Right Panel: Content */}
-            <div className="lg:w-1/2 h-auto lg:h-screen overflow-y-auto">
+            <div className="w-full lg:w-[65%] h-auto lg:h-screen overflow-y-auto">
                 <div className="max-w-xl mx-auto px-8 py-24">
-                    <header className="mb-16">
-                        <p className="font-mono text-xs text-gray-500 mb-4 tracking-widest uppercase">
-                            Case Study 002
-                        </p>
-                        <h1 className="font-serif text-4xl font-medium tracking-tight mb-6 text-gray-900">
-                            Mobi: Microservices
-                        </h1>
+                    <header className="mb-16 flex items-start justify-between gap-4">
+                        <div>
+                            <p className="font-mono text-xs text-gray-500 mb-4 tracking-widest uppercase">
+                                Case Study 002
+                            </p>
+                            <h1 className="font-serif text-4xl font-medium tracking-tight mb-6 text-gray-900">
+                                Mobi: Microservices
+                            </h1>
+                        </div>
+                        <a
+                            href="https://github.com/d-aniel-yi/mobi"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-4 py-2 bg-gray-900 text-white text-sm font-mono rounded hover:bg-gray-700 transition-colors whitespace-nowrap flex-shrink-0"
+                            aria-label="View Mobi repository on GitHub"
+                        >
+                            <Github className="w-4 h-4" />
+                            View on GitHub
+                        </a>
                     </header>
 
                     <div className="space-y-24">
@@ -198,6 +245,19 @@ export default function MobiArchPage() {
                                 </div>
                             </section>
                         ))}
+                    </div>
+
+                    <div className="mt-24 pt-8 border-t border-gray-200">
+                        <a
+                            href="https://github.com/d-aniel-yi/mobi"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-4 py-2 bg-gray-900 text-white text-sm font-mono rounded hover:bg-gray-700 transition-colors"
+                            aria-label="View Mobi repository on GitHub"
+                        >
+                            <Github className="w-4 h-4" />
+                            View on GitHub
+                        </a>
                     </div>
 
                     <div className="h-24" />
