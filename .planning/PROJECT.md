@@ -32,10 +32,11 @@ Showcase technical work through polished, detailed project deep dives that demon
 - ✓ Mobi diagram is non-interactive (no zoom/pan/drag) — Validated in Phase 5: Diagram & Navigation
 - ✓ Mobi diagram auto-animates on load (no simulation button) — Validated in Phase 5: Diagram & Navigation
 - ✓ "View on GitHub" button links to https://github.com/d-aniel-yi/mobi — Validated in Phase 5: Diagram & Navigation
+- ✓ Expanded technical content sourced from Mobi repo documentation — Validated in Phase 6: Content Expansion
 
 ### Active
 
-- [ ] Expanded technical content sourced from Mobi repo documentation
+(none — all v1.1 requirements validated)
 
 ### Out of Scope
 
@@ -49,7 +50,7 @@ Showcase technical work through polished, detailed project deep dives that demon
 - Deployed as static export to S3 (`output: 'export'` in next.config)
 - Mobi page uses `@xyflow/react` for the architecture diagram
 - Mobi repo (https://github.com/d-aniel-yi/mobi) has extensive technical documentation that can inform deeper content
-- Current page has 4 sections: Microservices Architecture, Containerization Strategy, Async Task Queue, SQL Proficiency
+- Current page has 7 sections: Microservices Architecture, Containerization Strategy, Async Task Queue, SQL Proficiency, SAM/ML Pipeline, WebSocket Notifications, Workspace UI Design
 
 ## Constraints
 
@@ -82,4 +83,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-06 after Phase 5 completion*
+*Last updated: 2026-04-06 after Phase 6 completion*
