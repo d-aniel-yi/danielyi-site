@@ -381,20 +381,18 @@ export default function MobiArchPage() {
             {/* Right Panel: Content */}
             <div className="w-full lg:w-[65%] h-auto lg:h-screen overflow-y-auto">
                 <div className="max-w-xl mx-auto px-8 py-24">
-                    <header className="mb-16 flex items-start justify-between gap-4">
-                        <div>
-                            <p className="font-mono text-xs text-gray-500 mb-4 tracking-widest uppercase">
-                                Case Study 002
-                            </p>
-                            <h1 className="font-serif text-4xl font-medium tracking-tight mb-6 text-gray-900">
-                                Mobi: Microservices
-                            </h1>
-                        </div>
+                    <header className="mb-16">
+                        <p className="font-mono text-xs text-gray-500 mb-4 tracking-widest uppercase">
+                            Case Study 002
+                        </p>
+                        <h1 className="font-serif text-4xl font-medium tracking-tight mb-6 text-gray-900">
+                            Mobi: Microservices
+                        </h1>
                         <a
                             href="https://github.com/d-aniel-yi/mobi"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-4 py-2 bg-gray-900 text-white text-sm font-mono rounded hover:bg-gray-700 transition-colors whitespace-nowrap flex-shrink-0"
+                            className="inline-flex items-center gap-2 px-3 py-1.5 border border-gray-300 text-gray-500 text-xs font-mono tracking-wide uppercase rounded hover:border-gray-900 hover:text-gray-900 transition-colors whitespace-nowrap"
                             aria-label="View Mobi repository on GitHub"
                         >
                             <Github className="w-4 h-4" />
@@ -421,7 +419,7 @@ export default function MobiArchPage() {
                             href="https://github.com/d-aniel-yi/mobi"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-4 py-2 bg-gray-900 text-white text-sm font-mono rounded hover:bg-gray-700 transition-colors"
+                            className="inline-flex items-center gap-2 px-3 py-1.5 border border-gray-300 text-gray-500 text-xs font-mono tracking-wide uppercase rounded hover:border-gray-900 hover:text-gray-900 transition-colors"
                             aria-label="View Mobi repository on GitHub"
                         >
                             <Github className="w-4 h-4" />

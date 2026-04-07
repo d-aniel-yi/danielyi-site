@@ -33,7 +33,7 @@ export function SiteHeader() {
         ref={ref}
         className="hidden sm:block site-header fixed top-0 inset-x-0 z-40 will-change-transform [transition:transform_300ms_ease] [transform:translateY(0)] data-[hidden='true']:[transform:translateY(-100%)] supports-[backdrop-filter]:bg-transparent data-[solid='true']:supports-[backdrop-filter]:bg-white/70 border-b border-transparent data-[solid='true']:border-black/10"
       >
-        <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between" style={{ color: "var(--color-ink)" }}>
+        <div className="mx-auto max-w-6xl px-4 py-5 flex items-center justify-between" style={{ color: "var(--color-ink)" }}>
           {/* <Link href="/" className="font-semibold tracking-tight">Daniel Yi</Link> */}
           <nav className="hidden sm:flex gap-3 text-sm" style={{ color: "var(--color-ink)" }}>
             <HeaderLink href="/">Home</HeaderLink>
