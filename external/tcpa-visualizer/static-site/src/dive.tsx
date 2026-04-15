@@ -7,96 +7,395 @@ import {
 
 const N = (v: unknown): number => (v != null ? Number(v) : 0);
 
-// ── SVG download helper ─────────────────────────────────────────
-function downloadSvg(containerId: string, filename: string) {
-  const container = document.getElementById(containerId);
-  if (!container) return;
-  const svg = container.querySelector("svg");
-  if (!svg) return;
-  const clone = svg.cloneNode(true) as SVGElement;
-  // Add white background for readability
-  const bg = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-  bg.setAttribute("width", "100%");
-  bg.setAttribute("height", "100%");
-  bg.setAttribute("fill", "#0a0f1a");
-  clone.insertBefore(bg, clone.firstChild);
-  const blob = new Blob([new XMLSerializer().serializeToString(clone)], { type: "image/svg+xml" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `${filename}.svg`;
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-function SvgDownloadBtn({ chartId, filename }: { chartId: string; filename: string }) {
-  return (
-    <button
-      onClick={() => downloadSvg(chartId, filename)}
-      title="Download .svg"
-      style={{
-        background: "transparent", border: "1px solid #1e293b", color: "#475569",
-        width: 24, height: 24, borderRadius: 2, cursor: "pointer",
-        display: "inline-flex", alignItems: "center", justifyContent: "center",
-        fontSize: 12, lineHeight: 1, transition: "all 0.15s ease",
-      }}
-      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "#3b82f6"; (e.currentTarget as HTMLElement).style.color = "#3b82f6"; }}
-      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "#1e293b"; (e.currentTarget as HTMLElement).style.color = "#475569"; }}
-    >
-      ↓
-    </button>
-  );
-}
-
-// ── HTML download helper ─────────────────────────────────────────
-function downloadHtml(elementId: string, filename: string) {
+// ── Export helper: render element to canvas via html2canvas-style approach ──
+function exportElement(
+  elementId: string,
+  filename: string,
+  fmt: "svg" | "png",
+  title?: string,
+  legendColors?: { label: string; color: string }[],
+  scale = 2,
+) {
   const el = document.getElementById(elementId);
   if (!el) return;
-  const html = `<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8" />
-<title>${filename}</title>
-<style>
-  body { background: #0a0f1a; color: #e2e8f0; font-family: Georgia, 'Times New Roman', serif; padding: 24px; margin: 0; }
-  table { border-collapse: collapse; width: 100%; }
-  th, td { text-align: left; padding: 6px 10px 6px 0; }
-  th { border-bottom: 1px solid #1e293b; color: #475569; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 400; }
-  tr { border-bottom: 1px solid #111827; }
-  a { color: #cbd5e1; }
-</style>
-</head>
-<body>
-${el.innerHTML}
-</body>
-</html>`;
-  const blob = new Blob([html], { type: "text/html" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `${filename}.html`;
-  a.click();
-  URL.revokeObjectURL(url);
+
+  // Find a Recharts SVG if present
+  const chartSvg = el.querySelector("svg.recharts-surface") || el.querySelector("svg");
+
+  if (chartSvg) {
+    // ── SVG-native export path (Recharts charts) ──
+    const svgRect = chartSvg.getBoundingClientRect();
+    const svgW = Math.ceil(svgRect.width);
+    const svgH = Math.ceil(svgRect.height);
+    const titleH = title ? 28 : 0;
+    const legendH = legendColors && legendColors.length > 0 ? 30 : 0;
+    const pad = 16;
+    const totalW = svgW + pad * 2;
+    const totalH = svgH + titleH + legendH + pad * 2;
+
+    const clone = chartSvg.cloneNode(true) as SVGElement;
+    // Add background
+    const bg = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    bg.setAttribute("width", String(totalW));
+    bg.setAttribute("height", String(totalH));
+    bg.setAttribute("fill", "#0a0f1a");
+
+    // Build wrapper SVG
+    const wrapper = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    wrapper.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+    wrapper.setAttribute("width", String(totalW));
+    wrapper.setAttribute("height", String(totalH));
+    wrapper.appendChild(bg);
+
+    // Title
+    if (title) {
+      const titleEl = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      titleEl.setAttribute("x", String(pad));
+      titleEl.setAttribute("y", String(pad + 16));
+      titleEl.setAttribute("fill", "#cbd5e1");
+      titleEl.setAttribute("font-size", "15");
+      titleEl.setAttribute("font-family", "Georgia, 'Times New Roman', serif");
+      titleEl.textContent = title;
+      wrapper.appendChild(titleEl);
+    }
+
+    // Embed the chart SVG via <g> transform
+    clone.removeAttribute("width");
+    clone.removeAttribute("height");
+    clone.setAttribute("width", String(svgW));
+    clone.setAttribute("height", String(svgH));
+    const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    g.setAttribute("transform", `translate(${pad}, ${pad + titleH})`);
+    // Move clone contents into the group via foreignObject-free nesting
+    g.innerHTML = `<svg width="${svgW}" height="${svgH}">${clone.innerHTML}</svg>`;
+    // Copy defs
+    const defs = clone.querySelector("defs");
+    if (defs) wrapper.appendChild(defs.cloneNode(true));
+    wrapper.appendChild(g);
+
+    // Legend
+    if (legendColors && legendColors.length > 0) {
+      let lx = pad;
+      const ly = pad + titleH + svgH + 14;
+      legendColors.forEach(({ label, color }) => {
+        const swatch = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        swatch.setAttribute("x", String(lx));
+        swatch.setAttribute("y", String(ly - 8));
+        swatch.setAttribute("width", "10");
+        swatch.setAttribute("height", "10");
+        swatch.setAttribute("rx", "2");
+        swatch.setAttribute("fill", color);
+        wrapper.appendChild(swatch);
+        const txt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        txt.setAttribute("x", String(lx + 14));
+        txt.setAttribute("y", String(ly));
+        txt.setAttribute("fill", "#94a3b8");
+        txt.setAttribute("font-size", "11");
+        txt.setAttribute("font-family", "'Courier New', monospace");
+        txt.textContent = label;
+        wrapper.appendChild(txt);
+        lx += 14 + label.length * 7 + 16;
+      });
+    }
+
+    const svgStr = new XMLSerializer().serializeToString(wrapper);
+
+    if (fmt === "svg") {
+      const blob = new Blob([svgStr], { type: "image/svg+xml" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = `${filename}.svg`; a.click();
+      URL.revokeObjectURL(url);
+    } else {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = totalW * scale; canvas.height = totalH * scale;
+        const ctx = canvas.getContext("2d")!;
+        ctx.scale(scale, scale);
+        ctx.drawImage(img, 0, 0);
+        canvas.toBlob((blob) => {
+          if (!blob) return;
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url; a.download = `${filename}.png`; a.click();
+          URL.revokeObjectURL(url);
+        }, "image/png");
+      };
+      img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgStr);
+    }
+  } else {
+    // ── HTML element export (tables, heatmaps, etc.) ──
+    const clone = el.cloneNode(true) as HTMLElement;
+    // Inline computed styles for faithful reproduction
+    const inlineStyles = (source: Element, target: Element) => {
+      const computed = window.getComputedStyle(source);
+      const t = target as HTMLElement;
+      for (let i = 0; i < computed.length; i++) {
+        const prop = computed[i];
+        t.style.setProperty(prop, computed.getPropertyValue(prop));
+      }
+      for (let i = 0; i < source.children.length; i++) {
+        if (target.children[i]) inlineStyles(source.children[i], target.children[i]);
+      }
+    };
+    inlineStyles(el, clone);
+    // Strip buttons from export
+    clone.querySelectorAll("[data-export-hide]").forEach((n) => n.remove());
+
+    // Build HTML string with title + legend
+    let html = "";
+    if (title) {
+      html += `<div style="color:#cbd5e1;font-size:15px;font-weight:400;margin-bottom:8px;font-family:Georgia,'Times New Roman',serif;">${title}</div>`;
+    }
+    html += clone.outerHTML;
+    if (legendColors && legendColors.length > 0) {
+      html += `<div style="display:flex;flex-wrap:wrap;gap:12px;padding:8px 4px 2px;">`;
+      legendColors.forEach(({ label, color }) => {
+        html += `<div style="display:flex;align-items:center;gap:5px;">
+          <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${color};flex-shrink:0;"></span>
+          <span style="color:#94a3b8;font-size:11px;font-family:'Courier New',monospace;">${label}</span>
+        </div>`;
+      });
+      html += `</div>`;
+    }
+
+    const elRect = el.getBoundingClientRect();
+    const w = Math.ceil(elRect.width) + 32;
+    const h = Math.ceil(elRect.height) + (title ? 36 : 0) + (legendColors && legendColors.length > 0 ? 40 : 0) + 32;
+
+    const svgStr = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
+      <foreignObject width="100%" height="100%">
+        <div xmlns="http://www.w3.org/1999/xhtml" style="background:#0a0f1a;color:#e2e8f0;font-family:Georgia,'Times New Roman',serif;padding:16px;">
+          ${html}
+        </div>
+      </foreignObject>
+    </svg>`;
+
+    if (fmt === "svg") {
+      const blob = new Blob([svgStr], { type: "image/svg+xml" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = `${filename}.svg`; a.click();
+      URL.revokeObjectURL(url);
+    } else {
+      // For HTML content PNG, use a standalone HTML blob rendered in an iframe
+      const htmlDoc = `<!DOCTYPE html><html><head><meta charset="utf-8"><style>body{margin:0;background:#0a0f1a;color:#e2e8f0;font-family:Georgia,'Times New Roman',serif;padding:16px;}</style></head><body>${html}</body></html>`;
+      const iframe = document.createElement("iframe");
+      iframe.style.cssText = "position:fixed;left:-9999px;top:0;width:" + w + "px;height:" + h + "px;border:none;";
+      document.body.appendChild(iframe);
+      iframe.contentDocument!.open();
+      iframe.contentDocument!.write(htmlDoc);
+      iframe.contentDocument!.close();
+      setTimeout(() => {
+        const canvas = document.createElement("canvas");
+        canvas.width = w * scale; canvas.height = h * scale;
+        const ctx = canvas.getContext("2d")!;
+        ctx.scale(scale, scale);
+        ctx.fillStyle = "#0a0f1a";
+        ctx.fillRect(0, 0, w, h);
+        // Fall back to foreignObject for PNG of HTML content
+        const img = new Image();
+        img.onload = () => {
+          ctx.drawImage(img, 0, 0);
+          canvas.toBlob((blob) => {
+            if (!blob) return;
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url; a.download = `${filename}.png`; a.click();
+            URL.revokeObjectURL(url);
+          }, "image/png");
+          document.body.removeChild(iframe);
+        };
+        img.onerror = () => {
+          // If foreignObject fails for PNG, fall back to SVG download
+          const blob = new Blob([svgStr], { type: "image/svg+xml" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url; a.download = `${filename}.svg`; a.click();
+          URL.revokeObjectURL(url);
+          document.body.removeChild(iframe);
+        };
+        img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgStr);
+      }, 100);
+    }
+  }
 }
 
-function HtmlDownloadBtn({ elementId, filename }: { elementId: string; filename: string }) {
+// Get/set default format from localStorage
+function getDefaultFormat(): "svg" | "png" { return (localStorage.getItem("dl_format") as "svg" | "png") || "svg"; }
+function setDefaultFormat(f: "svg" | "png") { localStorage.setItem("dl_format", f); }
+
+// Get/set include-legend preference from localStorage
+function getIncludeLegend(): boolean { return localStorage.getItem("dl_include_legend") === "true"; }
+function setIncludeLegendPref(v: boolean) { localStorage.setItem("dl_include_legend", String(v)); }
+
+// ── Download button with format picker popup ────────────────────
+
+function DownloadBtn({ elementId, filename, legendColors, title }: {
+  elementId: string;
+  filename: string;
+  legendColors?: { label: string; color: string }[];
+  title?: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const defaultFmt = getDefaultFormat();
+
+  const doDownload = (fmt: "svg" | "png") => {
+    exportElement(
+      elementId, filename, fmt, title,
+      getIncludeLegend() ? legendColors : undefined,
+    );
+    setOpen(false);
+  };
+
   return (
-    <button
-      onClick={() => downloadHtml(elementId, filename)}
-      title="Download .html"
-      style={{
-        background: "transparent", border: "1px solid #1e293b", color: "#475569",
-        width: 24, height: 24, borderRadius: 2, cursor: "pointer",
-        display: "inline-flex", alignItems: "center", justifyContent: "center",
-        fontSize: 12, lineHeight: 1, transition: "all 0.15s ease",
-      }}
-      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "#3b82f6"; (e.currentTarget as HTMLElement).style.color = "#3b82f6"; }}
-      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "#1e293b"; (e.currentTarget as HTMLElement).style.color = "#475569"; }}
-    >
-      ↓
-    </button>
+    <div data-export-hide style={{ position: "relative", display: "inline-block" }}>
+      <button
+        onClick={() => {
+          // If user has a default, use it directly. Otherwise show picker.
+          if (localStorage.getItem("dl_format")) {
+            doDownload(defaultFmt);
+          } else {
+            setOpen(!open);
+          }
+        }}
+        onContextMenu={(e) => { e.preventDefault(); setOpen(!open); }}
+        title={`Download .${defaultFmt} (right-click for options)`}
+        style={{
+          background: "transparent", border: "1px solid #1e293b", color: "#475569",
+          width: 24, height: 24, borderRadius: 2, cursor: "pointer",
+          display: "inline-flex", alignItems: "center", justifyContent: "center",
+          fontSize: 12, lineHeight: 1, transition: "all 0.15s ease",
+        }}
+        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "#3b82f6"; (e.currentTarget as HTMLElement).style.color = "#3b82f6"; }}
+        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "#1e293b"; (e.currentTarget as HTMLElement).style.color = "#475569"; }}
+      >
+        ↓
+      </button>
+      {open && (
+        <div style={{
+          position: "absolute", top: 28, right: 0, zIndex: 100,
+          background: "#1e293b", border: "1px solid #334155", borderRadius: 4,
+          padding: "8px 0", boxShadow: "0 4px 12px rgba(0,0,0,0.5)", minWidth: 172,
+        }}>
+          <button onClick={() => doDownload("svg")} style={{
+            display: "flex", alignItems: "center", gap: 8, width: "100%",
+            background: "none", border: "none", color: "#e2e8f0", padding: "6px 14px",
+            fontSize: 11, fontFamily: "'Courier New', monospace", cursor: "pointer", textAlign: "left",
+          }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "#334155"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "none"; }}
+          >
+            Download .svg {defaultFmt === "svg" && <span style={{ color: "#3b82f6", fontSize: 9 }}>default</span>}
+          </button>
+          <button onClick={() => doDownload("png")} style={{
+            display: "flex", alignItems: "center", gap: 8, width: "100%",
+            background: "none", border: "none", color: "#e2e8f0", padding: "6px 14px",
+            fontSize: 11, fontFamily: "'Courier New', monospace", cursor: "pointer", textAlign: "left",
+          }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "#334155"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "none"; }}
+          >
+            Download .png {defaultFmt === "png" && <span style={{ color: "#3b82f6", fontSize: 9 }}>default</span>}
+          </button>
+          <div style={{ borderTop: "1px solid #334155", margin: "6px 0" }} />
+          {(["svg", "png"] as const).map((fmt) => (
+            <button key={fmt} onClick={() => { setDefaultFormat(fmt); setOpen(false); }} style={{
+              display: "flex", alignItems: "center", gap: 8, width: "100%",
+              background: "none", border: "none", color: "#64748b", padding: "4px 14px",
+              fontSize: 9, fontFamily: "'Courier New', monospace", cursor: "pointer", textAlign: "left",
+            }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "#e2e8f0"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "#64748b"; }}
+            >
+              Set .{fmt} as default <span style={{ color: "#475569", fontSize: 8 }}>can change at page bottom</span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
+
+// ── Chart settings button (gear icon with color pickers) ────────
+
+type ChartSettingsProps = {
+  colors: { key: string; label: string; color: string }[];
+  onChange: (key: string, color: string) => void;
+};
+
+function ChartSettingsBtn({ colors, onChange }: ChartSettingsProps) {
+  const [open, setOpen] = useState(false);
+
+  const defaults = colors.reduce((acc, { key, color }) => { acc[key] = color; return acc; }, {} as Record<string, string>);
+
+  const handleReset = () => {
+    colors.forEach(({ key }) => onChange(key, defaults[key]));
+  };
+
+  return (
+    <div data-export-hide style={{ position: "relative", display: "inline-block" }}>
+      <button
+        onClick={() => setOpen(!open)}
+        title="Chart color settings"
+        style={{
+          background: "transparent", border: "1px solid #1e293b", color: "#475569",
+          width: 24, height: 24, borderRadius: 2, cursor: "pointer",
+          display: "inline-flex", alignItems: "center", justifyContent: "center",
+          fontSize: 13, lineHeight: 1, transition: "all 0.15s ease",
+        }}
+        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "#1e293b"; (e.currentTarget as HTMLElement).style.color = "#94a3b8"; }}
+        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "#1e293b"; (e.currentTarget as HTMLElement).style.color = "#475569"; }}
+      >
+        ⚙
+      </button>
+      {open && (
+        <div style={{
+          position: "absolute", top: 28, right: 0, zIndex: 101,
+          background: "#1e293b", border: "1px solid #334155", borderRadius: 4,
+          padding: "10px 14px", boxShadow: "0 4px 12px rgba(0,0,0,0.5)", minWidth: 180,
+        }}>
+          <p style={{ color: "#64748b", fontSize: 9, fontFamily: "'Courier New', monospace", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 10 }}>
+            Chart Colors
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {colors.map(({ key, label, color }) => (
+              <label key={key} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, cursor: "pointer" }}>
+                <span style={{ color: "#e2e8f0", fontSize: 11, fontFamily: "'Courier New', monospace" }}>{label}</span>
+                <input
+                  type="color"
+                  value={color}
+                  onChange={(e) => onChange(key, e.target.value)}
+                  style={{ width: 28, height: 20, border: "1px solid #334155", borderRadius: 2, padding: 1, background: "#0a0f1a", cursor: "pointer" }}
+                />
+              </label>
+            ))}
+          </div>
+          <button
+            onClick={handleReset}
+            style={{
+              marginTop: 10, width: "100%", background: "none", border: "1px solid #334155",
+              color: "#64748b", padding: "4px 8px", borderRadius: 2, fontSize: 9,
+              fontFamily: "'Courier New', monospace", cursor: "pointer", textAlign: "center",
+              letterSpacing: 1, textTransform: "uppercase",
+            }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "#e2e8f0"; (e.currentTarget as HTMLElement).style.borderColor = "#475569"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "#64748b"; (e.currentTarget as HTMLElement).style.borderColor = "#334155"; }}
+          >
+            Reset defaults
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Legacy aliases — all buttons now use DownloadBtn
+const SvgDownloadBtn = ({ chartId, filename, legendColors, title }: { chartId: string; filename: string; legendColors?: { label: string; color: string }[]; title?: string }) =>
+  <DownloadBtn elementId={chartId} filename={filename} legendColors={legendColors} title={title} />;
+const HtmlDownloadBtn = ({ elementId, filename, legendColors, title }: { elementId: string; filename: string; legendColors?: { label: string; color: string }[]; title?: string }) =>
+  <DownloadBtn elementId={elementId} filename={filename} legendColors={legendColors} title={title} />;
 
 const STATUTES = ["TCPA", "FDCPA", "FCRA", "CFPB"] as const;
 
@@ -162,7 +461,7 @@ export default function TCPALitigationExplorer() {
   // Pivot filters — set by clicking heatmap cells, chart areas, court bars
   const [pivotCourt, setPivotCourt] = useState<string | null>(null);
   const [pivotMonth, setPivotMonth] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"filings" | "litigators" | "exposure" | "trends" | "methodology">("filings");
+  const [activeTab, setActiveTab] = useState<"filings" | "litigators" | "trends" | "methodology">("filings");
 
   // ── Trend comparison — multi-period with independent filters ───
   const today = new Date();
@@ -250,6 +549,11 @@ export default function TCPALitigationExplorer() {
   const [selectedClaimTypes, setSelectedClaimTypes] = useState<Set<string>>(new Set());
   const [selectedStates, setSelectedStates] = useState<Set<string>>(new Set());
   const [dateRange, setDateRange] = useState({ start: "2021-04-01", end: "" });
+
+  // ── Color overrides (per-chart color customization) ───────────
+  const [colorOverrides, setColorOverrides] = useState<Record<string, string>>({});
+  const getColor = (key: string, defaultColor: string) => colorOverrides[key] ?? defaultColor;
+  const setChartColor = (key: string, color: string) => setColorOverrides(prev => ({ ...prev, [key]: color }));
 
   // ── Litigator explanation tooltips ──────────────────────────────
   const [showExplain, setShowExplain] = useState(false);
@@ -601,26 +905,33 @@ export default function TCPALitigationExplorer() {
   );
 
   const trendDefendants = useSQLQuery(
-    (trendPeriods.map((p) =>
-      `SELECT '${p.id}' as pid,
+    `WITH all_defs AS (
+       SELECT 'all' as pid,
          CASE WHEN case_name LIKE '% v. %' THEN split_part(case_name, ' v. ', 2)
               WHEN case_name LIKE '% v %' THEN split_part(case_name, ' v ', 2)
               ELSE NULL END as defendant,
          vertical, COUNT(*) as cnt
        FROM ${casesTable}
-       WHERE ${periodWhere(p)} AND case_name LIKE '% v%'
-       GROUP BY 1, 2, 3`
-    ).join("\nUNION ALL\n")) +
-    `\nUNION ALL\nSELECT 'all' as pid,
-       CASE WHEN case_name LIKE '% v. %' THEN split_part(case_name, ' v. ', 2)
-            WHEN case_name LIKE '% v %' THEN split_part(case_name, ' v ', 2)
-            ELSE NULL END as defendant,
-       vertical, COUNT(*) as cnt
-     FROM ${casesTable}
-     WHERE case_name LIKE '% v%'
-     GROUP BY 2, 3
-     ORDER BY pid, cnt DESC
-     LIMIT ${trendPeriods.length * 50 + 50}`,
+       WHERE case_name LIKE '% v%'
+       GROUP BY 2, 3
+       ORDER BY cnt DESC
+       LIMIT 50
+     ), per_period AS (
+       ${trendPeriods.map((p) =>
+         `SELECT '${p.id}' as pid,
+            CASE WHEN case_name LIKE '% v. %' THEN split_part(case_name, ' v. ', 2)
+                 WHEN case_name LIKE '% v %' THEN split_part(case_name, ' v ', 2)
+                 ELSE NULL END as defendant,
+            vertical, COUNT(*) as cnt
+          FROM ${casesTable}
+          WHERE ${periodWhere(p)} AND case_name LIKE '% v%'
+          GROUP BY 1, 2, 3`
+       ).join("\nUNION ALL\n")}
+     )
+     SELECT * FROM all_defs
+     UNION ALL
+     SELECT * FROM per_period WHERE defendant IN (SELECT defendant FROM all_defs)
+     ORDER BY pid, cnt DESC`,
     { enabled: _trendEnabled }
   );
 
@@ -761,7 +1072,6 @@ export default function TCPALitigationExplorer() {
   const tabs = [
     { id: "filings" as const, label: "Filings" },
     { id: "litigators" as const, label: "Serial Litigators" },
-    { id: "exposure" as const, label: "Financial Exposure" },
     { id: "trends" as const, label: "Trend Analysis" },
     { id: "methodology" as const, label: "Methodology" },
   ];
@@ -1068,12 +1378,23 @@ export default function TCPALitigationExplorer() {
                   <div className="flex items-center gap-3">
                     <h2 style={{ color: "#cbd5e1", fontSize: 15, fontWeight: 400 }}>Monthly Filings</h2>
                   {drillStatute && (
-                    <span style={{ color: COLORS[drillStatute], fontSize: 12, fontFamily: mono }}>
+                    <span style={{ color: getColor(drillStatute, COLORS[drillStatute]), fontSize: 12, fontFamily: mono }}>
                       {STATUTE_LABELS[drillStatute]}
                     </span>
                   )}
                   </div>
-                  <SvgDownloadBtn chartId="chart-monthly-filings" filename="monthly-filings" />
+                  <div className="flex items-center gap-2">
+                    <ChartSettingsBtn
+                      colors={STATUTES.filter(s => selectedStatutes.has(s)).map(s => ({ key: s, label: s, color: getColor(s, COLORS[s]) }))}
+                      onChange={setChartColor}
+                    />
+                    <SvgDownloadBtn
+                      chartId="chart-monthly-filings"
+                      filename="monthly-filings"
+                      title="Monthly Filings"
+                      legendColors={STATUTES.filter(s => selectedStatutes.has(s)).map(s => ({ label: s, color: getColor(s, COLORS[s]) }))}
+                    />
+                  </div>
                 </div>
                 <p style={{ color: "#475569", fontSize: 10, fontFamily: mono, letterSpacing: 1, marginBottom: 12 }}>
                   CLICK LEGEND TO DRILL DOWN
@@ -1085,8 +1406,8 @@ export default function TCPALitigationExplorer() {
                       <defs>
                         {STATUTES.map((s) => (
                           <linearGradient key={s} id={`grad-${s}`} x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor={COLORS[s]} stopOpacity={0.35} />
-                            <stop offset="100%" stopColor={COLORS[s]} stopOpacity={0.02} />
+                            <stop offset="0%" stopColor={getColor(s, COLORS[s])} stopOpacity={0.35} />
+                            <stop offset="100%" stopColor={getColor(s, COLORS[s])} stopOpacity={0.02} />
                           </linearGradient>
                         ))}
                       </defs>
@@ -1098,7 +1419,7 @@ export default function TCPALitigationExplorer() {
                         tick={{ fill: "#64748b", fontFamily: mono }} axisLine={{ stroke: "#1e293b" }} />
                       <Tooltip content={<ChartTooltip />} />
                       {STATUTES.filter((s) => selectedStatutes.has(s)).map((s) => (
-                        <Area key={s} type="linear" dataKey={s} stackId="1" stroke={COLORS[s]}
+                        <Area key={s} type="linear" dataKey={s} stackId="1" stroke={getColor(s, COLORS[s])}
                           fill={`url(#grad-${s})`}
                           strokeWidth={drillStatute === s ? 2.5 : drillStatute ? 0.5 : 1.5}
                           fillOpacity={drillStatute ? (drillStatute === s ? 1 : 0.08) : 1}
@@ -1114,7 +1435,7 @@ export default function TCPALitigationExplorer() {
                     <button key={s} onClick={() => handleDrill(s)} className="flex items-center gap-2"
                       style={{ background: "none", border: "none", cursor: "pointer",
                         opacity: drillStatute ? (drillStatute === s ? 1 : 0.3) : 1, transition: "opacity 0.15s ease" }}>
-                      <span style={{ display: "inline-block", width: 10, height: 3, background: COLORS[s], borderRadius: 1 }} />
+                      <span style={{ display: "inline-block", width: 10, height: 3, background: getColor(s, COLORS[s]), borderRadius: 1 }} />
                       <span style={{ color: "#94a3b8", fontSize: 10, fontFamily: mono, letterSpacing: 0.5 }}>{s}</span>
                     </button>
                   ))}
@@ -1127,7 +1448,13 @@ export default function TCPALitigationExplorer() {
                   <h2 style={{ color: "#cbd5e1", fontSize: 15, fontWeight: 400 }}>
                     Filing Hotspots
                   </h2>
-                  <HtmlDownloadBtn elementId="chart-heatmap" filename="filing-hotspots-heatmap" />
+                  <div className="flex items-center gap-2">
+                    <ChartSettingsBtn
+                      colors={[{ key: "heatmap", label: "Heatmap", color: getColor("heatmap", drillStatute ? COLORS[drillStatute] : "#3b82f6") }]}
+                      onChange={setChartColor}
+                    />
+                    <HtmlDownloadBtn elementId="chart-heatmap" filename="filing-hotspots-heatmap" title="Filing Hotspots" />
+                  </div>
                 </div>
                 <p style={{ color: "#475569", fontSize: 10, fontFamily: mono, letterSpacing: 1, marginBottom: 12 }}>
                   TOP 10 COURTS × MONTH · CLICK TO FILTER TABLE
@@ -1178,9 +1505,7 @@ export default function TCPALitigationExplorer() {
                             {monthSet.map((month) => {
                               const val = lookup[`${court}|${month}`] || 0;
                               const intensity = val > 0 ? Math.max(0.08, Math.min(1, val / maxVal)) : 0;
-                              const bg = drillStatute
-                                ? COLORS[drillStatute]
-                                : "#3b82f6";
+                              const bg = getColor("heatmap", drillStatute ? COLORS[drillStatute] : "#3b82f6");
                               const isSelected = pivotCourt === court && pivotMonth === month;
                               return (
                                 <div
@@ -1210,7 +1535,7 @@ export default function TCPALitigationExplorer() {
                           {[0.08, 0.2, 0.35, 0.5, 0.65, 0.8, 1].map((op, i) => (
                             <div key={i} style={{
                               flex: 1,
-                              background: drillStatute ? COLORS[drillStatute] : "#3b82f6",
+                              background: getColor("heatmap", drillStatute ? COLORS[drillStatute] : "#3b82f6"),
                               opacity: op,
                             }} />
                           ))}
@@ -1281,7 +1606,7 @@ export default function TCPALitigationExplorer() {
                                 onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "#111827"; }}
                                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}>
                                 <td style={{ padding: "4px 6px 4px 0", width: 8 }}>
-                                  <span style={{ display: "inline-block", width: 3, height: 12, background: COLORS[r.statute as string], borderRadius: 1 }} />
+                                  <span style={{ display: "inline-block", width: 3, height: 12, background: getColor(r.statute as string, COLORS[r.statute as string]), borderRadius: 1 }} />
                                 </td>
                                 <td style={{ padding: "4px 6px 4px 0", fontSize: 11, maxWidth: 300,
                                   overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={r.case_name as string}>
@@ -1324,7 +1649,13 @@ export default function TCPALitigationExplorer() {
                 <div>
                   <div className="flex items-center justify-between mb-3">
                     <h2 style={{ color: "#cbd5e1", fontSize: 15, fontWeight: 400 }}>Top Courts</h2>
-                    <HtmlDownloadBtn elementId="chart-top-courts" filename="top-courts" />
+                    <div className="flex items-center gap-2">
+                      <ChartSettingsBtn
+                        colors={[{ key: "courts_bar", label: "Bar fill", color: getColor("courts_bar", "#3b82f6") }]}
+                        onChange={setChartColor}
+                      />
+                      <HtmlDownloadBtn elementId="chart-top-courts" filename="top-courts" title="Top Courts" />
+                    </div>
                   </div>
                   {courts.isLoading ? <Skeleton h={200} /> : (
                     <div id="chart-top-courts" className="flex flex-col gap-1">
@@ -1338,7 +1669,7 @@ export default function TCPALitigationExplorer() {
                             </span>
                             <div style={{ flex: 1, height: 14, background: "#111827", borderRadius: 1, overflow: "hidden" }}>
                               <div style={{ width: `${pct}%`, height: "100%",
-                                background: drillStatute ? COLORS[drillStatute] : "linear-gradient(90deg, #3b82f6, #a78bfa)",
+                                background: drillStatute ? getColor(drillStatute, COLORS[drillStatute]) : `linear-gradient(90deg, ${getColor("courts_bar", "#3b82f6")}, ${getColor("CFPB", COLORS.CFPB)})`,
                                 opacity: pivotCourt === r.court ? 1 : 0.7, borderRadius: 1, transition: "all 0.4s ease" }} />
                             </div>
                             <span style={{ color: "#64748b", fontSize: 10, fontFamily: mono, width: 36, textAlign: "right", flexShrink: 0 }}>
@@ -1356,7 +1687,7 @@ export default function TCPALitigationExplorer() {
                       Recent Filings{drillStatute ? ` — ${drillStatute}` : ""}
                     </h2>
                     <div className="flex items-center gap-2">
-                      <HtmlDownloadBtn elementId="table-recent-filings" filename="recent-filings" />
+                      <HtmlDownloadBtn elementId="table-recent-filings" filename="recent-filings" title="Recent Filings" />
                       <button onClick={() => setPage((p) => Math.max(0, p - 1))} disabled={page === 0}
                         style={{ background: "none", border: "1px solid #334155", color: page === 0 ? "#1e293b" : "#64748b",
                           padding: "2px 10px", borderRadius: 2, fontSize: 11, cursor: page === 0 ? "default" : "pointer", fontFamily: mono }}>‹</button>
@@ -1385,7 +1716,7 @@ export default function TCPALitigationExplorer() {
                             onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "#111827"; }}
                             onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}>
                             <td style={{ padding: "5px 8px 5px 0", width: 8 }}>
-                              <span style={{ display: "inline-block", width: 3, height: 14, background: COLORS[r.statute as string], borderRadius: 1 }} />
+                              <span style={{ display: "inline-block", width: 3, height: 14, background: getColor(r.statute as string, COLORS[r.statute as string]), borderRadius: 1 }} />
                             </td>
                             <td style={{ padding: "5px 8px 5px 0", fontSize: 12, maxWidth: 280,
                               overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={r.case_name as string}>
@@ -1424,7 +1755,7 @@ export default function TCPALitigationExplorer() {
                   <h2 style={{ color: "#cbd5e1", fontSize: 15, fontWeight: 400 }}>
                     Who Is Getting Sued
                   </h2>
-                  <HtmlDownloadBtn elementId="table-who-sued-filings" filename="who-is-getting-sued-filings" />
+                  <HtmlDownloadBtn elementId="table-who-sued-filings" filename="who-is-getting-sued-filings" title="Who Is Getting Sued" />
                 </div>
                 <p style={{ color: "#475569", fontSize: 11, fontFamily: mono, marginBottom: 12 }}>
                   Filtered count vs all-time — sorted by current filter
@@ -1506,8 +1837,11 @@ export default function TCPALitigationExplorer() {
             const totalPlaintiffs = distRows.reduce((s, r) => s + N(r.plaintiffs), 0);
             const totalDistCases = distRows.reduce((s, r) => s + N(r.total_cases), 0);
             const tierColors: Record<string, string> = {
-              "1 (First-time)": "#22c55e", "2 (Repeat)": "#eab308",
-              "3-5 (Serial)": "#f97316", "6-10 (Prolific)": "#ef4444", "11+ (Professional)": "#dc2626",
+              "1 (First-time)": getColor("tier_first", "#22c55e"),
+              "2 (Repeat)": getColor("tier_repeat", "#eab308"),
+              "3-5 (Serial)": getColor("tier_serial", "#f97316"),
+              "6-10 (Prolific)": getColor("tier_prolific", "#ef4444"),
+              "11+ (Professional)": getColor("tier_pro", "#dc2626"),
             };
             return (
             <>
@@ -1552,7 +1886,30 @@ export default function TCPALitigationExplorer() {
                     )}
                   </span>
                   </div>
-                  <HtmlDownloadBtn elementId="chart-plaintiff-frequency" filename="plaintiff-filing-frequency" />
+                  <div className="flex items-center gap-2">
+                    <ChartSettingsBtn
+                      colors={[
+                        { key: "tier_first", label: "First-time", color: getColor("tier_first", "#22c55e") },
+                        { key: "tier_repeat", label: "Repeat", color: getColor("tier_repeat", "#eab308") },
+                        { key: "tier_serial", label: "Serial", color: getColor("tier_serial", "#f97316") },
+                        { key: "tier_prolific", label: "Prolific", color: getColor("tier_prolific", "#ef4444") },
+                        { key: "tier_pro", label: "Professional", color: getColor("tier_pro", "#dc2626") },
+                      ]}
+                      onChange={setChartColor}
+                    />
+                    <HtmlDownloadBtn
+                      elementId="chart-plaintiff-frequency"
+                      filename="plaintiff-filing-frequency"
+                      title="Plaintiff Filing Frequency"
+                      legendColors={[
+                        { label: "First-time", color: getColor("tier_first", "#22c55e") },
+                        { label: "Repeat", color: getColor("tier_repeat", "#eab308") },
+                        { label: "Serial (3-5)", color: getColor("tier_serial", "#f97316") },
+                        { label: "Prolific (6-10)", color: getColor("tier_prolific", "#ef4444") },
+                        { label: "Professional (11+)", color: getColor("tier_pro", "#dc2626") },
+                      ]}
+                    />
+                  </div>
                 </div>
                 <div className="flex items-center justify-between mb-4">
                   <p style={{ color: "#475569", fontSize: 11, fontFamily: mono, margin: 0 }}>
@@ -1658,7 +2015,7 @@ export default function TCPALitigationExplorer() {
                   <h2 style={{ color: "#cbd5e1", fontSize: 15, fontWeight: 400 }}>
                     Top Repeat Plaintiffs
                   </h2>
-                  <HtmlDownloadBtn elementId="table-serial-litigators" filename="serial-litigators-table" />
+                  <HtmlDownloadBtn elementId="table-serial-litigators" filename="serial-litigators-table" title="Top Repeat Plaintiffs" />
                 </div>
                 <p style={{ color: "#475569", fontSize: 11, fontFamily: mono, marginBottom: 16 }}>
                   Plaintiffs with 3+ filings — potential serial litigators targeting outbound dialers
@@ -1721,7 +2078,7 @@ export default function TCPALitigationExplorer() {
                   <h2 style={{ color: "#cbd5e1", fontSize: 15, fontWeight: 400 }}>
                     Who Is Getting Sued
                   </h2>
-                  <HtmlDownloadBtn elementId="table-who-sued-litigators" filename="who-is-getting-sued-litigators" />
+                  <HtmlDownloadBtn elementId="table-who-sued-litigators" filename="who-is-getting-sued-litigators" title="Who Is Getting Sued" />
                 </div>
                 <p style={{ color: "#475569", fontSize: 11, fontFamily: mono, marginBottom: 12 }}>
                   Filtered count vs all-time — sorted by current filter
@@ -1809,7 +2166,7 @@ export default function TCPALitigationExplorer() {
                   <h2 style={{ color: "#cbd5e1", fontSize: 15, fontWeight: 400 }}>
                     Estimated Statutory Exposure
                   </h2>
-                  <HtmlDownloadBtn elementId="table-exposure-estimates" filename="statutory-exposure-estimates" />
+                  <HtmlDownloadBtn elementId="table-exposure-estimates" filename="statutory-exposure-estimates" title="Estimated Statutory Exposure" />
                 </div>
                 <p style={{ color: "#475569", fontSize: 11, fontFamily: mono, marginBottom: 16 }}>
                   TCPA: $500/violation (negligent) · $1,500/violation (willful) · Based on active case count
@@ -1863,7 +2220,18 @@ export default function TCPALitigationExplorer() {
                   <h2 style={{ color: "#cbd5e1", fontSize: 15, fontWeight: 400 }}>
                     Case Duration by Statute
                   </h2>
-                  <HtmlDownloadBtn elementId="table-case-duration" filename="case-duration-by-statute" />
+                  <div className="flex items-center gap-2">
+                    <ChartSettingsBtn
+                      colors={STATUTES.map(s => ({ key: s, label: s, color: getColor(s, COLORS[s]) }))}
+                      onChange={setChartColor}
+                    />
+                    <HtmlDownloadBtn
+                      elementId="table-case-duration"
+                      filename="case-duration-by-statute"
+                      title="Case Duration by Statute"
+                      legendColors={STATUTES.map(s => ({ label: s, color: getColor(s, COLORS[s]) }))}
+                    />
+                  </div>
                 </div>
                 <p style={{ color: "#475569", fontSize: 11, fontFamily: mono, marginBottom: 16 }}>
                   Time from filing to termination (resolved cases only)
@@ -1873,8 +2241,8 @@ export default function TCPALitigationExplorer() {
                     {exposureRows.map((r) => {
                       const statute = r.statute as string;
                       return (
-                        <div key={statute} style={{ borderLeft: `3px solid ${COLORS[statute]}`, paddingLeft: 16 }}>
-                          <p style={{ color: COLORS[statute], fontSize: 12, fontFamily: mono, fontWeight: 700, marginBottom: 8 }}>
+                        <div key={statute} style={{ borderLeft: `3px solid ${getColor(statute, COLORS[statute])}`, paddingLeft: 16 }}>
+                          <p style={{ color: getColor(statute, COLORS[statute]), fontSize: 12, fontFamily: mono, fontWeight: 700, marginBottom: 8 }}>
                             {statute}
                           </p>
                           <div style={{ marginBottom: 6 }}>
@@ -2271,7 +2639,8 @@ export default function TCPALitigationExplorer() {
 
               {/* ── Comparison Charts ─────────────────────────── */}
               {(() => {
-                const PCOLORS = ["#3b82f6","#f97316","#22c55e","#a78bfa","#06b6d4"];
+                const PCOLORS_DEFAULT = ["#3b82f6","#f97316","#22c55e","#a78bfa","#06b6d4"];
+                const PCOLORS = PCOLORS_DEFAULT.map((c, i) => getColor(`trend_period_${i}`, c));
 
                 // 1. Total filings per period bar chart
                 const filingsData = trendPeriods.map((p, pi) => ({
@@ -2329,7 +2698,18 @@ export default function TCPALitigationExplorer() {
                         <h2 style={{ color: "#cbd5e1", fontSize: 14, fontWeight: 400, margin: 0 }}>
                           Total Filings by Period
                         </h2>
-                        <SvgDownloadBtn chartId="chart-trend-filings" filename="trend-filings-by-period" />
+                        <div className="flex items-center gap-2">
+                          <ChartSettingsBtn
+                            colors={trendPeriods.map((p, pi) => ({ key: `trend_period_${pi}`, label: p.label, color: PCOLORS[pi] || "#64748b" }))}
+                            onChange={setChartColor}
+                          />
+                          <SvgDownloadBtn
+                            chartId="chart-trend-filings"
+                            filename="trend-filings-by-period"
+                            title="Total Filings by Period"
+                            legendColors={trendPeriods.map((p, pi) => ({ label: p.label, color: PCOLORS[pi] || "#64748b" }))}
+                          />
+                        </div>
                       </div>
                       {trendSnapshot.isLoading ? <Skeleton h={180} /> : (
                         <div id="chart-trend-filings">
@@ -2357,7 +2737,18 @@ export default function TCPALitigationExplorer() {
                         <h2 style={{ color: "#cbd5e1", fontSize: 14, fontWeight: 400, margin: 0 }}>
                           Claim Type by Period
                         </h2>
-                        <SvgDownloadBtn chartId="chart-trend-claims" filename="trend-claim-type-by-period" />
+                        <div className="flex items-center gap-2">
+                          <ChartSettingsBtn
+                            colors={trendPeriods.map((p, pi) => ({ key: `trend_period_${pi}`, label: p.label, color: PCOLORS[pi] || "#64748b" }))}
+                            onChange={setChartColor}
+                          />
+                          <SvgDownloadBtn
+                            chartId="chart-trend-claims"
+                            filename="trend-claim-type-by-period"
+                            title="Claim Type by Period"
+                            legendColors={trendPeriods.map((p, pi) => ({ label: p.label, color: PCOLORS[pi] || "#64748b" }))}
+                          />
+                        </div>
                       </div>
                       {trendClaimBreakdown.isLoading ? <Skeleton h={180} /> : (
                         <div id="chart-trend-claims">
@@ -2382,7 +2773,18 @@ export default function TCPALitigationExplorer() {
                         <h2 style={{ color: "#cbd5e1", fontSize: 14, fontWeight: 400, margin: 0 }}>
                           Top Courts by Period
                         </h2>
-                        <SvgDownloadBtn chartId="chart-trend-courts" filename="trend-courts-by-period" />
+                        <div className="flex items-center gap-2">
+                          <ChartSettingsBtn
+                            colors={trendPeriods.map((p, pi) => ({ key: `trend_period_${pi}`, label: p.label, color: PCOLORS[pi] || "#64748b" }))}
+                            onChange={setChartColor}
+                          />
+                          <SvgDownloadBtn
+                            chartId="chart-trend-courts"
+                            filename="trend-courts-by-period"
+                            title="Top Courts by Period"
+                            legendColors={trendPeriods.map((p, pi) => ({ label: p.label, color: PCOLORS[pi] || "#64748b" }))}
+                          />
+                        </div>
                       </div>
                       {trendCourts.isLoading ? <Skeleton h={180} /> : (
                         <div id="chart-trend-courts">
@@ -2411,7 +2813,7 @@ export default function TCPALitigationExplorer() {
                     <h2 style={{ color: "#cbd5e1", fontSize: 15, fontWeight: 400 }}>
                       Court Volume by Period
                     </h2>
-                    <HtmlDownloadBtn elementId="table-court-volume-period" filename="court-volume-by-period" />
+                    <HtmlDownloadBtn elementId="table-court-volume-period" filename="court-volume-by-period" title="Court Volume by Period" />
                   </div>
                   {trendCourts.isLoading ? <Skeleton h={150} /> : (() => {
                     // Collect all courts across periods
@@ -2473,7 +2875,7 @@ export default function TCPALitigationExplorer() {
                     <h2 style={{ color: "#cbd5e1", fontSize: 15, fontWeight: 400 }}>
                       Litigator Activity by Period
                     </h2>
-                    <HtmlDownloadBtn elementId="table-litigator-activity" filename="litigator-activity-by-period" />
+                    <HtmlDownloadBtn elementId="table-litigator-activity" filename="litigator-activity-by-period" title="Litigator Activity by Period" />
                   </div>
                   <p style={{ color: "#475569", fontSize: 11, fontFamily: mono, marginBottom: 12 }}>
                     Repeat filers (2+ cases) — watch for new entrants
@@ -2584,7 +2986,7 @@ export default function TCPALitigationExplorer() {
                       <h2 style={{ color: "#cbd5e1", fontSize: 15, fontWeight: 400 }}>
                         Who Is Getting Sued
                       </h2>
-                      <HtmlDownloadBtn elementId="table-who-sued-trends" filename="who-is-getting-sued-trends" />
+                      <HtmlDownloadBtn elementId="table-who-sued-trends" filename="who-is-getting-sued-trends" title="Who Is Getting Sued" />
                     </div>
                     <p style={{ color: "#475569", fontSize: 11, fontFamily: mono, marginBottom: 12 }}>
                       Period comparison by vertical
@@ -2896,6 +3298,45 @@ export default function TCPALitigationExplorer() {
           )}
         </div>
       )}
+
+      {/* ── Download settings (bottom of page) ── */}
+      <div style={{ borderTop: "1px solid #1e293b", padding: "16px 32px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div className="flex items-center gap-6">
+          <div className="flex items-center gap-3">
+            <span style={{ color: "#334155", fontSize: 9, fontFamily: mono, letterSpacing: 1.5, textTransform: "uppercase" }}>
+              Download format
+            </span>
+            {(["svg", "png"] as const).map((fmt) => {
+              const active = getDefaultFormat() === fmt;
+              return (
+                <button key={fmt} onClick={() => { setDefaultFormat(fmt); setPage(0); }} style={{
+                  background: active ? "#1e293b" : "transparent",
+                  border: `1px solid ${active ? "#3b82f6" : "#1e293b"}`,
+                  color: active ? "#3b82f6" : "#475569",
+                  padding: "3px 10px", borderRadius: 2, fontSize: 10, fontFamily: mono, cursor: "pointer",
+                  transition: "all 0.15s ease",
+                }}>
+                  .{fmt}
+                </button>
+              );
+            })}
+          </div>
+          <label className="flex items-center gap-2" style={{ cursor: "pointer", userSelect: "none" }}>
+            <input
+              type="checkbox"
+              checked={getIncludeLegend()}
+              onChange={(e) => { setIncludeLegendPref(e.target.checked); setPage(0); }}
+              style={{ accentColor: "#3b82f6", width: 11, height: 11, cursor: "pointer" }}
+            />
+            <span style={{ color: getIncludeLegend() ? "#94a3b8" : "#334155", fontSize: 9, fontFamily: mono, letterSpacing: 1.5, textTransform: "uppercase" }}>
+              Include legend in downloads
+            </span>
+          </label>
+        </div>
+        <span style={{ color: "#1e293b", fontSize: 9, fontFamily: mono }}>
+          Right-click any ↓ button to choose format per-download
+        </span>
+      </div>
     </div>
   );
 }
