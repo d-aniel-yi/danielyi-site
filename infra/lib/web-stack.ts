@@ -78,36 +78,22 @@ export class WebStack extends Stack {
       ),
     });
 
-    // Response headers for /tcpa/* path — adds COOP/COEP for DuckDB-WASM SharedArrayBuffer
-    const tcpaResponseHeaders = new cloudfront.ResponseHeadersPolicy(this, 'TcpaResponseHeaders', {
-      securityHeadersBehavior: {
-        contentSecurityPolicy: {
-          contentSecurityPolicy: [
-            "default-src 'self'",
-            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com blob:",
-            "style-src 'self' 'unsafe-inline'",
-            "img-src 'self' data: https:",
-            "connect-src 'self' https: blob:",
-            "font-src 'self' data:",
-            "worker-src 'self' blob:",
-            "object-src 'none'",
-            "base-uri 'self'",
-            "frame-ancestors 'none'",
-          ].join('; '),
-          override: true,
-        },
-        referrerPolicy: { referrerPolicy: cloudfront.HeadersReferrerPolicy.NO_REFERRER_WHEN_DOWNGRADE, override: true },
-        strictTransportSecurity: { accessControlMaxAge: Duration.days(365), includeSubdomains: true, preload: true, override: true },
-        xssProtection: { protection: true, modeBlock: true, override: true },
-        frameOptions: { frameOption: cloudfront.HeadersFrameOption.DENY, override: true },
-        contentTypeOptions: { override: true },
-      },
-      customHeadersBehavior: {
-        customHeaders: [
-          { header: 'Cross-Origin-Opener-Policy', value: 'same-origin', override: true },
-          { header: 'Cross-Origin-Embedder-Policy', value: 'require-corp', override: true },
-        ],
-      },
+    // Viewer-response function: override CSP and add COOP/COEP for /tcpa/* paths
+    const tcpaHeadersFn = new cloudfront.Function(this, 'TcpaHeadersFn', {
+      code: cloudfront.FunctionCode.fromInline(
+        `function handler(event) {
+  var response = event.response;
+  var request = event.request;
+  if (request.uri.startsWith('/tcpa/')) {
+    response.headers['content-security-policy'] = {
+      value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https: blob:; font-src 'self' data:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
+    };
+    response.headers['cross-origin-opener-policy'] = { value: 'same-origin' };
+    response.headers['cross-origin-embedder-policy'] = { value: 'require-corp' };
+  }
+  return response;
+}`
+      ),
     });
 
     const distribution = new cloudfront.Distribution(this, 'Distribution', {
@@ -118,18 +104,8 @@ export class WebStack extends Stack {
         responseHeadersPolicy: responseHeaders,
         functionAssociations: [
           { function: rewriteToIndexFn, eventType: cloudfront.FunctionEventType.VIEWER_REQUEST },
+          { function: tcpaHeadersFn, eventType: cloudfront.FunctionEventType.VIEWER_RESPONSE },
         ],
-      },
-      additionalBehaviors: {
-        '/tcpa/*': {
-          origin: new origins.S3Origin(bucket, { originAccessIdentity: oai }),
-          viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-          compress: true,
-          responseHeadersPolicy: tcpaResponseHeaders,
-          functionAssociations: [
-            { function: rewriteToIndexFn, eventType: cloudfront.FunctionEventType.VIEWER_REQUEST },
-          ],
-        },
       },
       defaultRootObject: 'index.html',
       domainNames,

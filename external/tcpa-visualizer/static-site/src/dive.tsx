@@ -299,7 +299,12 @@ export default function TCPALitigationExplorer() {
   const dateClause = dateRange.start || dateRange.end
     ? `${dateRange.start ? `AND date_filed >= '${dateRange.start}'` : ""} ${dateRange.end ? `AND date_filed <= '${dateRange.end}'` : ""}`
     : "";
-  const extraFilters = `${claimTypeClause} ${stateClause} ${dateClause}`;
+  const verticalGlobalClause = verticalFilter
+    ? verticalFilter === "Untagged"
+      ? "AND vertical IS NULL"
+      : `AND vertical = '${verticalFilter}'`
+    : "";
+  const extraFilters = `${claimTypeClause} ${stateClause} ${dateClause} ${verticalGlobalClause}`;
 
   // Count active filters for badge
   const activeFilterCount = (selectedClaimTypes.size > 0 ? 1 : 0) + (selectedStates.size > 0 ? 1 : 0) + (dateRange.start !== "2021-04-01" || dateRange.end ? 1 : 0) + (verticalFilter ? 1 : 0);
