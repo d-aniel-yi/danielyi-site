@@ -15,23 +15,9 @@ export class WebStack extends Stack {
 
     const oai = new cloudfront.OriginAccessIdentity(this, 'OAI');
 
-    // Custom security headers incl. CSP that allows site assets
+    // Security headers (CSP is handled in the viewer-response function to allow per-path policies)
     const responseHeaders = new cloudfront.ResponseHeadersPolicy(this, 'ResponseHeaders', {
       securityHeadersBehavior: {
-        contentSecurityPolicy: {
-          contentSecurityPolicy: [
-            "default-src 'self'",
-            "script-src 'self' 'unsafe-inline'",
-            "style-src 'self' 'unsafe-inline'",
-            "img-src 'self' data: https:",
-            "connect-src 'self' https:",
-            "font-src 'self' data:",
-            "object-src 'none'",
-            "base-uri 'self'",
-            "frame-ancestors 'none'",
-          ].join('; '),
-          override: true,
-        },
         referrerPolicy: { referrerPolicy: cloudfront.HeadersReferrerPolicy.NO_REFERRER_WHEN_DOWNGRADE, override: true },
         strictTransportSecurity: { accessControlMaxAge: Duration.days(365), includeSubdomains: true, preload: true, override: true },
         xssProtection: { protection: true, modeBlock: true, override: true },
@@ -78,8 +64,8 @@ export class WebStack extends Stack {
       ),
     });
 
-    // Viewer-response function: override CSP and add COOP/COEP for /tcpa/* paths
-    const tcpaHeadersFn = new cloudfront.Function(this, 'TcpaHeadersFn', {
+    // Viewer-response function: set CSP per path, add COOP/COEP for /tcpa/*
+    const cspHeadersFn = new cloudfront.Function(this, 'CspHeadersFn', {
       code: cloudfront.FunctionCode.fromInline(
         `function handler(event) {
   var response = event.response;
@@ -90,6 +76,10 @@ export class WebStack extends Stack {
     };
     response.headers['cross-origin-opener-policy'] = { value: 'same-origin' };
     response.headers['cross-origin-embedder-policy'] = { value: 'require-corp' };
+  } else {
+    response.headers['content-security-policy'] = {
+      value: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https:; font-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
+    };
   }
   return response;
 }`
@@ -104,7 +94,7 @@ export class WebStack extends Stack {
         responseHeadersPolicy: responseHeaders,
         functionAssociations: [
           { function: rewriteToIndexFn, eventType: cloudfront.FunctionEventType.VIEWER_REQUEST },
-          { function: tcpaHeadersFn, eventType: cloudfront.FunctionEventType.VIEWER_RESPONSE },
+          { function: cspHeadersFn, eventType: cloudfront.FunctionEventType.VIEWER_RESPONSE },
         ],
       },
       defaultRootObject: 'index.html',
