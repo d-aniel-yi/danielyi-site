@@ -53,6 +53,7 @@ jobs:
           set -o pipefail
           cd infra
           npm install 2>&1 | tee -a ../cdk_preflight.log || true
+          chmod +x node_modules/.bin/* 2>/dev/null || true
           npm run build 2>&1 | tee -a ../cdk_preflight.log || true
         continue-on-error: true
 
