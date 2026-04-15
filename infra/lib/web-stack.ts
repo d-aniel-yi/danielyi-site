@@ -15,9 +15,24 @@ export class WebStack extends Stack {
 
     const oai = new cloudfront.OriginAccessIdentity(this, 'OAI');
 
-    // Security headers (CSP is handled in the viewer-response function to allow per-path policies)
+    // Security headers — CSP is permissive enough for both main site and /tcpa (DuckDB-WASM)
     const responseHeaders = new cloudfront.ResponseHeadersPolicy(this, 'ResponseHeaders', {
       securityHeadersBehavior: {
+        contentSecurityPolicy: {
+          contentSecurityPolicy: [
+            "default-src 'self'",
+            "script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cdn.tailwindcss.com blob:",
+            "style-src 'self' 'unsafe-inline'",
+            "img-src 'self' data: https:",
+            "connect-src 'self' https: blob:",
+            "font-src 'self' data:",
+            "worker-src 'self' blob:",
+            "object-src 'none'",
+            "base-uri 'self'",
+            "frame-ancestors 'none'",
+          ].join('; '),
+          override: true,
+        },
         referrerPolicy: { referrerPolicy: cloudfront.HeadersReferrerPolicy.NO_REFERRER_WHEN_DOWNGRADE, override: true },
         strictTransportSecurity: { accessControlMaxAge: Duration.days(365), includeSubdomains: true, preload: true, override: true },
         xssProtection: { protection: true, modeBlock: true, override: true },
@@ -48,16 +63,12 @@ export class WebStack extends Stack {
         `function handler(event) {
   var request = event.request;
   var uri = request.uri;
-  // Paths that are directories (not Next.js pages) need trailing slash redirect
-  var dirs = ['/tcpa'];
-  if (dirs.indexOf(uri) !== -1) {
-    return { statusCode: 301, statusDescription: 'Moved Permanently',
-      headers: { location: { value: uri + '/' } } };
-  }
   if (uri.endsWith('/')) {
     request.uri = uri + 'index.html';
   } else if (uri.indexOf('.') === -1) {
-    request.uri = uri + '.html';
+    // No file extension — redirect to trailing slash so /foo → /foo/ → /foo/index.html
+    return { statusCode: 301, statusDescription: 'Moved Permanently',
+      headers: { location: { value: uri + '/' } } };
   }
   return request;
 }`
