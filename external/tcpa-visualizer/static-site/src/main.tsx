@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
 import { DuckDBProvider, useConnectionStatus } from "./duckdb-provider";
 import Dive from "./dive";
+import "./index.css";
 
 function ConnectionGate({ children }: { children: React.ReactNode }) {
   const { isConnected, isConnecting, error } = useConnectionStatus();

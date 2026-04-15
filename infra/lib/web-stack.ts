@@ -83,10 +83,10 @@ export class WebStack extends Stack {
   var request = event.request;
   if (request.uri.startsWith('/tcpa/')) {
     response.headers['content-security-policy'] = {
-      value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https: blob:; font-src 'self' data:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
+      value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https: blob:; font-src 'self' data:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
     };
     response.headers['cross-origin-opener-policy'] = { value: 'same-origin' };
-    response.headers['cross-origin-embedder-policy'] = { value: 'credentialless' };
+    response.headers['cross-origin-embedder-policy'] = { value: 'require-corp' };
   } else {
     response.headers['content-security-policy'] = {
       value: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https:; font-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
