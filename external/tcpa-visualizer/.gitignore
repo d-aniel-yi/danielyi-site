@@ -1,0 +1,6 @@
+# Only commit the static-site source — skip everything else
+/*
+!/.gitignore
+!/static-site/
+/static-site/node_modules/
+/static-site/dist/
