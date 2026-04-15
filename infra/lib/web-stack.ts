@@ -62,6 +62,12 @@ export class WebStack extends Stack {
         `function handler(event) {
   var request = event.request;
   var uri = request.uri;
+  // Paths that are directories (not Next.js pages) need trailing slash redirect
+  var dirs = ['/tcpa'];
+  if (dirs.indexOf(uri) !== -1) {
+    return { statusCode: 301, statusDescription: 'Moved Permanently',
+      headers: { location: { value: uri + '/' } } };
+  }
   if (uri.endsWith('/')) {
     request.uri = uri + 'index.html';
   } else if (uri.indexOf('.') === -1) {
