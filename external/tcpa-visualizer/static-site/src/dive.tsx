@@ -3156,7 +3156,11 @@ export default function TCPALitigationExplorer() {
                     Coverage Window
                   </p>
                   <p style={{ color: "#e2e8f0", fontSize: 13, lineHeight: 1.7 }}>
-                    Trailing 2 years from date of initial pull. Federal courts only — state court filings are not included
+                    Trailing 2 years from date of initial pull, with a hard floor
+                    of <span style={{ fontFamily: mono, fontSize: 11, color: "#94a3b8" }}>April 1, 2021</span> — the date
+                    of <em>Facebook v. Duguid</em>, which narrowed the ATDS definition and reshaped TCPA litigation
+                    strategy. All data is post-Duguid to avoid mixing pre/post-Duguid precedent.
+                    Federal courts only — state court filings are not included
                     in the RECAP dataset. Data is updated incrementally via <span style={{ fontFamily: mono, fontSize: 11, color: "#94a3b8" }}>python3 ingest.py --update</span>.
                   </p>
                 </div>
@@ -3182,7 +3186,7 @@ export default function TCPALitigationExplorer() {
                       {[
                         { category: "Claim Type", cls: "SMS", keywords: '"text message", "SMS", "MMS"' },
                         { category: "", cls: "Voice", keywords: '"prerecorded", "robocall", "artificial voice", "ringless voicemail", "RVM"' },
-                        { category: "", cls: "Fax", keywords: '"junk fax", "unsolicited fax"' },
+                        { category: "", cls: "Fax", keywords: '"junk fax", "unsolicited fax", "fax"' },
                         { category: "Legal Theory", cls: "ATDS", keywords: '"automatic telephone dialing system", "ATDS", "autodialer"' },
                         { category: "", cls: "DNC", keywords: '"national do not call", "DNC registry", "internal do not call"' },
                       ].map((row, i) => (
@@ -3235,20 +3239,6 @@ export default function TCPALitigationExplorer() {
                   </p>
                 </div>
 
-                {/* ── Financial exposure ───────────────────── */}
-                <div style={{ borderLeft: "3px solid #eab308", paddingLeft: 16, marginBottom: 24 }}>
-                  <p style={{ color: "#eab308", fontSize: 11, fontFamily: mono, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 6 }}>
-                    Financial Exposure Estimates
-                  </p>
-                  <p style={{ color: "#e2e8f0", fontSize: 13, lineHeight: 1.7 }}>
-                    TCPA statutory damages are $500 per violation (negligent) and $1,500 per violation (willful/knowing).
-                    The exposure figures shown use the per-case count as a statutory minimum — actual exposure depends on the
-                    number of violations per case (each call or text = 1 violation). Cases explicitly flagged as
-                    class actions represent significantly higher, multiplied risk well beyond the per-case statutory
-                    minimum. Estimates do not include attorney fees or actual settlement amounts.
-                  </p>
-                </div>
-
                 {/* ── Class Action ─────────────────────────── */}
                 <div style={{ borderLeft: "3px solid #06b6d4", paddingLeft: 16, marginBottom: 24 }}>
                   <p style={{ color: "#06b6d4", fontSize: 11, fontFamily: mono, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginBottom: 6 }}>
@@ -3268,7 +3258,7 @@ export default function TCPALitigationExplorer() {
                     Unclassified TCPA Data
                   </p>
                   <p style={{ color: "#e2e8f0", fontSize: 13, lineHeight: 1.7 }}>
-                    171 TCPA dockets were filed under TCPA statutes in federal court but could not be automatically
+                    Some TCPA dockets were filed under TCPA statutes in federal court but could not be automatically
                     classified into SMS/Voice or ATDS/DNC sub-categories. These cases are confirmed TCPA litigation
                     (matched by statute query and nature-of-suit codes), but the complaint text available via RECAP
                     did not contain sufficient keywords to determine the specific claim type or legal theory.
