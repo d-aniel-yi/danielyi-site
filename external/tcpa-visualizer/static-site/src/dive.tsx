@@ -640,7 +640,7 @@ export default function TCPALitigationExplorer() {
   const monthly = useSQLQuery(
     `WITH spine AS (
        SELECT strftime(d, '%Y-%m') as month, d
-       FROM generate_series(DATE '2024-04-01', DATE '2026-04-01', INTERVAL 1 MONTH) AS t(d)
+       FROM generate_series(DATE '2021-04-01', CURRENT_DATE, INTERVAL 1 MONTH) AS t(d)
      )
      SELECT s.month,
        ${STATUTES.map(
@@ -786,7 +786,7 @@ export default function TCPALitigationExplorer() {
      ),
      spine AS (
        SELECT strftime(d, '%Y-%m') as month
-       FROM generate_series(DATE '2024-04-01', DATE '2026-04-01', INTERVAL 1 MONTH) AS t(d)
+       FROM generate_series(DATE '2021-04-01', CURRENT_DATE, INTERVAL 1 MONTH) AS t(d)
      )
      SELECT tc.court, s.month, COUNT(c.id) as cnt
      FROM top_courts tc
@@ -1083,7 +1083,7 @@ export default function TCPALitigationExplorer() {
         <div className="flex items-end justify-between">
           <div>
             <p style={{ color: "#475569", fontSize: 10, letterSpacing: 3, textTransform: "uppercase", fontFamily: mono, marginBottom: 8 }}>
-              Phone &amp; Text Litigation · Federal Courts · Apr 2024 – Apr 2026
+              Phone &amp; Text Litigation · Federal Courts · Post-Duguid (Apr 2021+)
             </p>
             <h1 style={{ color: "#f1f5f9", fontSize: 28, fontWeight: 400, letterSpacing: -0.5, lineHeight: 1.1 }}>
               TCPA Litigation Explorer
@@ -2000,7 +2000,7 @@ export default function TCPALitigationExplorer() {
                     <div style={{ background: "#111827", borderRadius: 4, padding: "10px 14px", borderLeft: "3px solid #334155" }}>
                       <p style={{ color: "#64748b", fontSize: 10, fontFamily: mono, lineHeight: 1.6 }}>
                         Based on plaintiff name matching across {totalPlaintiffs.toLocaleString()} unique plaintiffs
-                        in {totalDistCases.toLocaleString()} cases. Data window: Apr 2024 – Apr 2026 (trailing 2 years, federal courts only via CourtListener RECAP).
+                        in {totalDistCases.toLocaleString()} cases. Data window: Apr 2021 – present (post-Duguid, federal courts only via CourtListener RECAP).
                         Plaintiffs with prior litigation history outside this window will appear as "first-time."
                         Name matching is approximate — different name spellings for the same litigant may undercount repeat filers.
                       </p>
@@ -3156,10 +3156,9 @@ export default function TCPALitigationExplorer() {
                     Coverage Window
                   </p>
                   <p style={{ color: "#e2e8f0", fontSize: 13, lineHeight: 1.7 }}>
-                    Trailing 2 years from date of initial pull, with a hard floor
-                    of <span style={{ fontFamily: mono, fontSize: 11, color: "#94a3b8" }}>April 1, 2021</span> — the date
+                    All data begins <span style={{ fontFamily: mono, fontSize: 11, color: "#94a3b8" }}>April 1, 2021</span> — the date
                     of <em>Facebook v. Duguid</em>, which narrowed the ATDS definition and reshaped TCPA litigation
-                    strategy. All data is post-Duguid to avoid mixing pre/post-Duguid precedent.
+                    strategy. The dataset is entirely post-Duguid to avoid mixing pre/post-Duguid precedent.
                     Federal courts only — state court filings are not included
                     in the RECAP dataset. Data is updated incrementally via <span style={{ fontFamily: mono, fontSize: 11, color: "#94a3b8" }}>python3 ingest.py --update</span>.
                   </p>
