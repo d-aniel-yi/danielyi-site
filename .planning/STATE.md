@@ -1,35 +1,34 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.0
-milestone_name: "- [x] **Phase 1: Diagnose** - Identify root causes of build failures"
-status: verifying
-stopped_at: Completed 06-01-PLAN.md
-last_updated: "2026-04-07T02:18:47.059Z"
-last_activity: 2026-04-07
+milestone: v1.2
+milestone_name: "TCPA Case Study"
+status: defining_requirements
+stopped_at: null
+last_updated: "2026-04-19T00:00:00.000Z"
+last_activity: 2026-04-19
 progress:
-  total_phases: 4
-  completed_phases: 4
-  total_plans: 7
-  completed_plans: 7
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-04-06)
+See: .planning/PROJECT.md (updated 2026-04-19)
 
 **Core value:** Showcase technical work through polished, detailed project deep dives
-**Current focus:** Phase 06 — content-expansion
+**Current focus:** v1.2 TCPA Case Study — defining requirements
 
 ## Current Position
 
-Phase: 06
-Plan: Not started
-Status: Phase complete — ready for verification
-Progress: [----------] 0% (0/2 v1.1 phases complete)
-Last activity: 2026-04-07
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-04-19 — Milestone v1.2 started
 
 ## Accumulated Context
 
@@ -42,10 +41,14 @@ Last activity: 2026-04-07
 - [Phase 05-diagram-navigation]: Sticky 35% panel with hidden lg:block, outer flex has no overflow to preserve sticky behavior
 - [Phase 05-diagram-navigation]: e4 edge excluded from animation loop - matches original simulation intent
 - [Phase 06-content-expansion]: Three new sections appended to STEPS array (SAM/ML Pipeline, WebSocket Notifications, Workspace UI) sourced from Mobi repo
+- [v1.2 scoping]: TCPA case study is NextJS-native at /projects/tcpa; the embedded visualizer at /tcpa is NOT modified this milestone
+- [v1.2 scoping]: Narrative is weighted 30% problem / 70% stack reasoning (MotherDuck Dives, MotherDuck MCP, DuckDB-WASM)
+- [v1.2 scoping]: Content mode is outline-first — section structure approved up front, filled top-to-bottom with user direction
+- [v1.2 scoping]: "Dive" in source = MotherDuck Dives, not "deep dive" — avoid term clash in case-study copy
 
 ### Pending Todos
 
-- Read Mobi repo documentation before planning Phase 6 (https://github.com/d-aniel-yi/mobi)
+(none)
 
 ### Blockers/Concerns
 
@@ -53,10 +56,10 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-06T23:28:27.821Z
-Stopped at: Completed 06-01-PLAN.md
+Last session: 2026-04-19T00:00:00.000Z
+Stopped at: Milestone v1.2 started — defining requirements
 Resume file: None
 
 ---
 *Created: 2026-02-10*
-*Last updated: 2026-04-06*
+*Last updated: 2026-04-19*
