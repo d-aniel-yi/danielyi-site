@@ -32,7 +32,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 ### v1.2
 
-- [ ] **Phase 7: TCPA Case Study Page** - Build `/projects/tcpa` deep dive with outline-approved narrative, embedded visualizer preview, and "Try it live" CTA
+- [x] **Phase 7: TCPA Case Study Page** - Build `/projects/tcpa` deep dive with outline-approved narrative, embedded visualizer preview, and "Try it live" CTA (completed 2026-04-19)
 - [ ] **Phase 8: Listing Integration & Build Validation** - Add TCPA card to `/projects` listing and validate full static export build
 
 ## Phase Details
@@ -138,7 +138,7 @@ Plans:
 
 Plans:
 - [x] 07-01-PLAN.md — Outline plan: produce and get approval on the section outline (headings, narrative weight per section, embed placement) — completed 2026-04-19
-- [ ] 07-02-PLAN.md — Prose plan: fill approved outline with user-directed content, wire up embed + CTA
+- [x] 07-02-PLAN.md — Prose plan: fill approved outline with user-directed content, wire up embed + CTA — completed 2026-04-19
 
 ### Phase 8: Listing Integration & Build Validation
 **Goal**: The new TCPA case study is discoverable from `/projects` and the full site builds cleanly as a static export
@@ -168,9 +168,9 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 | 4. Integrate | —/— | ✓ Complete | 2026-04-06 |
 | 5. Diagram & Navigation | 1/1 | Complete   | 2026-04-06 |
 | 6. Content Expansion | 1/1 | Complete   | 2026-04-06 |
-| 7. TCPA Case Study Page | 1/2 | In progress | — |
+| 7. TCPA Case Study Page | 2/2 | Complete | 2026-04-19 |
 | 8. Listing Integration & Build Validation | 0/TBD | Not started | — |
 
 ---
 *Created: 2026-02-10*
-*Last updated: 2026-04-19 — v1.2 TCPA Case Study phases appended*
+*Last updated: 2026-04-19 — Phase 7 complete; Phase 8 ready to start*

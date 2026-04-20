@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: "- [x] **Phase 1: Diagnose** - Identify root causes of build failures"
 status: executing
-stopped_at: Plan 07-01 complete; awaiting Plan 02 prose execution
-last_updated: "2026-04-20T05:14:30.342Z"
-last_activity: 2026-04-20
+stopped_at: Phase 7 complete; awaiting Phase 8 (listing integration + full-site build validation)
+last_updated: "2026-04-19T18:00:00.000Z"
+last_activity: 2026-04-19
 progress:
   total_phases: 8
-  completed_phases: 6
+  completed_phases: 7
   total_plans: 11
-  completed_plans: 8
-  percent: 73
+  completed_plans: 9
+  percent: 82
 ---
 
 # Project State
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-04-19)
 
 ## Current Position
 
-Phase: 07 (tcpa-case-study-page) — EXECUTING
-Plan: 2 of 2 (Plan 01 complete; Plan 02 prose pending)
-Status: Plan 07-01 outline approved and locked; ready for Plan 07-02 prose execution
-Last activity: 2026-04-20 — Plan 07-01 outline locked with all research defaults accepted
+Phase: 07 (tcpa-case-study-page) — COMPLETE
+Plan: 2 of 2 complete (Plan 01 outline approved; Plan 02 prose shipped)
+Status: Phase 7 fully shipped — /projects/tcpa live in static export with prose, screenshot, and 3 CTAs. Ready for Phase 8.
+Last activity: 2026-04-19 — Plan 07-02 shipped TCPA case study page; requirements PAGE-06, PAGE-08, CONT-02/03/04, VIZ-01/02 marked complete
 
 ## Accumulated Context
 
@@ -49,6 +49,7 @@ Last activity: 2026-04-20 — Plan 07-01 outline locked with all research defaul
 - [v1.2 roadmap]: Phase 7 expected to have two plans — an outline plan (approved before prose) and a prose plan — reflecting the outline-first workflow
 - [v1.2 roadmap]: PAGE-06 + PAGE-08 (page exists, visual shape) grouped with content + visualizer integration in Phase 7; PAGE-07 (static export build) grouped with LIST-01 in Phase 8 so the listing and the build are validated together
 - [Phase 07-01]: TCPA outline locked with all research-recommended A1-A8 defaults accepted (kicker=Case Study 003, same-tab CTAs, two-panel mobi shape, chronological order, 1600x1000 PNG screenshot, no GitHub pill, MotherDuck Dive term hygiene, 07-OUTLINE.md sibling artifact)
+- [Phase 07-02]: TCPA case study page shipped at /projects/tcpa — 2,440 words across 5 sections at ~30/70 problem-to-stack ratio; 2 code snippets (SQL top-defendants; DuckDB-WASM registerFileBuffer); 4 inline external links (outline contracted 5; Duguid opinion PDF L1 omitted — italicized prose reference reads naturally without anchor); user-captured 281 KB screenshot; 3 same-tab Try-it-live CTAs. Requirements complete: PAGE-06, PAGE-08, CONT-02/03/04, VIZ-01/02.
 
 ### Pending Todos
 
@@ -60,8 +61,8 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-20T05:14:19.603Z
-Stopped at: Plan 07-01 complete; awaiting Plan 02 prose execution
+Last session: 2026-04-19T18:00:00.000Z
+Stopped at: Phase 7 complete; awaiting Phase 8 (listing integration + full-site build validation)
 Resume file: None
 
 ---
@@ -69,3 +70,4 @@ Resume file: None
 *Last updated: 2026-04-19*
 
 **Planned Phase:** 7 (TCPA Case Study Page) — 2 plans — 2026-04-20T04:57:46.564Z
+**Completed Phase:** 7 (TCPA Case Study Page) — 2/2 plans shipped — 2026-04-19
