@@ -66,6 +66,26 @@ export default function ProjectsPage() {
         ],
       },
     },
+    {
+      title: "TCPA Litigation Explorer",
+      href: "/projects/tcpa",
+      excerpt: "A case study in zero-backend analytics. After Facebook v. Duguid redrew the ATDS boundary, tracking post-2021 TCPA litigation trends required a new tool. Built on MotherDuck Dives and an MCP-driven build loop, then published as a static site running DuckDB-WASM in the browser — 29K rows, no backend, no account required.",
+      image: "/tcpa-preview.png",
+      tags: ["DuckDB-WASM", "MotherDuck", "Next.js"],
+      featured: true,
+      accentColor: "#f59e0b",
+      detailsSlug: "tcpa",
+      techDetails: {
+        stack: ["DuckDB-WASM", "MotherDuck", "MCP", "Next.js", "Parquet"],
+        architecture: "Dual-execution React dashboard: the same component tree runs against MotherDuck (as a Dive) or against DuckDB-WASM in the browser, only the query provider differs. Static bundle served from S3/CloudFront with COOP/COEP enabled.",
+        highlights: [
+          "In-browser DuckDB-WASM (29K rows, zero backend)",
+          "MotherDuck Dives dashboard-as-code",
+          "MCP-driven conversational ETL pipeline",
+          "Post-Duguid TCPA trend analysis across 4 statutes",
+        ],
+      },
+    },
   ];
 
   const standardProjects: ProjectItem[] = [
