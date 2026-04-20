@@ -2,12 +2,12 @@
 gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: "TCPA Case Study"
-status: defining_requirements
+status: ready_to_plan
 stopped_at: null
 last_updated: "2026-04-19T00:00:00.000Z"
 last_activity: 2026-04-19
 progress:
-  total_phases: 0
+  total_phases: 2
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-19)
 
 **Core value:** Showcase technical work through polished, detailed project deep dives
-**Current focus:** v1.2 TCPA Case Study — defining requirements
+**Current focus:** v1.2 TCPA Case Study — Phase 7 ready to plan
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: —
-Status: Defining requirements
-Last activity: 2026-04-19 — Milestone v1.2 started
+Phase: 7 — TCPA Case Study Page
+Plan: — (not yet created)
+Status: Ready to plan Phase 7
+Last activity: 2026-04-19 — v1.2 roadmap created, 8 requirements mapped across 2 phases
 
 ## Accumulated Context
 
@@ -45,6 +45,9 @@ Last activity: 2026-04-19 — Milestone v1.2 started
 - [v1.2 scoping]: Narrative is weighted 30% problem / 70% stack reasoning (MotherDuck Dives, MotherDuck MCP, DuckDB-WASM)
 - [v1.2 scoping]: Content mode is outline-first — section structure approved up front, filled top-to-bottom with user direction
 - [v1.2 scoping]: "Dive" in source = MotherDuck Dives, not "deep dive" — avoid term clash in case-study copy
+- [v1.2 roadmap]: 2 phases chosen given small single-page scope and coarse granularity — Phase 7 (page + content) and Phase 8 (listing + build validation)
+- [v1.2 roadmap]: Phase 7 expected to have two plans — an outline plan (approved before prose) and a prose plan — reflecting the outline-first workflow
+- [v1.2 roadmap]: PAGE-06 + PAGE-08 (page exists, visual shape) grouped with content + visualizer integration in Phase 7; PAGE-07 (static export build) grouped with LIST-01 in Phase 8 so the listing and the build are validated together
 
 ### Pending Todos
 
@@ -57,7 +60,7 @@ None.
 ## Session Continuity
 
 Last session: 2026-04-19T00:00:00.000Z
-Stopped at: Milestone v1.2 started — defining requirements
+Stopped at: v1.2 roadmap created — ready to plan Phase 7
 Resume file: None
 
 ---

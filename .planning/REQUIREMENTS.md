@@ -84,21 +84,21 @@
 | DIAG-03 | Phase 5 | Complete |
 | NAV-01 | Phase 5 | Complete |
 | CONT-01 | Phase 6 | Complete |
-| PAGE-06 | TBD | Active |
-| PAGE-07 | TBD | Active |
-| PAGE-08 | TBD | Active |
-| CONT-02 | TBD | Active |
-| CONT-03 | TBD | Active |
-| CONT-04 | TBD | Active |
-| VIZ-01 | TBD | Active |
-| VIZ-02 | TBD | Active |
-| LIST-01 | TBD | Active |
+| PAGE-06 | Phase 7 | Active |
+| PAGE-07 | Phase 8 | Active |
+| PAGE-08 | Phase 7 | Active |
+| CONT-02 | Phase 7 | Active |
+| CONT-03 | Phase 7 | Active |
+| CONT-04 | Phase 7 | Active |
+| VIZ-01 | Phase 7 | Active |
+| VIZ-02 | Phase 7 | Active |
+| LIST-01 | Phase 8 | Active |
 
 **Coverage:**
 - v1.2 requirements: 8 total
-- Mapped to phases: 0 (roadmap pending)
-- Unmapped: 8 (will be resolved by roadmapper)
+- Mapped to phases: 8 (Phase 7: 6, Phase 8: 2)
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-02-10*
-*Last updated: 2026-04-19 — v1.2 TCPA Case Study requirements added*
+*Last updated: 2026-04-19 — v1.2 requirements mapped to Phases 7 and 8*

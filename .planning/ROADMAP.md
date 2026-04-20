@@ -2,11 +2,13 @@
 
 ## Overview
 
-This roadmap covers two milestones:
+This roadmap covers three milestones:
 
 **v1.0 — Bug Fix & Merge:** Diagnose and fix all build errors on the `dev` branch so that new project deep dive pages and tech demos updates build successfully as a static export. Merge working changes into `main` without regressions.
 
 **v1.1 — Mobi Deep Dive Refinement:** Improve the Mobi tech deep dive page layout, interactivity, and content depth.
+
+**v1.2 — TCPA Case Study:** Ship a new project case study at `/projects/tcpa` telling the story of why the TCPA Litigation Explorer was built (~30% narrative weight) and why the stack was chosen (~70% — MotherDuck Dives, MotherDuck MCP server, DuckDB-WASM). Page includes an embedded visualizer preview with a "Try it live" CTA to `/tcpa`, and a TCPA card on the `/projects` listing.
 
 ## Phases
 
@@ -27,6 +29,11 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 5: Diagram & Navigation** - Rework diagram layout/interactivity and add GitHub link (completed 2026-04-06)
 - [x] **Phase 6: Content Expansion** - Add technical depth to Mobi page from repo documentation (completed 2026-04-06)
+
+### v1.2
+
+- [ ] **Phase 7: TCPA Case Study Page** - Build `/projects/tcpa` deep dive with outline-approved narrative, embedded visualizer preview, and "Try it live" CTA
+- [ ] **Phase 8: Listing Integration & Build Validation** - Add TCPA card to `/projects` listing and validate full static export build
 
 ## Phase Details
 
@@ -116,10 +123,42 @@ Plans:
 Plans:
 - [x] 06-01-PLAN.md — Add SAM/ML Pipeline, WebSocket notifications, and Workspace UI sections to Mobi page
 
+### Phase 7: TCPA Case Study Page
+**Goal**: A visitor can navigate to `/projects/tcpa` and read the full TCPA case study — problem framing (~30%), stack reasoning (~70%), embedded visualizer preview, and a "Try it live" CTA to `/tcpa` — structured consistent with `/projects/mobi`
+**Depends on**: Phase 6
+**Requirements**: PAGE-06, PAGE-08, CONT-02, CONT-03, CONT-04, VIZ-01, VIZ-02
+**Success Criteria** (what must be TRUE):
+  1. Navigating to `/projects/tcpa` loads a case study page whose visual shape matches `/projects/mobi` (hero, section structure, type scale)
+  2. The narrative reads roughly 30% problem context / 70% stack reasoning, covering MotherDuck Dives, MotherDuck MCP server, and DuckDB-WASM with user-directed insights (not generic template prose)
+  3. A preview of the `/tcpa` visualizer is embedded on the page (iframe or screenshot — approach decided in plan phase)
+  4. A visible "Try it live" CTA navigates the user to `/tcpa`
+  5. Page content follows the outline-first workflow — the section outline is approved before prose is written and filled top-to-bottom
+**Plans**: TBD
+**UI hint**: yes
+
+Plans:
+- [ ] TBD — Outline plan: produce and get approval on the section outline (headings, narrative weight per section, embed placement)
+- [ ] TBD — Prose plan: fill approved outline with user-directed content, wire up embed + CTA
+
+### Phase 8: Listing Integration & Build Validation
+**Goal**: The new TCPA case study is discoverable from `/projects` and the full site builds cleanly as a static export
+**Depends on**: Phase 7
+**Requirements**: PAGE-07, LIST-01
+**Success Criteria** (what must be TRUE):
+  1. A TCPA project card appears on the `/projects` listing page and links to `/projects/tcpa`
+  2. `next build` with `output: 'export'` completes without errors after v1.2 changes
+  3. `/projects/tcpa` and `/projects` both produce valid static HTML in the export output
+  4. Existing deep dive pages (FSBO, Mobi, Portfolio) still render and build without regressions
+**Plans**: TBD
+**UI hint**: yes
+
+Plans:
+- [ ] TBD — Add TCPA card to projects listing and run full static export build validation
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
+Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -129,7 +168,9 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 4. Integrate | —/— | ✓ Complete | 2026-04-06 |
 | 5. Diagram & Navigation | 1/1 | Complete   | 2026-04-06 |
 | 6. Content Expansion | 1/1 | Complete   | 2026-04-06 |
+| 7. TCPA Case Study Page | 0/TBD | Not started | — |
+| 8. Listing Integration & Build Validation | 0/TBD | Not started | — |
 
 ---
 *Created: 2026-02-10*
-*Last updated: 2026-04-06*
+*Last updated: 2026-04-19 — v1.2 TCPA Case Study phases appended*
