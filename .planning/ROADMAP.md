@@ -153,7 +153,7 @@ Plans:
 **UI hint**: yes
 
 Plans:
-- [ ] 08-01-PLAN.md — Add TCPA card to `/projects` listing and validate full static-export build (PAGE-07 + LIST-01)
+- [x] 08-01-PLAN.md — Add TCPA card to `/projects` listing and validate full static-export build (PAGE-07 + LIST-01)
 
 ## Progress
 
