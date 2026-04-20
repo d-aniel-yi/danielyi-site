@@ -137,8 +137,8 @@ Plans:
 **UI hint**: yes
 
 Plans:
-- [ ] TBD — Outline plan: produce and get approval on the section outline (headings, narrative weight per section, embed placement)
-- [ ] TBD — Prose plan: fill approved outline with user-directed content, wire up embed + CTA
+- [x] 07-01-PLAN.md — Outline plan: produce and get approval on the section outline (headings, narrative weight per section, embed placement) — completed 2026-04-19
+- [ ] 07-02-PLAN.md — Prose plan: fill approved outline with user-directed content, wire up embed + CTA
 
 ### Phase 8: Listing Integration & Build Validation
 **Goal**: The new TCPA case study is discoverable from `/projects` and the full site builds cleanly as a static export
@@ -168,7 +168,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 | 4. Integrate | —/— | ✓ Complete | 2026-04-06 |
 | 5. Diagram & Navigation | 1/1 | Complete   | 2026-04-06 |
 | 6. Content Expansion | 1/1 | Complete   | 2026-04-06 |
-| 7. TCPA Case Study Page | 0/TBD | Not started | — |
+| 7. TCPA Case Study Page | 1/2 | In progress | — |
 | 8. Listing Integration & Build Validation | 0/TBD | Not started | — |
 
 ---

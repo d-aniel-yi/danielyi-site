@@ -1,7 +1,7 @@
 ---
 phase: 07-tcpa-case-study-page
 artifact: outline
-status: draft           # flip to `approved` at Task 2 approval
+status: approved        # user approved 2026-04-19, all A1-A8 defaults accepted
 created: 2026-04-19
 consumes: []            # read-only inputs are cited below, not consumed via dep graph
 produces_for:
@@ -21,7 +21,7 @@ locked_decisions:
 
 > **Purpose:** Locked content contract consumed by `07-02-PLAN.md` (the prose plan). This file freezes the section list, hero/panel/footer specs, answers to A1–A8, code-snippet slots, and external-link list so the prose executor has zero structural ambiguity.
 >
-> **Status:** `draft` — flip to `approved` in the frontmatter before Plan 02 runs.
+> **Status:** `approved` — user accepted all research-recommended defaults on 2026-04-19. Plan 02 may now consume.
 >
 > **Source documents** (re-read during prose execution, NOT during outline review):
 > - `external/tcpa-visualizer/CONTEXT.md` — post-Duguid framing, 4 statutes, MotherDuck schema, 5-tab Dive, MCP pipeline.
