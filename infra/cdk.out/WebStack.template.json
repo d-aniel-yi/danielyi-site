@@ -151,7 +151,7 @@
      "Name": "WebStackResponseHeaders14259C5C",
      "SecurityHeadersConfig": {
       "ContentSecurityPolicy": {
-       "ContentSecurityPolicy": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https:; font-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
+       "ContentSecurityPolicy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cdn.tailwindcss.com blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https: blob:; font-src 'self' data:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
        "Override": true
       },
       "ContentTypeOptions": {
@@ -333,7 +333,7 @@
    "Type": "AWS::CloudFront::Function",
    "Properties": {
     "AutoPublish": true,
-    "FunctionCode": "function handler(event) {\n  var request = event.request;\n  var uri = request.uri;\n  if (uri.endsWith('/')) {\n    request.uri = uri + 'index.html';\n  } else if (uri.indexOf('.') === -1) {\n    request.uri = uri + '.html';\n  }\n  return request;\n}",
+    "FunctionCode": "function handler(event) {\n  var request = event.request;\n  var uri = request.uri;\n  if (uri.endsWith('/')) {\n    request.uri = uri + 'index.html';\n  } else if (uri.indexOf('.') === -1) {\n    // No file extension — redirect to trailing slash so /foo → /foo/ → /foo/index.html\n    return { statusCode: 301, statusDescription: 'Moved Permanently',\n      headers: { location: { value: uri + '/' } } };\n  }\n  return request;\n}",
     "FunctionConfig": {
      "Comment": "us-west-2WebStackRewriteToIndexFn37F378F5",
      "Runtime": "cloudfront-js-1.0"
@@ -342,6 +342,21 @@
    },
    "Metadata": {
     "aws:cdk:path": "WebStack/RewriteToIndexFn/Resource"
+   }
+  },
+  "CspHeadersFnA63A6F29": {
+   "Type": "AWS::CloudFront::Function",
+   "Properties": {
+    "AutoPublish": true,
+    "FunctionCode": "function handler(event) {\n  var response = event.response;\n  var request = event.request;\n  if (request.uri.startsWith('/tcpa/')) {\n    response.headers['content-security-policy'] = {\n      value: \"default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https: blob:; font-src 'self' data:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'\"\n    };\n    response.headers['cross-origin-opener-policy'] = { value: 'same-origin' };\n    response.headers['cross-origin-embedder-policy'] = { value: 'require-corp' };\n  } else {\n    response.headers['content-security-policy'] = {\n      value: \"default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https:; font-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'\"\n    };\n  }\n  return response;\n}",
+    "FunctionConfig": {
+     "Comment": "us-west-2WebStackCspHeadersFn277F5DEA",
+     "Runtime": "cloudfront-js-1.0"
+    },
+    "Name": "us-west-2WebStackCspHeadersFn277F5DEA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "WebStack/CspHeadersFn/Resource"
    }
   },
   "Distribution830FAC52": {
@@ -374,6 +389,15 @@
         "FunctionARN": {
          "Fn::GetAtt": [
           "RewriteToIndexFnD4C8B1D0",
+          "FunctionARN"
+         ]
+        }
+       },
+       {
+        "EventType": "viewer-response",
+        "FunctionARN": {
+         "Fn::GetAtt": [
+          "CspHeadersFnA63A6F29",
           "FunctionARN"
          ]
         }

@@ -16,6 +16,17 @@ const LINK_CLASS =
 
 const STEPS = [
     {
+        id: "why-created",
+        title: "Why this was created: The TCPA Litigation Explorer",
+        content: (
+            <>
+                <p>
+                    The <strong>TCPA Litigation Visualizer</strong> is a dashboard for tracking trends in the consumer communications space. This was created to inform a series of blog posts and articles I was looking to publish about data in the TCPA litigation space. I was having trouble finding reliable sources of information and a way to visualize and explore the data trends, so I decided to build one myself using MotherDuck and DuckDB-WASM. 
+                </p>
+                </>
+        ),
+    },
+    {
         id: "the-problem",
         title: "The Problem: Post-Duguid TCPA Trend Analysis",
         content: (
@@ -31,6 +42,7 @@ const STEPS = [
                     ATDS claims, more Do-Not-Call (DNC) and pre-recorded-voice claims, and heavier use of
                     state Mini-TCPA statutes where the federal ceiling no longer held.
                 </p>
+
                 <p className="mt-4">
                     That pivot is the story the numbers should tell, but the numbers are hard to see. The
                     <em> Consumer Litigation Visualizer</em> was built to make it legible — a trend tracker
@@ -206,8 +218,7 @@ const STEPS = [
                     sample extract.
                 </p>
                 <p className="mt-4">
-                    The MotherDuck MCP server ships in two flavors: a self-hosted local version you run
-                    behind your own credentials, and a remote, MotherDuck-managed server that went GA in
+                    The MotherDuck MCP server ships in two flavors: a self-hosted local version run behind your own credentials, and a remote, MotherDuck-managed server that went GA in
                     December 2025. For this project the self-hosted path was enough — one entry in the
                     editor&apos;s MCP config, one <code>MOTHERDUCK_TOKEN</code>, and the agent had
                     schema-aware access. See{" "}
