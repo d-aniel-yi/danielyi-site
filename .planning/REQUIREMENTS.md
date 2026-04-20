@@ -39,20 +39,20 @@
 
 ### Case Study Page
 
-- [ ] **PAGE-06**: Visitor can navigate to `/projects/tcpa` and see a case study page
+- [x] **PAGE-06**: Visitor can navigate to `/projects/tcpa` and see a case study page
 - [ ] **PAGE-07**: Case study page builds successfully in `next build` static export
-- [ ] **PAGE-08**: Case study page visual shape is consistent with existing deep dives (uses `/projects/mobi` as structural reference)
+- [x] **PAGE-08**: Case study page visual shape is consistent with existing deep dives (uses `/projects/mobi` as structural reference)
 
 ### Content Narrative
 
-- [ ] **CONT-02**: Case study conveys the problem context — why the TCPA Litigation Explorer was built (~30% of narrative weight)
-- [ ] **CONT-03**: Case study conveys stack reasoning — why MotherDuck Dives, MotherDuck MCP server, and DuckDB-WASM were chosen (~70% of narrative weight)
-- [ ] **CONT-04**: Case study content reflects user-directed reasoning and insights, not generic template prose
+- [x] **CONT-02**: Case study conveys the problem context — why the TCPA Litigation Explorer was built (~30% of narrative weight)
+- [x] **CONT-03**: Case study conveys stack reasoning — why MotherDuck Dives, MotherDuck MCP server, and DuckDB-WASM were chosen (~70% of narrative weight)
+- [x] **CONT-04**: Case study content reflects user-directed reasoning and insights, not generic template prose
 
 ### Visualizer Integration
 
-- [ ] **VIZ-01**: Case study page embeds a preview of the `/tcpa` visualizer (iframe or screenshot — approach decided in plan phase)
-- [ ] **VIZ-02**: Case study page includes a "Try it live" CTA that opens `/tcpa`
+- [x] **VIZ-01**: Case study page embeds a preview of the `/tcpa` visualizer (iframe or screenshot — approach decided in plan phase)
+- [x] **VIZ-02**: Case study page includes a "Try it live" CTA that opens `/tcpa`
 
 ### Projects Listing
 
@@ -84,14 +84,14 @@
 | DIAG-03 | Phase 5 | Complete |
 | NAV-01 | Phase 5 | Complete |
 | CONT-01 | Phase 6 | Complete |
-| PAGE-06 | Phase 7 | Active |
+| PAGE-06 | Phase 7 | Complete |
 | PAGE-07 | Phase 8 | Active |
-| PAGE-08 | Phase 7 | Active |
-| CONT-02 | Phase 7 | Active |
-| CONT-03 | Phase 7 | Active |
-| CONT-04 | Phase 7 | Active |
-| VIZ-01 | Phase 7 | Active |
-| VIZ-02 | Phase 7 | Active |
+| PAGE-08 | Phase 7 | Complete |
+| CONT-02 | Phase 7 | Complete |
+| CONT-03 | Phase 7 | Complete |
+| CONT-04 | Phase 7 | Complete |
+| VIZ-01 | Phase 7 | Complete |
+| VIZ-02 | Phase 7 | Complete |
 | LIST-01 | Phase 8 | Active |
 
 **Coverage:**
@@ -101,4 +101,4 @@
 
 ---
 *Requirements defined: 2026-02-10*
-*Last updated: 2026-04-19 — v1.2 requirements mapped to Phases 7 and 8*
+*Last updated: 2026-04-19 — Phase 7 complete (PAGE-06, PAGE-08, CONT-02/03/04, VIZ-01/02)*
