@@ -149,11 +149,11 @@ Plans:
   2. `next build` with `output: 'export'` completes without errors after v1.2 changes
   3. `/projects/tcpa` and `/projects` both produce valid static HTML in the export output
   4. Existing deep dive pages (FSBO, Mobi, Portfolio) still render and build without regressions
-**Plans**: TBD
+**Plans**: 1 plan
 **UI hint**: yes
 
 Plans:
-- [ ] TBD — Add TCPA card to projects listing and run full static export build validation
+- [ ] 08-01-PLAN.md — Add TCPA card to `/projects` listing and validate full static-export build (PAGE-07 + LIST-01)
 
 ## Progress
 
@@ -169,8 +169,8 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 | 5. Diagram & Navigation | 1/1 | Complete   | 2026-04-06 |
 | 6. Content Expansion | 1/1 | Complete   | 2026-04-06 |
 | 7. TCPA Case Study Page | 2/2 | Complete | 2026-04-19 |
-| 8. Listing Integration & Build Validation | 0/TBD | Not started | — |
+| 8. Listing Integration & Build Validation | 0/1 | Not started | — |
 
 ---
 *Created: 2026-02-10*
-*Last updated: 2026-04-19 — Phase 7 complete; Phase 8 ready to start*
+*Last updated: 2026-04-19 — Phase 8 planned (1 plan); Phase 7 complete; Phase 8 ready to execute*
