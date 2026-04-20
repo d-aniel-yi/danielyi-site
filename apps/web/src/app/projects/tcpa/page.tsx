@@ -255,7 +255,7 @@ const STEPS = [
                     an in-memory table that mirrors the MotherDuck schema:
                 </p>
                 <div className="mt-6 p-4 bg-[#1e1e1e] text-gray-300 rounded-sm font-mono text-xs overflow-x-auto border border-gray-800">
-                    <p className="text-gray-500">// static-site/src/duckdb-provider.tsx (excerpt)</p>
+                    <p className="text-gray-500">{"// static-site/src/duckdb-provider.tsx (excerpt)"}</p>
                     <p><span className="text-purple-400">for</span> (<span className="text-purple-400">const</span> pf <span className="text-purple-400">of</span> parquetFiles) &#123;</p>
                     <p>&nbsp;&nbsp;<span className="text-purple-400">const</span> resp = <span className="text-purple-400">await</span> <span className="text-yellow-300">fetch</span>(pf.url);</p>
                     <p>&nbsp;&nbsp;<span className="text-purple-400">const</span> buf&nbsp; = <span className="text-purple-400">await</span> resp.<span className="text-yellow-300">arrayBuffer</span>();</p>
