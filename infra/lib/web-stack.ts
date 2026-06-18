@@ -97,6 +97,24 @@ export class WebStack extends Stack {
       ),
     });
 
+    // /tcpa is the live MotherDuck-backed app deployed on Vercel. Proxy it through
+    // CloudFront so it stays under da.nielyi.com/tcpa. This behavior intentionally
+    // omits the index-rewrite + COOP/COEP functions (Vercel handles routing; the
+    // new app no longer uses DuckDB-WASM), allows POST for /tcpa/api/query, and
+    // forwards everything except Host so the Vercel origin resolves the project.
+    const tcpaOrigin = new origins.HttpOrigin('tcpa-visualizer.vercel.app', {
+      protocolPolicy: cloudfront.OriginProtocolPolicy.HTTPS_ONLY,
+    });
+    const tcpaBehavior: cloudfront.BehaviorOptions = {
+      origin: tcpaOrigin,
+      viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+      allowedMethods: cloudfront.AllowedMethods.ALLOW_ALL,
+      cachePolicy: cloudfront.CachePolicy.CACHING_DISABLED,
+      originRequestPolicy: cloudfront.OriginRequestPolicy.ALL_VIEWER_EXCEPT_HOST_HEADER,
+      responseHeadersPolicy: responseHeaders,
+      compress: true,
+    };
+
     const distribution = new cloudfront.Distribution(this, 'Distribution', {
       defaultBehavior: {
         origin: new origins.S3Origin(bucket, { originAccessIdentity: oai }),
@@ -107,6 +125,10 @@ export class WebStack extends Stack {
           { function: rewriteToIndexFn, eventType: cloudfront.FunctionEventType.VIEWER_REQUEST },
           { function: cspHeadersFn, eventType: cloudfront.FunctionEventType.VIEWER_RESPONSE },
         ],
+      },
+      additionalBehaviors: {
+        '/tcpa': tcpaBehavior,
+        '/tcpa/*': tcpaBehavior,
       },
       defaultRootObject: 'index.html',
       domainNames,
